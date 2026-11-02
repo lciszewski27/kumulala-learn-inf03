@@ -211,7 +211,7 @@ echo "&lt;p&gt;Wpisanych wycieczek: " . $wiersz["liczba"] . "&lt;/p&gt;";
 ?&gt;</code></pre>
   </div>
 
-  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Pętla kończy się sama.</strong> <code class="inline">mysqli_fetch_assoc</code> zwraca <code class="inline">false</code>, gdy nie ma już wierszy — dlatego <code class="inline">while</code> jest naturalnym wyborem. Nie musisz znać liczby rekordów.</p></div></div>
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Pętla kończy się sama.</strong> <code class="inline">mysqli_fetch_assoc</code> zwraca <code class="inline">null</code>, gdy nie ma już wierszy (tabela w arkuszu mówi FALSE — oba są fałszywe w warunku) — dlatego <code class="inline">while</code> jest naturalnym wyborem. Nie musisz znać liczby rekordów.</p></div></div>
 
   <div class="card">
     <div class="card-title">Gdy pętla nic nie wyświetla</div>
@@ -391,8 +391,8 @@ mysqli_set_charset($polaczenie, "utf8");
   &lt;/aside&gt;
 
   &lt;main&gt;
-    &lt;section&gt;
       &lt;h2&gt;Galeria&lt;/h2&gt;
+      &lt;section&gt;
       &lt;?php
       $sql = "SELECT idObiekt, plik, nazwa FROM obiekty
               WHERE panstwo = 'Islandia'";
@@ -470,8 +470,8 @@ $wiersz = mysqli_fetch_assoc($wynik);
   &lt;/aside&gt;
 
   &lt;main&gt;
-    &lt;section&gt;
       &lt;h2&gt;Opis miejsca&lt;/h2&gt;
+      &lt;section&gt;
       &lt;?php if ($wiersz) { ?&gt;
         &lt;img src="&lt;?php echo $wiersz['plik']; ?&gt;"
              alt="&lt;?php echo $wiersz['nazwa']; ?&gt;"&gt;
@@ -590,8 +590,8 @@ if (!$wynik) {
     <div class="card">
       <div class="card-title">🌐 Gdzie znaleźć arkusze</div>
       <ul>
-        <li><strong>Arkusze INF.03</strong> — <code>arkusze.pl</code> (oficjalne arkusze CKE z poprzednich sesji)</li>
-        <li><strong>Baza egzaminów</strong> — <code>zawodowe.edu.pl</code> (archiwum arkuszy i zasad oceniania)</li>
+        <li><strong>Arkusze INF.03</strong> — <code>arkusze.pl</code> (archiwum arkuszy CKE z poprzednich sesji, serwis zewnętrzny)</li>
+        <li><strong>Baza egzaminów</strong> — <code>zawodowe.edu.pl</code> (archiwum arkuszy i zasad oceniania, serwis zewnętrzny)</li>
         <li><strong>Informator CKE</strong> — <code>cke.gov.pl</code> → kwalifikacja INF.03 → informator + przykładowe zadania</li>
         <li><strong>Wymagania egzaminacyjne</strong> — w każdym arkuszu na pierwszej stronie: numer zadania, wersja, kwalifikacja</li>
       </ul>
