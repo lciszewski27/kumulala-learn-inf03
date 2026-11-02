@@ -8,31 +8,31 @@ const ROOT = path.resolve(__dirname, "..");
 const OUT = path.join(ROOT, "output");
 
 const parts = [
-  "Kumalala-Learn-INF03-00-START.pdf",
-  "Kumalala-Learn-INF03-01-HTML.pdf",
-  "Kumalala-Learn-INF03-02-CSS.pdf",
-  "Kumalala-Learn-INF03-03-JavaScript.pdf",
-  "Kumalala-Learn-INF03-04-SQL.pdf",
-  "Kumalala-Learn-INF03-05-PHP.pdf",
+  "Kumulala-Learn-INF03-00-START.pdf",
+  "Kumulala-Learn-INF03-01-HTML.pdf",
+  "Kumulala-Learn-INF03-02-CSS.pdf",
+  "Kumulala-Learn-INF03-03-JavaScript.pdf",
+  "Kumulala-Learn-INF03-04-SQL.pdf",
+  "Kumulala-Learn-INF03-05-PHP.pdf",
 ];
 
 const master = await PDFDocument.create();
-master.setTitle("kumalala learn · INF.03 · MASTER");
-master.setAuthor("kumalala learn");
+master.setTitle("kumulala learn · INF.03 · MASTER");
+master.setAuthor("kumulala learn");
 master.setSubject("Egzamin INF.03 — komplet materiałów do nauki");
 master.setKeywords([
   "INF.03",
   "egzamin zawodowy",
   "technik informatyk",
-  "kumalala learn",
+  "kumulala learn",
   "HTML",
   "CSS",
   "JavaScript",
   "SQL",
   "PHP",
 ]);
-master.setCreator("kumalala learn");
-master.setProducer("kumalala learn · PDF build");
+master.setCreator("kumulala learn");
+master.setProducer("kumulala learn · PDF build");
 master.setLanguage("pl");
 
 const sections = [];
@@ -48,7 +48,7 @@ for (const file of parts) {
   const indices = Array.from({ length: endIndex }, (_, i) => i);
   const pages = await master.copyPages(doc, indices);
   pages.forEach((page) => master.addPage(page));
-  sections.push({ title: file.replace("Kumalala-Learn-INF03-", "").replace(".pdf", ""), pageIndex: startPage });
+  sections.push({ title: file.replace("Kumulala-Learn-INF03-", "").replace(".pdf", ""), pageIndex: startPage });
   console.log(`→ ${file} (${pages.length} str.)`);
 }
 
@@ -81,6 +81,6 @@ sections.forEach((section, i) => {
 master.catalog.set(PDFName.of("Outlines"), outlinesRef);
 master.catalog.set(PDFName.of("PageMode"), PDFName.of("UseOutlines"));
 
-const outPath = path.join(OUT, "Kumalala-Learn-INF03-MASTER.pdf");
+const outPath = path.join(OUT, "Kumulala-Learn-INF03-MASTER.pdf");
 await fs.writeFile(outPath, await master.save());
 console.log(`gotowe ♡  ${path.basename(outPath)} · ${master.getPageCount()} stron`);

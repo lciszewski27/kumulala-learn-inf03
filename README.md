@@ -1,10 +1,10 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://via.placeholder.com/1x1/7c3aed/7c3aed?text=%20">
-  <img alt="kumalala learn • egzamin inf.03" src="https://via.placeholder.com/1x1/6c3baa/6c3baa?text=%20" align="right" width="1" height="1">
+  <img alt="kumulala learn • egzamin inf.03" src="https://via.placeholder.com/1x1/6c3baa/6c3baa?text=%20" align="right" width="1" height="1">
 </picture>
 
 <h1 align="center">
-  <code>kumalala learn ♡</code>
+  <code>kumulala learn ♡</code>
   <br>
   <sub>egzamin INF.03 — materiał do nauki</sub>
 </h1>
@@ -62,6 +62,6 @@ Przed otwarciem sprawdź, czy podobny temat nie jest już zgłoszony. Każde zg�
 
 Materiał został wygenerowany z pomocą sztucznej inteligencji na podstawie oficjalnych arkuszy CKE, zasad oceniania oraz własnego doświadczenia autora.
 
-**Autor zezwala na dowolne udostępnianie, kopiowanie i modyfikowanie** tych materiałów — wystarczy zachować informację o źródle: **kumalala learn**.
+**Autor zezwala na dowolne udostępnianie, kopiowanie i modyfikowanie** tych materiałów — wystarczy zachować informację o źródle: **kumulala learn**.
 
-<p align="center"><code>kumalala learn ♡ · egzamin inf.03</code></p>
+<p align="center"><code>kumulala learn ♡ · egzamin inf.03</code></p>

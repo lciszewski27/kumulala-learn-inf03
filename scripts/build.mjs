@@ -29,7 +29,7 @@ const docs = [
       ["03", "5 rezultatów i co je zalicza"],
       ["04", "Pliki, zrzuty, płyta — checklista"],
     ],
-    out: "Kumalala-Learn-INF03-00-START.pdf",
+    out: "Kumulala-Learn-INF03-00-START.pdf",
   },
   {
     id: "01-html",
@@ -49,7 +49,7 @@ const docs = [
       ["03", "Tabele i scalanie komórek"],
       ["04", "Formularze i kontrolki"],
     ],
-    out: "Kumalala-Learn-INF03-01-HTML.pdf",
+    out: "Kumulala-Learn-INF03-01-HTML.pdf",
   },
   {
     id: "02-css",
@@ -69,7 +69,7 @@ const docs = [
       ["03", "Hover, cień, overflow, position"],
       ["04", "Gotowe layouty i pełny styl.css"],
     ],
-    out: "Kumalala-Learn-INF03-02-CSS.pdf",
+    out: "Kumulala-Learn-INF03-02-CSS.pdf",
   },
   {
     id: "03-javascript",
@@ -89,7 +89,7 @@ const docs = [
       ["03", "Warunki, pętle, funkcje"],
       ["04", "Trzy gotowe skrypty egzaminacyjne"],
     ],
-    out: "Kumalala-Learn-INF03-03-JavaScript.pdf",
+    out: "Kumulala-Learn-INF03-03-JavaScript.pdf",
   },
   {
     id: "04-sql",
@@ -109,7 +109,7 @@ const docs = [
       ["03", "INSERT, UPDATE, ALTER, VIEW"],
       ["04", "Konta, uprawnienia i zrzuty"],
     ],
-    out: "Kumalala-Learn-INF03-04-SQL.pdf",
+    out: "Kumulala-Learn-INF03-04-SQL.pdf",
   },
   {
     id: "05-php",
@@ -129,7 +129,7 @@ const docs = [
       ["03", "Galeria, szczegóły, formularz"],
       ["04", "Debugowanie i checklista"],
     ],
-    out: "Kumalala-Learn-INF03-05-PHP.pdf",
+    out: "Kumulala-Learn-INF03-05-PHP.pdf",
   },
 ];
 
@@ -186,7 +186,7 @@ function coverHtml(doc) {
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<title>kumalala learn · ${doc.subject}</title>
+<title>kumulala learn · ${doc.subject}</title>
 <link rel="stylesheet" href="../assets/cover.css">
 </head>
 <body style="--accent:${doc.accent}; --accent-soft:${doc.accentSoft};">
@@ -205,7 +205,7 @@ function coverHtml(doc) {
     <div class="brand">
       <div class="brand-mark">${iconSvg.star}</div>
       <div class="brand-text">
-        <div class="brand-name">kumalala <span>learn</span></div>
+        <div class="brand-name">kumulala <span>learn</span></div>
         <div class="brand-tag">egzamin inf.03 · część praktyczna</div>
       </div>
     </div>
@@ -222,7 +222,7 @@ function coverHtml(doc) {
 
   <div class="cover-art">
     <div class="art-card">${iconSvg[doc.icon]}</div>
-    <div class="art-label">kumalala learn ♡</div>
+    <div class="art-label">kumulala learn ♡</div>
   </div>
 
   <div class="cover-card">
@@ -237,7 +237,7 @@ function coverHtml(doc) {
   </div>
 
   <div class="cover-footer">
-    <span><b>kumalala learn <span class="heart">♡</span></b> · egzamin inf.03</span>
+    <span><b>kumulala learn <span class="heart">♡</span></b> · egzamin inf.03</span>
     <span>materiał do nauki przed egzaminem · nie do ściągania</span>
   </div>
 </div>
@@ -285,7 +285,7 @@ let cachedHeader = null;
 function headerTemplate() {
   if (cachedHeader) return cachedHeader;
   cachedHeader = `<div style="width:100%; font-family: 'Nunito', -apple-system, 'Segoe UI', sans-serif; font-size:7.2pt; color:#7e22ce; padding:0 13mm; display:flex; align-items:flex-end; justify-content:space-between; box-sizing:border-box;">
-    <span style="font-weight:800; letter-spacing:.02em;">kumalala learn <span style="color:#db2777;">♡</span> · egzamin inf.03</span>
+    <span style="font-weight:800; letter-spacing:.02em;">kumulala learn <span style="color:#db2777;">♡</span> · egzamin inf.03</span>
     <span style="font-weight:700; color:#5b3093;">ściąga tematyczna</span>
   </div>`;
   return cachedHeader;
@@ -311,18 +311,18 @@ async function mergePdf(coverPath, contentPath, outPath, doc) {
   coverPages.forEach((p) => merged.addPage(p));
   const contentPages = await merged.copyPages(content, content.getPageIndices());
   contentPages.forEach((p) => merged.addPage(p));
-  merged.setTitle(`kumalala learn · INF.03 · ${doc.subject}`);
-  merged.setAuthor("kumalala learn");
+  merged.setTitle(`kumulala learn · INF.03 · ${doc.subject}`);
+  merged.setAuthor("kumulala learn");
   merged.setSubject("Egzamin INF.03 — materiał do nauki");
   merged.setKeywords([
     "INF.03",
     "egzamin zawodowy",
     "technik informatyk",
-    "kumalala learn",
+    "kumulala learn",
     doc.subject,
   ]);
-  merged.setCreator("kumalala learn");
-  merged.setProducer("kumalala learn · PDF build");
+  merged.setCreator("kumulala learn");
+  merged.setProducer("kumulala learn · PDF build");
   await fs.writeFile(outPath, await merged.save());
 }
 

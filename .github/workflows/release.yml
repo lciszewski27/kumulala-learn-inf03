@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -39,20 +41,20 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Rewizja ${{ steps.meta.outputs.version }} · ${{ steps.meta.outputs.date }}
           body: |
-            ## Kumalala Learn · INF.03 — Rewizja ${{ steps.meta.outputs.version }}
+            ## Kumulala Learn · INF.03 — Rewizja ${{ steps.meta.outputs.version }}
 
             ### Pliki
-            - `Kumalala-Learn-INF03-MASTER.pdf` — wszystkie 6 działów w jednym pliku
-            - `Kumalala-Learn-INF03-00-START.pdf` — plan egzaminu, 5 rezultatów, oddanie
-            - `Kumalala-Learn-INF03-01-HTML.pdf` — szkielet, bloki, listy, tabele, formularze
-            - `Kumalala-Learn-INF03-02-CSS.pdf` — selektory, layout, kolory, hover
-            - `Kumalala-Learn-INF03-03-JavaScript.pdf` — DOM, zdarzenia, pętle, skrypty
-            - `Kumalala-Learn-INF03-04-SQL.pdf` — SELECT, JOIN, GROUP BY, DELETE, VIEW
-            - `Kumalala-Learn-INF03-05-PHP.pdf` — połączenie, pętla, galeria, formularz
+            - `Kumulala-Learn-INF03-MASTER.pdf` — wszystkie 6 działów w jednym pliku
+            - `Kumulala-Learn-INF03-00-START.pdf` — plan egzaminu, 5 rezultatów, oddanie
+            - `Kumulala-Learn-INF03-01-HTML.pdf` — szkielet, bloki, listy, tabele, formularze
+            - `Kumulala-Learn-INF03-02-CSS.pdf` — selektory, layout, kolory, hover
+            - `Kumulala-Learn-INF03-03-JavaScript.pdf` — DOM, zdarzenia, pętle, skrypty
+            - `Kumulala-Learn-INF03-04-SQL.pdf` — SELECT, JOIN, GROUP BY, DELETE, VIEW
+            - `Kumulala-Learn-INF03-05-PHP.pdf` — połączenie, pętla, galeria, formularz
 
             Zgłoś błąd lub pomysł: https://github.com/lciszewski27/kumulala-learn-inf03/issues
           files: |
-            output/Kumalala-Learn-INF03-*.pdf
+            output/Kumulala-Learn-INF03-*.pdf
           fail_on_unmatched_files: true
           generate_release_notes: true
         env:
