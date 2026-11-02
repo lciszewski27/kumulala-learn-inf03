@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>kumalala learn · INF.03 · SQL</title>
+<link rel="stylesheet" href="../assets/print.css">
+<style>body{--accent:#0f766e;--accent-soft:#d1fae5;--accent-deep:#134e4a;}</style>
+</head>
+<body>
+
+<!-- ================= 1. START ================= -->
+<section class="chapter first">
+  <div class="doc-intro">
+    <span class="kicker">✦ ściąga tematyczna · SQL</span>
+    <h1>SQL bez paniki</h1>
+    <p class="sub">od treści polecenia do kwerendy i zrzutu</p>
+    <p class="desc">SQL to pierwszy rezultat oceniania (R.1). Cztery zapytania, jeden plik <code class="inline">kwerendy.txt</code> i cztery zrzuty ekranu. Ta ściąga tłumaczy każde zdanie z arkusza na konkretną klauzulę — od prostego <code class="inline">SELECT</code> po <code class="inline">JOIN</code>, <code class="inline">GROUP BY</code> i <code class="inline">GRANT</code>.</p>
+  </div>
+  <div class="intro-strip">
+    <div class="mini"><span>01</span>phpMyAdmin</div>
+    <div class="mini"><span>02</span>SELECT i warunki</div>
+    <div class="mini"><span>03</span>JOIN i grupowanie</div>
+    <div class="mini"><span>04</span>zmiany i konta</div>
+  </div>
+
+  <div class="exam">
+    <span class="exam-label">tak pisze arkusz · 2026 czerwiec</span>
+    <p>Wykonaj zapytania SQL działające na bazie islandia. Zapytania zapisz w pliku kwerendy.txt. Wykonaj zrzuty ekranu przedstawiające wyniki działania kwerend. Zrzuty zapisz w formacie PNG i nadaj im nazwy kw1, kw2, kw3, kw4. Zrzuty powinny obejmować cały ekran monitora z widocznym paskiem zadań.</p>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Polecenie z arkusza</th><th>Klauzula SQL</th></tr></thead>
+    <tbody>
+      <tr><td>utwórz bazę danych o nazwie…</td><td><strong>CREATE DATABASE nazwa CHARACTER SET utf8 COLLATE utf8_unicode_ci;</strong></td></tr>
+      <tr><td>zaimportuj tabele z pliku…</td><td>phpMyAdmin → Import → wybierz plik → Go</td></tr>
+      <tr><td>wybierające jedynie pola…</td><td><strong>SELECT pole1, pole2 FROM tabela;</strong></td></tr>
+      <tr><td>dla Islandii / dla modelu „meta”</td><td><strong>WHERE panstwo = 'Islandia'</strong></td></tr>
+      <tr><td>posłuż się relacją</td><td><strong>JOIN tabela2 USING(id)</strong> lub <strong>ON t1.id = t2.id</strong></td></tr>
+      <tr><td>zliczające liczbę…</td><td><strong>COUNT(*)</strong> lub <strong>COUNT(id)</strong></td></tr>
+      <tr><td>z grupowaniem</td><td><strong>GROUP BY rodzaj</strong></td></tr>
+      <tr><td>kolumna ma alias „Liczba obiektów”</td><td><strong>AS `Liczba obiektów`</strong></td></tr>
+      <tr><td>posortowane malejąco</td><td><strong>ORDER BY cena DESC</strong></td></tr>
+      <tr><td>pierwsze 15 rekordów</td><td><strong>LIMIT 15</strong></td></tr>
+      <tr><td>losujące dwa dowolne rekordy</td><td><strong>ORDER BY RAND() LIMIT 2</strong></td></tr>
+      <tr><td>dodające kolumnę…</td><td><strong>ALTER TABLE tabela ADD kolumna INT;</strong></td></tr>
+      <tr><td>konto użytkownika…</td><td><strong>CREATE USER 'Marek'@'localhost' IDENTIFIED BY 'M@reK';</strong></td></tr>
+      <tr><td>prawa jedynie do przeglądania i aktualizacji</td><td><strong>GRANT SELECT, UPDATE ON baza.tabela TO 'Marek'@'localhost';</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji (R.1):</strong> liczy się import udokumentowany zrzutem, co najmniej jedno zapytanie w <code class="inline">kwerendy.txt</code>, cztery poprawne zapytania i cztery zrzuty z całym ekranem oraz paskiem zadań. Wykadrowany zrzut nie jest uznawany.</p></div></div>
+</section>
+
+<!-- ================= 2. PHPMYADMIN ================= -->
+<section class="chapter newpage">
+  <div class="chapter-head">
+    <div class="chapter-num">01</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 01</div>
+      <h2 class="chapter-title">phpMyAdmin — import i zrzuty</h2>
+      <div class="chapter-sub">Najpierw baza, potem kwerendy. Kolejność ma znaczenie</div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span><div><strong>Utwórz bazę.</strong> W phpMyAdmin kliknij „Nowa baza”, wpisz nazwę dokładnie jak w arkuszu (np. <code class="inline">islandia</code>), wybierz zestaw znaków <code class="inline">utf8_unicode_ci</code> i kliknij „Utwórz”.</div></div>
+    <div class="step"><span class="step-num">2</span><div><strong>Zaimportuj tabele.</strong> Wybierz bazę → zakładka „Import” → „Wybierz plik” (np. <code class="inline">baza1.sql</code>) → „Wykonaj”. Nie zmieniaj formatu ani kodowania.</div></div>
+    <div class="step"><span class="step-num">3</span><div><strong>Zrzut importu.</strong> Zrób zrzut całego ekranu z widocznym paskiem zadań i listą tabel. Zapisz jako <code class="inline">import</code> w formacie wymaganym w arkuszu (JPEG lub PNG). Nie kadruj.</div></div>
+    <div class="step"><span class="step-num">4</span><div><strong>Wykonaj kwerendy.</strong> Zakładka „SQL”, wklej zapytanie, kliknij „Wykonaj”. Zrób zrzut wyniku z całym ekranem i paskiem zadań. Nazwij <code class="inline">kw1</code>, <code class="inline">kw2</code>, <code class="inline">kw3</code>, <code class="inline">kw4</code>.</div></div>
+    <div class="step"><span class="step-num">5</span><div><strong>Zapisz kwerendy.</strong> W pliku <code class="inline">kwerendy.txt</code> umieść wszystkie cztery zapytania, najlepiej z numerami i średnikiem na końcu.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Utworzenie bazy — SQL</div>
+      <pre style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.1pt;line-height:1.5;margin:4px 0 0;">CREATE DATABASE islandia
+  CHARACTER SET utf8
+  COLLATE utf8_unicode_ci;</pre>
+      <p class="small" style="margin-top:5px;">Nazwa bazy musi być identyczna jak w poleceniu. Nie dodawaj polskich znaków w nazwie.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Co musi być na zrzucie</div>
+      <ul>
+        <li>cały ekran monitora, bez kadrowania</li>
+        <li>widoczny pasek zadań Windows</li>
+        <li>widoczny wynik zapytania lub lista tabel</li>
+        <li>widoczne zapytanie, jeśli arkusz tego wymaga</li>
+        <li>dokładna nazwa pliku: <code class="inline">kw1</code>…<code class="inline">kw4</code></li>
+        <li>format zgodny z arkuszem: JPEG albo PNG</li>
+        <li>liczba rekordów na zrzucie musi się zgadzać — np. 9, 1, 4 i 8 dla Islandii</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Jak zapisać kwerendy.txt</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> czytelny plik z czterema zapytaniami <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">-- Zapytanie 1
+SELECT idObiekt, plik, nazwa FROM obiekty WHERE panstwo = 'Islandia';
+
+-- Zapytanie 2
+SELECT plik, nazwa, nazwaCechy, wartoscCechy, opis, rodzaj
+FROM obiekty JOIN rodzaje USING(idRodzaj)
+WHERE idObiekt = 46;
+
+-- Zapytanie 3
+SELECT nazwa FROM obiekty
+WHERE idRodzaj = 10 AND panstwo = 'Islandia';
+
+-- Zapytanie 4
+SELECT rodzaj, COUNT(obiekty.idObiekt) AS `Liczba obiektów`
+FROM rodzaje JOIN obiekty USING(idRodzaj)
+GROUP BY rodzaj;</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Nie zostawiaj domyślnej nazwy zrzutu.</strong> System może zapisać <code class="inline">Zrzut ekranu 2026-06-01 120000.png</code>. Zmień nazwę na <code class="inline">kw1.png</code> (lub <code class="inline">kw1.jpg</code>) — komisja szuka dokładnie takich plików.</p></div></div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Kolejność plików:</strong> <code class="inline">import</code> dotyczy importu, a <code class="inline">kw1</code>–<code class="inline">kw4</code> dotyczą zapytań 1–4. Nie numeruj zrzutów według kolejności robienia, tylko według numeru zapytania.</p></div></div>
+
+  <div class="card">
+    <div class="card-title">Gdy import się nie uda</div>
+    <ul>
+      <li>nie wybrano bazy przed importem — najpierw kliknij jej nazwę w lewym panelu</li>
+      <li>plik nie jest plikiem SQL — sprawdź rozszerzenie i zawartość</li>
+      <li>komunikat o kodowaniu — ustaw <code class="inline">utf8_unicode_ci</code> i zaimportuj ponownie</li>
+      <li>import częściowy — usuń tabele i powtórz import od nowa</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 3. SELECT ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">02</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 02</div>
+      <h2 class="chapter-title">SELECT, WHERE, ORDER BY, LIMIT</h2>
+      <div class="chapter-sub">Kolejność klauzul jest stała — naucz się jej raz</div>
+    </div>
+  </div>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> szkielet każdego zapytania <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">SELECT kolumna1, kolumna2
+FROM tabela
+JOIN inna_tabela ON tabela.id = inna_tabela.id_tabeli
+WHERE warunek
+GROUP BY kolumna
+HAVING warunek_na_grupach
+ORDER BY kolumna ASC|DESC
+LIMIT liczba;</code></pre>
+  </div>
+
+  <table class="map compact">
+    <thead><tr><th>Polecenie z arkusza</th><th>Zapis</th></tr></thead>
+    <tbody>
+      <tr><td>jedynie pola id, nazwa i zdjęcie</td><td><code class="inline">SELECT id, nazwa, zdjecie FROM gry;</code></td></tr>
+      <tr><td>dla wiersza o id równym 1</td><td><code class="inline">WHERE id = 1</code></td></tr>
+      <tr><td>dla Islandii</td><td><code class="inline">WHERE panstwo = 'Islandia'</code></td></tr>
+      <tr><td>dla modelu „meta”</td><td><code class="inline">WHERE model = 'meta'</code></td></tr>
+      <tr><td>wysokość buta większa niż 10</td><td><code class="inline">WHERE wysokosc_buta &gt; 10</code></td></tr>
+      <tr><td>początek w Muszynie lub Wieliczce</td><td><code class="inline">WHERE poczatek IN ('Muszyna', 'Wieliczka')</code></td></tr>
+      <tr><td>nazwa zaczyna się od „A”</td><td><code class="inline">WHERE nazwa LIKE 'A%'</code></td></tr>
+      <tr><td>cena między 100 a 500</td><td><code class="inline">WHERE cena BETWEEN 100 AND 500</code></td></tr>
+      <tr><td>pole jest puste (NULL)</td><td><code class="inline">WHERE opis IS NULL</code></td></tr>
+      <tr><td>pole nie jest puste (pusty tekst)</td><td><code class="inline">WHERE tytul != ""</code></td></tr>
+      <tr><td>data w lipcu 2020</td><td><code class="inline">WHERE data LIKE '2020-07%'</code></td></tr>
+      <tr><td>różnica dni między datami</td><td><code class="inline">SELECT DATEDIFF(koniec, poczatek) AS dni</code></td></tr>
+      <tr><td>aktualna data</td><td><code class="inline">CURRENT_DATE</code> lub <code class="inline">CURDATE()</code></td></tr>
+      <tr><td>usunięcie wierszy</td><td><code class="inline">DELETE FROM tabela WHERE warunek;</code></td></tr>
+      <tr><td>utworzenie widoku</td><td><code class="inline">CREATE VIEW widok AS SELECT ...;</code></td></tr>
+      <tr><td>bez powtórzeń</td><td><code class="inline">SELECT DISTINCT kolor FROM produkt;</code></td></tr>
+      <tr><td>posortowane malejąco według ceny</td><td><code class="inline">ORDER BY cena DESC</code></td></tr>
+      <tr><td>pierwsze 15 rekordów</td><td><code class="inline">LIMIT 15</code></td></tr>
+      <tr><td>pięć pierwszych o najwyższej punktacji</td><td><code class="inline">ORDER BY punkty DESC LIMIT 5</code></td></tr>
+      <tr><td>dwa losowe rekordy</td><td><code class="inline">ORDER BY RAND() LIMIT 2</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Dokładne zapytania z arkuszy</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> 2026 czerwiec — baza islandia <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">-- 1. obiekty na Islandii
+SELECT idObiekt, plik, nazwa
+FROM obiekty
+WHERE panstwo = 'Islandia';
+
+-- 2. szczegóły obiektu 46 + rodzaj
+SELECT plik, nazwa, nazwaCechy, wartoscCechy, opis, rodzaj
+FROM obiekty
+JOIN rodzaje USING(idRodzaj)
+WHERE idObiekt = 46;
+
+-- 3. nazwy obiektów rodzaju 10 na Islandii
+SELECT nazwa
+FROM obiekty
+WHERE idRodzaj = 10 AND panstwo = 'Islandia';
+
+-- 4. liczba obiektów każdego rodzaju
+SELECT rodzaj, COUNT(obiekty.idObiekt) AS `Liczba obiektów`
+FROM rodzaje
+JOIN obiekty USING(idRodzaj)
+GROUP BY rodzaj;</code></pre>
+  </div>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> 2025 czerwiec — baza gry <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">-- 1. wszystkie gry: id, nazwa, zdjęcie
+SELECT id, nazwa, zdjecie FROM gry;
+
+-- 2. gra nr 1: pierwsze 100 znaków opisu
+SELECT nazwa, LEFT(opis, 100), punkty, cena
+FROM gry
+WHERE id = 1;
+
+-- 3. pięć gier z najwyższą punktacją
+SELECT nazwa, punkty
+FROM gry
+ORDER BY punkty DESC
+LIMIT 5;
+
+-- 4. nowy wiersz — dane skopiuj z rekord.txt
+INSERT INTO gry (nazwa, opis, punkty, cena, zdjecie)
+VALUES ('tytuł', 'opis', 0, 0.00, 'plik.jpg');</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>„Jedynie pola” oznacza, że nie wolno użyć <code class="inline">SELECT *</code>.</strong> Wypisz dokładnie te kolumny, które podaje arkusz, w tej samej kolejności. Nadmiarowa kolumna może przekreślić punkt.</p></div></div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji (R.1):</strong> zapytanie ma być uniwersalne dla każdego zestawu danych — warunki mają wynikać z treści zadania, a nie z konkretnych rekordów, które akurat widzisz. Na zrzucie musi być widoczny poprawny wynik.</p></div></div>
+</section>
+
+<!-- ================= 4. JOIN + GROUP ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">03</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 03</div>
+      <h2 class="chapter-title">JOIN i GROUP BY</h2>
+      <div class="chapter-sub">„Posłuż się relacją” = połącz tabele po kluczu</div>
+    </div>
+  </div>
+
+  <p class="lead">Relacja w bazie to wspólne pole w dwóch tabelach. Najczęściej klucz główny jednej tabeli pojawia się jako klucz obcy w drugiej. W SQL łączysz je przez <code class="inline">JOIN</code> — po nazwie pola (<code class="inline">USING</code>) albo po warunku (<code class="inline">ON</code>).</p>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Wariant A — USING</div>
+      <pre style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.1pt;line-height:1.5;margin:4px 0 0;">SELECT o.nazwa, r.rodzaj
+FROM obiekty AS o
+JOIN rodzaje AS r
+  USING(idRodzaj);</pre>
+      <p class="small" style="margin-top:5px;">Gdy kolumna w obu tabelach nazywa się tak samo.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Wariant B — ON</div>
+      <pre style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.1pt;line-height:1.5;margin:4px 0 0;">SELECT o.nazwa, r.rodzaj
+FROM obiekty AS o
+JOIN rodzaje AS r
+  ON o.idRodzaj = r.idRodzaj;</pre>
+      <p class="small" style="margin-top:5px;">Gdy nazwy kluczy są różne albo chcesz jawnie pokazać warunek.</p>
+    </div>
+  </div>
+
+  <h3>Grupowanie i zliczanie</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> liczba obiektów każdego rodzaju — 2026 czerwiec <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">SELECT rodzaj, COUNT(obiekty.idObiekt) AS `Liczba obiektów`
+FROM rodzaje
+JOIN obiekty USING(idRodzaj)
+GROUP BY rodzaj;</code></pre>
+  </div>
+
+  <table class="map compact">
+    <thead><tr><th>Polecenie</th><th>Funkcja</th><th>Uwaga</th></tr></thead>
+    <tbody>
+      <tr><td>zliczające liczbę wierszy</td><td><code class="inline">COUNT(*)</code></td><td>liczy wszystkie wiersze</td></tr>
+      <tr><td>zliczające liczbę obiektów</td><td><code class="inline">COUNT(idObiekt)</code></td><td>pomija NULL-e</td></tr>
+      <tr><td>średnia cena</td><td><code class="inline">AVG(cena)</code></td><td>wynik może mieć wiele miejsc</td></tr>
+      <tr><td>najdroższy / najwyższa wartość</td><td><code class="inline">MAX(cena)</code></td><td>nie myl z <code class="inline">ORDER BY … LIMIT 1</code></td></tr>
+      <tr><td>najtańszy / najniższa wartość</td><td><code class="inline">MIN(cena)</code></td><td></td></tr>
+      <tr><td>suma</td><td><code class="inline">SUM(cena)</code></td><td></td></tr>
+      <tr><td>pierwsze 100 znaków</td><td><code class="inline">LEFT(opis, 100)</code></td><td>funkcja tekstowa MariaDB</td></tr>
+      <tr><td>zaokrąglenie średniej</td><td><code class="inline">ROUND(AVG(cena), 2)</code></td><td>dwa miejsca po przecinku</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> średnia i maksymalna cena — 2026 styczeń <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">SELECT
+  AVG(cena) AS `Średnia cena`,
+  MAX(cena) AS `Maksymalna cena`
+FROM pojazdy
+WHERE model = 'meta';</code></pre>
+  </div>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> pojazdy i kolory — JOIN po kluczu <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">SELECT marka, model, cena, nazwa, doplata
+FROM pojazdy
+JOIN kolory ON kolor = kolory.id
+WHERE model = 'alfa';</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>GROUP BY musi zawierać wszystkie zwykłe kolumny z SELECT.</strong> Jeśli wybierasz <code class="inline">rodzaj</code> i liczysz obiekty, grupuj po <code class="inline">rodzaj</code>. W przeciwnym razie MariaDB może zwrócić błąd albo nieprzewidywalny wynik.</p></div></div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Alias z odstępem:</strong> <code class="inline">AS `Liczba obiektów`</code> — w backtickach, nie w cudzysłowach prostych. Backtick to znak pod tyldą (~) na klawiaturze. W oficjalnych zasadach dopuszczają też cudzysłowy, ale backtick jest najbezpieczniejszy.</p></div></div>
+</section>
+
+<!-- ================= 5. ZMIANY ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">04</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 04</div>
+      <h2 class="chapter-title">INSERT, UPDATE, ALTER, konta</h2>
+      <div class="chapter-sub">Cztery typy poleceń, które nie są SELECT-em</div>
+    </div>
+  </div>
+
+  <h3>INSERT — dodanie wiersza</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> dane z pliku rekord.txt — 2025 czerwiec <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">INSERT INTO gry (nazwa, opis, punkty, cena, zdjecie)
+VALUES ('tytuł gry', 'opis z pliku', 85, 49.99, 'obraz.jpg');</code></pre>
+  </div>
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Klucz główny nadawany automatycznie</strong> — nie podawaj kolumny <code class="inline">id</code> w <code class="inline">INSERT</code>, jeśli jest <code class="inline">AUTO_INCREMENT</code>. Wartości tekstowe w cudzysłowach prostych, liczby bez cudzysłowów, kropka dziesiętna zamiast przecinka.</p></div></div>
+
+  <h3>UPDATE — zmiana istniejącego wiersza</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> zawsze z WHERE — inaczej zmienisz całą tabelę <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">UPDATE produkty
+SET cena = 129.99, promocja = 1
+WHERE id = 7;</code></pre>
+  </div>
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>UPDATE bez WHERE zmienia wszystkie wiersze.</strong> To najgroźniejszy błąd w SQL. Przed wykonaniem sprawdź warunek przez <code class="inline">SELECT * FROM tabela WHERE ...;</code>.</p></div></div>
+
+  <h3>ALTER TABLE — zmiana struktury</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> dodanie kolumny — 2024 i 2023 czerwiec <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">-- kolumna ocena typu całkowitego
+ALTER TABLE wycieczki ADD ocena INT;
+
+-- kolumna informacje typu tekstowego
+ALTER TABLE dostawcy ADD informacje TEXT;
+
+-- limit 0–255 — typ TINYINT UNSIGNED
+ALTER TABLE Ryby ADD dobowy_limit TINYINT UNSIGNED;</code></pre>
+  </div>
+
+  <table class="map compact">
+    <thead><tr><th>Polecenie</th><th>Typ kolumny</th></tr></thead>
+    <tbody>
+      <tr><td>typ całkowity</td><td><code class="inline">INT</code></td></tr>
+      <tr><td>liczba z zakresu 0–255</td><td><code class="inline">TINYINT UNSIGNED</code></td></tr>
+      <tr><td>krótki tekst</td><td><code class="inline">VARCHAR(255)</code></td></tr>
+      <tr><td>długi tekst</td><td><code class="inline">TEXT</code></td></tr>
+      <tr><td>data</td><td><code class="inline">DATE</code></td></tr>
+      <tr><td>cena / kwota</td><td><code class="inline">DECIMAL(10,2)</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>DELETE — usuwanie wierszy</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> zawsze z WHERE — inaczej usuniesz całą tabelę <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">DELETE FROM produkty
+WHERE id = 7;
+
+-- usunięcie wszystkich starszych niż 2020
+DELETE FROM wycieczki
+WHERE data &lt; '2020-01-01';</code></pre>
+  </div>
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>DELETE bez WHERE usuwa wszystkie wiersze.</strong> Tabela zostaje pusta, ale jej struktura istnieje. Jeśli chcesz usunąć też strukturę, użyj <code class="inline">DROP TABLE nazwa;</code>.</p></div></div>
+
+  <h3>CREATE VIEW — widok</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> zapisane zapytanie działające jak tabela <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">CREATE VIEW ObiektyIslandii AS
+SELECT idObiekt, nazwa, plik
+FROM obiekty
+WHERE panstwo = 'Islandia';
+
+-- potem można go użyć jak zwykłej tabeli
+SELECT idObiekt, nazwa FROM ObiektyIslandii;</code></pre>
+  </div>
+
+  <h3>Funkcje dat — DATEDIFF, LIKE, CURRENT_DATE</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> różnica dni i filtrowanie po dacie <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">-- różnica dni: koniec - początek
+SELECT nazwa, DATEDIFF(koniec, poczatek) AS dni_trwania
+FROM wycieczki;
+
+-- filtry po dacie
+SELECT nazwa, data_rezerwacji FROM rezerwacje
+WHERE data_rezerwacji LIKE '2020-07%';     -- lipiec 2020
+
+SELECT nazwa, data_rezerwacji FROM rezerwacje
+WHERE data_rezerwacji &gt;= CURRENT_DATE;    -- od dziś
+
+-- dodawanie/odejmowanie dni
+SELECT nazwa, DATE_ADD(poczatek, INTERVAL 7 DAY) AS tydzien_po
+FROM wycieczki;</code></pre>
+  </div>
+
+  <h3>CREATE USER i GRANT — 2025 styczeń</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> konto Marek i prawa tylko do produktu <span class="file">kwerendy.txt</span></div>
+    <pre><code class="language-sql">-- 1. utwórz konto
+CREATE USER 'Marek'@'localhost' IDENTIFIED BY 'M@reK';
+
+-- 2. nadaj tylko SELECT i UPDATE w bazie obuwie, tabela produkt
+GRANT SELECT, UPDATE ON obuwie.produkt TO 'Marek'@'localhost';</code></pre>
+  </div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Kolejność:</strong> najpierw <code class="inline">CREATE USER</code>, potem <code class="inline">GRANT</code>. Nazwa użytkownika i host muszą być w cudzysłowach: <code class="inline">'Marek'@'localhost'</code>. Uprawnienia pisz wielkimi literami i oddziel przecinkiem: <code class="inline">SELECT, UPDATE</code>.</p></div></div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji (R.1):</strong> konto musi być utworzone na localhost z podanym hasłem, a <code class="inline">GRANT</code> ma przyznawać jedynie wymienione prawa i tylko wskazanej tabeli. Samo <code class="inline">GRANT ALL</code> nie spełnia polecenia „jedynie do przeglądania i aktualizacji".</p></div></div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Kodowanie na egzaminie vs. własne projekty.</strong> Arkusz 2026 wymaga <code class="inline">utf8_unicode_ci</code> — trzymaj się arkusza. We własnych projektach współczesny MySQL zaleca <code class="inline">utf8mb4</code>, bo <code class="inline">utf8</code> to przestarzały alias <code class="inline">utf8mb3</code>.</p></div></div>
+</section>
+
+<!-- ================= 6. CHECKLISTA ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">05</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 05</div>
+      <h2 class="chapter-title">Zrzuty, pliki i checklista</h2>
+      <div class="chapter-sub">Dobra kwerenda bez zrzutu nie daje punktu</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Pliki, które muszą być w folderze</div>
+      <ul>
+        <li><code class="inline">import.jpg</code> lub <code class="inline">import.png</code> — zależnie od arkusza</li>
+        <li><code class="inline">kw1.jpg</code>…<code class="inline">kw4.jpg</code> lub <code class="inline">kw1.png</code>…<code class="inline">kw4.png</code></li>
+        <li><code class="inline">kwerendy.txt</code> — cztery zapytania</li>
+        <li>pliki witryny i grafiki wymienione w arkuszu</li>
+        <li><code class="inline">przeglądarka.txt</code> — jeśli arkusz wymaga</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Zrzut, który przejdzie</div>
+      <ul>
+        <li>cały ekran, nie tylko okno phpMyAdmin</li>
+        <li>pasek zadań Windows widoczny</li>
+        <li>wynik zapytania widoczny w całości lub z przewinięciem</li>
+        <li>brak czarnych pasków i przycięć</li>
+        <li>nazwa pliku dokładnie jak w arkuszu</li>
+        <li>format dokładnie jak w arkuszu</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Najczęstsze pułapki SQL</h3>
+  <table class="map compact">
+    <thead><tr><th>Problem</th><th>Co zrobić</th></tr></thead>
+    <tbody>
+      <tr><td><code class="inline">SELECT *</code> zamiast wskazanych pól</td><td>wypisz dokładnie kolumny z polecenia</td></tr>
+      <tr><td>zła nazwa tabeli lub kolumny</td><td>sprawdź w phpMyAdmin, wielkość liter ma znaczenie</td></tr>
+      <tr><td>polskie znaki w warunku</td><td>użyj dokładnego zapisu z bazy, np. <code class="inline">'Gdańsk'</code></td></tr>
+      <tr><td>brak semicolon na końcu</td><td>dodaj <code class="inline">;</code> po każdym zapytaniu</td></tr>
+      <tr><td>LIMIT przed ORDER BY</td><td>najpierw <code class="inline">ORDER BY</code>, potem <code class="inline">LIMIT</code></td></tr>
+      <tr><td>GROUP BY bez kolumny z SELECT</td><td>dodaj ją do <code class="inline">GROUP BY</code></td></tr>
+      <tr><td>JOIN bez warunku</td><td>użyj <code class="inline">USING(id)</code> lub <code class="inline">ON t1.id = t2.id</code></td></tr>
+      <tr><td>alias ze spacją bez backticków</td><td><code class="inline">AS `Liczba obiektów`</code></td></tr>
+      <tr><td>UPDATE bez WHERE</td><td>zawsze dopisz warunek</td></tr>
+      <tr><td>konto bez hosta</td><td><code class="inline">'Marek'@'localhost'</code></td></tr>
+      <tr><td>GRANT ALL zamiast wybranych praw</td><td><code class="inline">GRANT SELECT, UPDATE ON baza.tabela ...</code></td></tr>
+      <tr><td>zrzut wykadrowany</td><td>zrób ponownie cały ekran z paskiem zadań</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Checklista SQL przed oddaniem</h3>
+  <ul class="checklist tight">
+    <li>baza utworzona z właściwą nazwą i kodowaniem</li>
+    <li>tabele zaimportowane z pliku z arkusza</li>
+    <li>zrzut importu obejmuje cały ekran</li>
+    <li>cztery zapytania w <code class="inline">kwerendy.txt</code></li>
+    <li>każde zapytanie kończy się średnikiem</li>
+    <li>wybrane są jedynie wymagane pola</li>
+    <li>warunki dotyczą właściwych tabel i kolumn</li>
+    <li>JOIN używa właściwego klucza</li>
+    <li>GROUP BY zawiera wszystkie zwykłe kolumny</li>
+    <li>aliasy dokładnie takie jak w arkuszu</li>
+    <li>sortowanie DESC / ASC zgodne z poleceniem</li>
+    <li>LIMIT na końcu zapytania</li>
+    <li>losowanie przez <code class="inline">ORDER BY RAND() LIMIT 2</code></li>
+    <li>INSERT nie podaje auto-increment id</li>
+    <li>UPDATE ma WHERE</li>
+    <li>ALTER TABLE ma właściwy typ kolumny</li>
+    <li>CREATE USER i GRANT w dobrej kolejności</li>
+    <li>cztery zrzuty kw1–kw4 z całym ekranem</li>
+    <li>zrzuty w formacie wymaganym w arkuszu</li>
+    <li>pliki nazwane dokładnie jak w arkuszu</li>
+  </ul>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>SQL · ściąga tematyczna</span></div>
+</section>
+
+
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">∞</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">na koniec</div>
+      <h2 class="chapter-title">Przydatne linki i informacje</h2>
+      <div class="chapter-sub">Materiał pomocniczy — nie zastępuje oficjalnych źródeł CKE</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">🌐 Gdzie znaleźć arkusze</div>
+      <ul>
+        <li><strong>Arkusze INF.03</strong> — <code>arkusze.pl</code> (oficjalne arkusze CKE z poprzednich sesji)</li>
+        <li><strong>Baza egzaminów</strong> — <code>zawodowe.edu.pl</code> (archiwum arkuszy i zasad oceniania)</li>
+        <li><strong>Informator CKE</strong> — <code>cke.gov.pl</code> → kwalifikacja INF.03 → informator + przykładowe zadania</li>
+        <li><strong>Wymagania egzaminacyjne</strong> — w każdym arkuszu na pierwszej stronie: numer zadania, wersja, kwalifikacja</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📖 Dokumentacja techniczna</div>
+      <ul>
+        <li><strong>HTML / CSS / JS</strong> — <code>developer.mozilla.org</code> (MDN Web Docs, również po polsku)</li>
+        <li><strong>SQL / MariaDB</strong> — <code>mariadb.com/docs</code> (oficjalna dokumentacja)</li>
+        <li><strong>PHP + mysqli</strong> — <code>php.net/docs</code> (dokumentacja PHP, w tym gniazda mysqli)</li>
+        <li><strong>CSS Flexbox / Grid</strong> — <code>css-tricks.com</code> (szybkie wizualne przewodniki)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin: 5px 0 0;">
+    <div class="card-title">ℹ️ O tym materiale</div>
+    <p>Niniejszy PDF został wygenerowany z pomocą sztucznej inteligencji na podstawie oficjalnych arkuszy CKE, zasad oceniania oraz własnego doświadczenia autora. Autor nie rości sobie praw do wyłączności i <strong>zezwala na dowolne udostępnianie, kopiowanie i modyfikowanie</strong> tych materiałów — wystarczy zachować informację o źródle: <strong>kumalala learn</strong>. Wszelkie uwagi i poprawki są mile widziane. Powodzenia na egzaminie! 🍀</p>
+    <p style="text-align:center;margin-top:6px;font-size:9pt;color:var(--plum);"><strong>Rewizja 1</strong> · listopad 2026<br>Zgłoś problem lub pomysł: <a href="https://github.com/lciszewski27/kumulala-learn-inf03" style="color:var(--plum);">github.com/lciszewski27/kumulala-learn-inf03</a></p>
+  </div>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>materiał wygenerowany z pomocą AI · wolne udostępnianie</span></div>
+</section>
+
+
+
+
+<script src="../assets/prism/prism.min.js"></script>
+<script src="../assets/prism/prism-markup.min.js"></script>
+<script src="../assets/prism/prism-css.min.js"></script>
+<script src="../assets/prism/prism-javascript.min.js"></script>
+<script src="../assets/prism/prism-sql.min.js"></script>
+<script src="../assets/prism/prism-markup-templating.min.js"></script>
+<script src="../assets/prism/prism-php.min.js"></script>
+</body>
+</html>

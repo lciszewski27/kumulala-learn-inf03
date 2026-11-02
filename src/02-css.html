@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>kumalala learn · INF.03 · CSS</title>
+<link rel="stylesheet" href="../assets/print.css">
+<style>body{--accent:#db2777;--accent-soft:#fce7f3;--accent-deep:#9d174d;}</style>
+</head>
+<body>
+
+<!-- ================= 1. START ================= -->
+<section class="chapter first">
+  <div class="doc-intro">
+    <span class="kicker">✦ ściąga tematyczna · CSS</span>
+    <h1>CSS bez zgadywania</h1>
+    <p class="sub">selektory, layout i formatowanie z arkusza</p>
+    <p class="desc">Arkusz nie mówi „ustaw margin”. Mówi „marginesy zewnętrzne górny i dolny 10 px, pozostałe 50 px”. Ta ściąga tłumaczy takie zdania na gotowe reguły i pokazuje, gdzie kończy się wygląd, a zaczyna punkt.</p>
+  </div>
+  <div class="intro-strip">
+    <div class="mini"><span>01</span>mapa poleceń</div>
+    <div class="mini"><span>02</span>box model</div>
+    <div class="mini"><span>03</span>layouty</div>
+    <div class="mini"><span>04</span>checklista</div>
+  </div>
+
+  <div class="exam">
+    <span class="exam-label">tak pisze arkusz</span>
+    <p>Dla bloku nagłówkowego i głównego: szerokość 70%, wyrównanie tekstu do środka. Dla bloku nagłówkowego i bocznego: kolor tła PaleTurquoise, zaokrąglenie rogów 20 px.</p>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Polecenie z arkusza</th><th>Reguła CSS</th></tr></thead>
+    <tbody>
+      <tr><td>dla wszystkich selektorów</td><td><strong>* { ... }</strong></td></tr>
+      <tr><td>dla bloku nagłówkowego i głównego</td><td><strong>header, main { ... }</strong></td></tr>
+      <tr><td>dla bloku bocznego</td><td><strong>aside { ... }</strong></td></tr>
+      <tr><td>dla bloku sekcji</td><td><strong>section { ... }</strong></td></tr>
+      <tr><td>dla klasy miniatury</td><td><strong>.miniatury { ... }</strong></td></tr>
+      <tr><td>gdy kursor znajdzie się na…</td><td><strong>element:hover { ... }</strong></td></tr>
+      <tr><td>jedynie dla odnośników w menu</td><td><strong>nav a { ... }</strong></td></tr>
+      <tr><td>jedynie dla obrazów z bloku środkowego</td><td><strong>.srodek img { ... }</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji:</strong> kryteria CSS muszą <strong>działać na stronie</strong> — komisja sprawdza je w inspektorze. Jeśli arkusz wymaga „wyłącznie selektora znacznika”, nie kombinuj z klasą. <code class="inline">table { ... }</code> to nie to samo co <code class="inline">.tabela { ... }</code>.</p></div></div>
+</section>
+
+<!-- ================= 2. SELEKTORY ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">01</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 01</div>
+      <h2 class="chapter-title">Selektory i kaskada</h2>
+      <div class="chapter-sub">Dobierz selektor dokładnie tak, jak mówi arkusz</div>
+    </div>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Selektor</th><th>Co wybiera</th><th>Przykład</th></tr></thead>
+    <tbody>
+      <tr><td><strong>*</strong></td><td>wszystkie elementy</td><td><code class="inline">* { font-family: Arial; }</code></td></tr>
+      <tr><td><strong>element</strong></td><td>wszystkie znaczniki danego typu</td><td><code class="inline">table { width: 60%; }</code></td></tr>
+      <tr><td><strong>.klasa</strong></td><td>elementy z klasą</td><td><code class="inline">.miniatury { opacity: .8; }</code></td></tr>
+      <tr><td><strong>#id</strong></td><td>jeden element z id</td><td><code class="inline">#wynik { color: red; }</code></td></tr>
+      <tr><td><strong>A B</strong></td><td>B wewnątrz A (dowolnie głęboko)</td><td><code class="inline">nav a { color: white; }</code></td></tr>
+      <tr><td><strong>A &gt; B</strong></td><td>B bezpośrednio w A</td><td><code class="inline">main &gt; section { ... }</code></td></tr>
+      <tr><td><strong>A:hover</strong></td><td>A pod kursorem</td><td><code class="inline">a:hover { color: red; }</code></td></tr>
+      <tr><td><strong>A:first-child</strong></td><td>pierwsze dziecko rodzica</td><td><code class="inline">li:first-child { ... }</code></td></tr>
+      <tr><td><strong>A + B</strong></td><td>B zaraz po A</td><td><code class="inline">h2 + p { ... }</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Kaskada i pierwszeństwo</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Kolejność od najsilniejszego</div>
+      <ol>
+        <li><code class="inline">!important</code> — unikaj, chyba że naprawdę trzeba</li>
+        <li>styl w linii (<code class="inline">style="..."</code>)</li>
+        <li><code class="inline">#id</code></li>
+        <li><code class="inline">.klasa</code>, <code class="inline">:hover</code>, <code class="inline">[atrybut]</code></li>
+        <li>selektor znacznika</li>
+        <li><code class="inline">*</code></li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="card-title">Praktyczna zasada</div>
+      <p>Jeśli styl „nie działa”, najpierw sprawdź, czy selektor na pewno pasuje do elementu. Dopiero potem szukaj konfliktu w kaskadzie. W egzaminie najczęstszy błąd to kropka zamiast <code class="inline">#</code> albo odwrotnie.</p>
+    </div>
+  </div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Skrót:</strong> „dla selektora tabeli” = <code class="inline">table { ... }</code>. „Dla klasy kontrolki” = <code class="inline">.kontrolki { ... }</code>. „Dla odnośników w menu” = <code class="inline">nav a { ... }</code> — nie samo <code class="inline">a</code>.</p></div></div>
+
+  <h3>Łączenie selektorów — przykłady z arkuszy</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> wspólne cechy i wyjątki <span class="file">styl.css</span></div>
+    <pre><code class="language-css">/* wspólne dla nagłówka i stopki */
+header, footer {
+  background-color: #829EB9;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+/* tylko nagłówek */
+header { height: 100px; padding: 2%; }
+
+/* tylko blok boczny */
+aside { width: 25%; height: 700px; line-height: 2; }
+
+/* tylko odnośniki w menu */
+nav a { font-weight: bold; color: #625B5B; }
+
+/* tylko obraz w bloku środkowym */
+.srodek img { width: 95%; border-radius: 8px; }
+
+/* hover tylko na wierszach tabeli w bloku lewym */
+.lewy tr:hover { background-color: ForestGreen; }</code></pre>
+  </div>
+</section>
+
+<!-- ================= 3. BOX MODEL + KOLOR + TEKST ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">02</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 02</div>
+      <h2 class="chapter-title">Box model, kolor i tekst</h2>
+      <div class="chapter-sub">margin, padding, border — trzy słowa, które decydują o wyglądzie</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Box model — od środka</div>
+      <div class="layout-diagram" style="border-color:#db2777;">
+        <div class="row"><div class="box grow" style="background:#fce7f3;">margin — na zewnątrz</div></div>
+        <div class="row"><div class="box grow" style="background:#fbcfe8;">border — obramowanie</div></div>
+        <div class="row"><div class="box grow" style="background:#f9a8d4;">padding — wewnątrz</div></div>
+        <div class="row"><div class="box dark grow" style="background:#db2777;">width × height — treść</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Co mówi arkusz</div>
+      <ul>
+        <li><strong>marginesy wewnętrzne</strong> → <code class="inline">padding</code></li>
+        <li><strong>marginesy zewnętrzne</strong> → <code class="inline">margin</code></li>
+        <li><strong>obramowanie</strong> → <code class="inline">border</code></li>
+        <li><strong>szerokość / wysokość</strong> → <code class="inline">width</code> / <code class="inline">height</code></li>
+        <li><strong>zaokrąglenie rogów</strong> → <code class="inline">border-radius</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Shorthand vs longhand</h3>
+  <table class="map compact">
+    <thead><tr><th>Polecenie</th><th>Kod</th></tr></thead>
+    <tbody>
+      <tr><td>marginesy zewnętrzne 10 px (wszystkie)</td><td><code class="inline">margin: 10px;</code></td></tr>
+      <tr><td>górny i dolny 10 px, pozostałe 50 px</td><td><code class="inline">margin: 10px 50px;</code></td></tr>
+      <tr><td>górny 10 px, prawy 20, dolny 30, lewy 40</td><td><code class="inline">margin: 10px 20px 30px 40px;</code></td></tr>
+      <tr><td>tylko margines wewnętrzny górny 10 px</td><td><code class="inline">padding-top: 10px;</code></td></tr>
+      <tr><td>margines zewnętrzny lewy 40 px</td><td><code class="inline">margin-left: 40px;</code></td></tr>
+      <tr><td>marginesy automatycznie (środek)</td><td><code class="inline">margin: 0 auto;</code></td></tr>
+      <tr><td>padding 2%</td><td><code class="inline">padding: 2%;</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Kolejność czterech wartości:</strong> góra → prawy → dół → lewy (zgodnie z ruchem wskazówek zegara). Dwie wartości: góra/dół, potem lewy/prawy. Trzy: góra, lewy/prawy, dół.</p></div></div>
+
+  <h3>Kolory — nazwy, hex, rgb, rgba</h3>
+  <table class="map compact">
+    <thead><tr><th>Zapis</th><th>Przykład</th><th>Kiedy</th></tr></thead>
+    <tbody>
+      <tr><td>nazwa</td><td><code class="inline">PaleTurquoise</code></td><td>gdy arkusz podaje nazwę</td></tr>
+      <tr><td>hex</td><td><code class="inline">#625B5B</code></td><td>dokładny kolor z arkusza</td></tr>
+      <tr><td>rgb</td><td><code class="inline">rgb(60, 120, 160)</code></td><td>bez przezroczystości</td></tr>
+      <tr><td>rgba</td><td><code class="inline">rgba(60, 120, 160, 0.9)</code></td><td>z przezroczystością</td></tr>
+      <tr><td>hsl</td><td><code class="inline">hsl(200, 45%, 43%)</code></td><td>rzadko w arkuszu</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Kolory z arkuszy</div>
+      <div class="kv">
+        <div><b>PaleTurquoise</b> — jasny turkus</div>
+        <div><b>DimGray</b> — szary</div>
+        <div><b>SteelBlue</b> — stalowy błękit</div>
+        <div><b>LightBlue</b> — jasny błękit</div>
+        <div><b>Navy</b> — granat</div>
+        <div><b>ForestGreen</b> — leśna zieleń</div>
+        <div><b>LightGreen</b> — jasna zieleń</div>
+        <div><b>DarkGreen</b> — ciemna zieleń</div>
+        <div><b>Indigo</b> — indygo</div>
+        <div><b>White</b> — biały</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Tło i przezroczystość</div>
+      <pre style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.1pt;line-height:1.45;margin:4px 0 0;">background-color: PaleTurquoise;
+background-color: #EAEAEA;
+background-color: rgba(60,120,160,0.9);
+opacity: 0.8;</pre>
+      <p class="small" style="margin-top:5px;"><strong>opacity</strong> działa na cały element (tekst też). <strong>rgba</strong> zmienia tylko tło.</p>
+    </div>
+  </div>
+
+  <h3>Typografia</h3>
+  <table class="map compact">
+    <thead><tr><th>Polecenie</th><th>Kod</th></tr></thead>
+    <tbody>
+      <tr><td>krój czcionki Comic Sans MS, w razie braku sans-serif</td><td><code class="inline">font-family: "Comic Sans MS", sans-serif;</code></td></tr>
+      <tr><td>rozmiar czcionki 150%</td><td><code class="inline">font-size: 150%;</code></td></tr>
+      <tr><td>czcionka pogrubiona</td><td><code class="inline">font-weight: bold;</code></td></tr>
+      <tr><td>czcionka pochylona</td><td><code class="inline">font-style: italic;</code></td></tr>
+      <tr><td>wyrównanie tekstu do środka</td><td><code class="inline">text-align: center;</code></td></tr>
+      <tr><td>wysokość linii / interlinia 2</td><td><code class="inline">line-height: 2;</code></td></tr>
+      <tr><td>bez podkreślenia</td><td><code class="inline">text-decoration: none;</code></td></tr>
+      <tr><td>odstępy między literami 5 px</td><td><code class="inline">letter-spacing: 5px;</code></td></tr>
+      <tr><td>kolor czcionki Navy</td><td><code class="inline">color: Navy;</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Font z arkusza:</strong> jeśli podano „Helvetica” bez cudzysłowów, możesz zapisać <code class="inline">font-family: Helvetica, sans-serif;</code>. Gdy nazwa ma spację, np. Comic Sans MS, użyj cudzysłowów.</p></div></div>
+</section>
+
+<!-- ================= 4. EFEKTY + LAYOUT ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">03</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 03</div>
+      <h2 class="chapter-title">Hover, cień, overflow, position</h2>
+      <div class="chapter-sub">Efekty, które najczęściej pojawiają się w kryteriach</div>
+    </div>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Polecenie z arkusza</th><th>Kod</th></tr></thead>
+    <tbody>
+      <tr><td>zaokrąglenie rogów 20 px</td><td><code class="inline">border-radius: 20px;</code></td></tr>
+      <tr><td>obramowanie linią ciągłą 1 px Navy</td><td><code class="inline">border: 1px solid Navy;</code></td></tr>
+      <tr><td>obramowanie linią kreskową 1 px DimGray</td><td><code class="inline">border: 1px dashed DimGray;</code></td></tr>
+      <tr><td>obramowanie połączone w jedną linię</td><td><code class="inline">border-collapse: collapse;</code></td></tr>
+      <tr><td>cień 10 px w obu osiach, rozmycie 7 px, DimGray</td><td><code class="inline">box-shadow: 10px 10px 7px DimGray;</code></td></tr>
+      <tr><td>przezroczystość 0.8</td><td><code class="inline">opacity: 0.8;</code></td></tr>
+      <tr><td>tranzycja trwająca 1 sekundę</td><td><code class="inline">transition: 1s;</code></td></tr>
+      <tr><td>paski przewijania tylko przy przepełnieniu</td><td><code class="inline">overflow: auto;</code></td></tr>
+      <tr><td>zawsze widoczne paski</td><td><code class="inline">overflow: scroll;</code></td></tr>
+      <tr><td>ukrycie nadmiaru</td><td><code class="inline">overflow: hidden;</code></td></tr>
+      <tr><td>element za blokami strony</td><td><code class="inline">position: absolute; z-index: -1;</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Hover i transition — gotowy wzorzec</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> miniatury z arkusza 2026 <span class="file">styl.css</span></div>
+    <pre><code class="language-css">.miniatury {
+  height: 200px;
+  padding: 10px;
+  opacity: 0.8;
+  transition: opacity 1s;   /* lub transition: 1s; */
+}
+
+.miniatury:hover {
+  opacity: 1;
+}
+
+/* odnośnik w menu */
+nav a {
+  font-weight: bold;
+  background-color: #EAEAEA;
+  color: #625B5B;
+  padding: 10px;
+  margin: 50px;
+  border-radius: 20px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background-color: #625B5B;
+  color: #EAEAEA;
+  border: 1px solid #EAEAEA;
+}</code></pre>
+  </div>
+
+  <h3>Pozycjonowanie</h3>
+  <table class="map compact">
+    <thead><tr><th>Wartość</th><th>Znaczenie</th></tr></thead>
+    <tbody>
+      <tr><td><strong>static</strong></td><td>domyślne, element w normalnym przepływie</td></tr>
+      <tr><td><strong>relative</strong></td><td>przesunięcie względem własnego położenia</td></tr>
+      <tr><td><strong>absolute</strong></td><td>względem najbliższego pozycjonowanego rodzica (lub strony)</td></tr>
+      <tr><td><strong>fixed</strong></td><td>względem okna przeglądarki, nie przewija się</td></tr>
+      <tr><td><strong>sticky</strong></td><td>przykleja się po przewinięciu do progu</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> obraz za blokami — przykład z arkusza <span class="file">styl.css</span></div>
+    <pre><code class="language-css">img.motor {
+  display: block;
+  position: absolute;
+  left: 15%;
+  width: 70%;
+  z-index: -1;       /* obraz jest zakryty przez bloki strony */
+}
+
+/* bloki, które mają być nad obrazem */
+header, aside, main, footer {
+  position: relative; /* tworzą własny kontekst nakładania */
+  z-index: 1;
+}</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Position nie zastępuje layoutu.</strong> Do ustawienia bloków obok siebie używaj <code class="inline">float</code>, <code class="inline">flex</code> lub <code class="inline">grid</code>. <code class="inline">position: absolute</code> zostaw dla elementów, które naprawdę mają być wyjęte z przepływu — np. obraz w tle.</p></div></div>
+</section>
+
+<!-- ================= 5. LAYOUT ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">04</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 04</div>
+      <h2 class="chapter-title">Trzy sposoby na układ bloków</h2>
+      <div class="chapter-sub">Wybierz jeden i doprowadź do końca — komisja akceptuje każdy</div>
+    </div>
+  </div>
+
+  <p class="lead">W kryteriach R.3 wprost napisano: „np. float i clear albo display flex albo grid albo position". Nie ma jednego słusznego sposobu. Jest tylko wymóg, żeby bloki nie zachodziły na siebie i były zgodne z ilustracją.</p>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Procenty szerokości w przykładach poniżej są PRZYKŁADOWE.</strong> Arkusz może wymagać innych wartości, np. <code class="inline">header, main { width: 70% }</code> zamiast 100%/75% — sprawdź dokładnie polecenia CSS w swoim arkuszu i dopasuj liczby. To samo dotyczy kolorów, marginesów i wysokości.</p></div></div>
+
+  <h3>Wariant A — float + clear (najbardziej „szkolny”)</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> header + aside 25% + main 70% + footer <span class="file">styl.css</span></div>
+    <pre><code class="language-css">* { box-sizing: border-box; }
+
+header, footer {
+  clear: both;
+  width: 100%;
+}
+
+aside {
+  float: left;
+  width: 25%;
+  height: 700px;
+}
+
+main {
+  float: left;
+  width: 70%;
+}
+
+footer {
+  clear: both;
+}</code></pre>
+  </div>
+
+  <h3>Wariant B — flexbox (najszybszy dla dwóch kolumn)</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> kontener flex z zawijaniem <span class="file">styl.css</span></div>
+    <pre><code class="language-css">body {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+header, footer { width: 100%; }
+aside { width: 25%; }
+main  { width: 70%; }
+
+/* jeśli bloki są w kontenerze .strona */
+.strona {
+  display: flex;
+  flex-wrap: wrap;
+}
+.strona header, .strona footer { flex: 0 0 100%; }
+.strona aside { flex: 0 0 25%; }
+.strona main  { flex: 1; }</code></pre>
+  </div>
+
+  <h3>Wariant C — grid (najbardziej odporny na błędy)</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> grid z obszarami — układ 2 kolumn <span class="file">styl.css</span></div>
+    <pre><code class="language-css">body {
+  display: grid;
+  grid-template-columns: 25% 70%;
+  grid-template-areas:
+    "header header"
+    "aside  main"
+    "footer footer";
+}
+
+header { grid-area: header; }
+aside  { grid-area: aside; }
+main   { grid-area: main; }
+footer { grid-area: footer; }
+
+/* trzy kolumny 25% / 50% / 25% */
+/*
+body {
+  grid-template-columns: 25% 50% 25%;
+  grid-template-areas:
+    "header header header"
+    "lewy   srodek prawy"
+    "footer footer footer";
+}
+*/</code></pre>
+  </div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji (R.3):</strong> układ ma być zgodny z ilustracją i żaden blok nie może zachodzić na inny. Sprawdzaj w inspektorze, nie tylko „na oko" — szczególnie gdy używasz <code class="inline">float</code> bez <code class="inline">clear</code>.</p></div></div>
+</section>
+
+<!-- ================= 6. PEŁNY STYL.CSS ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">05</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 05</div>
+      <h2 class="chapter-title">Pełny styl.css do arkusza</h2>
+      <div class="chapter-sub">Przykład na bazie zadania „Islandia” — dopasuj kolory i wymiary</div>
+    </div>
+  </div>
+
+  <div class="code-card wide">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> kompletny arkusz stylów <span class="file">styl.css</span></div>
+    <pre><code class="language-css">/* 1. Domyślnie dla wszystkich selektorów */
+* {
+  font-family: "Comic Sans MS", sans-serif;
+}
+
+/* 2. Wspólne dla nagłówka i głównego */
+header, main {
+  width: 70%;
+  text-align: center;
+}
+
+/* 3. Wspólne dla nagłówka i bocznego */
+header, aside {
+  background-color: PaleTurquoise;
+  border-radius: 20px;
+}
+
+/* 4. Dodatkowo nagłówek */
+header {
+  height: 100px;
+  padding: 2%;
+}
+
+/* 5. Dodatkowo blok boczny */
+aside {
+  width: 25%;
+  height: 700px;
+  line-height: 2;
+}
+
+/* 6. Stopka */
+footer {
+  padding-top: 10px;
+}
+
+/* 7. Blok sekcji */
+section {
+  border: 1px dashed DimGray;
+  margin: 10px 50px;
+  height: 400px;
+  overflow: auto;
+}
+
+/* 8. Miniatury */
+.miniatury {
+  height: 200px;
+  padding: 10px;
+  opacity: 0.8;
+  transition: 1s;
+}
+
+.miniatury:hover {
+  opacity: 1;
+}</code></pre>
+  </div>
+
+  <h3>Jak ułożyć bloki — dopisz na końcu</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> grid dla układu z ilustracji <span class="file">styl.css</span></div>
+    <pre><code class="language-css">body {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-areas:
+    "header header"
+    "aside  main"
+    "footer footer";
+  gap: 0;
+}
+
+header { grid-area: header; }
+aside  { grid-area: aside; }
+main   { grid-area: main; }
+footer { grid-area: footer; }
+
+/* jeśli w arkuszu blok główny ma 70%, a boczny 25%,
+   ustaw grid-template-columns: 25% 70% i justify-content: center; */</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Nie dodawaj stylów, których nie ma w arkuszu.</strong> Komisja nie karze za estetykę, ale dodatkowe <code class="inline">margin</code> czy <code class="inline">padding</code> mogą przesunąć bloki i zepsuć zgodność z ilustracją. Trzymaj się wymiarów z zadania.</p></div></div>
+</section>
+
+<!-- ================= 7. SŁOWNIK + CHECKLISTA ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">06</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 06</div>
+      <h2 class="chapter-title">Słownik poleceń i checklista</h2>
+      <div class="chapter-sub">Tłumaczenie z języka arkusza na CSS</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <table class="map compact long">
+      <thead><tr><th>Szukaj w arkuszu</th><th>Wpisz</th></tr></thead>
+      <tbody>
+        <tr><td>domyślnie dla wszystkich selektorów</td><td>* { ... }</td></tr>
+        <tr><td>dla bloku nagłówkowego</td><td>header { ... }</td></tr>
+        <tr><td>dla bloku głównego</td><td>main { ... }</td></tr>
+        <tr><td>dla bloku bocznego</td><td>aside { ... }</td></tr>
+        <tr><td>dla bloku sekcji</td><td>section { ... }</td></tr>
+        <tr><td>dla bloku stopki</td><td>footer { ... }</td></tr>
+        <tr><td>dla selektora tabeli</td><td>table { ... }</td></tr>
+        <tr><td>dla komórki tabeli</td><td>td { ... }</td></tr>
+        <tr><td>dla komórki nagłówkowej</td><td>th { ... }</td></tr>
+        <tr><td>dla selektora obrazu</td><td>img { ... }</td></tr>
+        <tr><td>dla selektora listy punktowanej</td><td>ul { ... }</td></tr>
+        <tr><td>dla selektora przycisków</td><td>button { ... }</td></tr>
+        <tr><td>dla klasy miniatury</td><td>.miniatury { ... }</td></tr>
+        <tr><td>dla klasy kontrolki</td><td>.kontrolki { ... }</td></tr>
+        <tr><td>dla odnośników w menu</td><td>nav a { ... }</td></tr>
+        <tr><td>gdy kursor na elemencie</td><td>element:hover { ... }</td></tr>
+      </tbody>
+    </table>
+    <table class="map compact long">
+      <thead><tr><th>Szukaj w arkuszu</th><th>Wpisz</th></tr></thead>
+      <tbody>
+        <tr><td>kolor tła</td><td>background-color</td></tr>
+        <tr><td>kolor czcionki</td><td>color</td></tr>
+        <tr><td>marginesy wewnętrzne</td><td>padding</td></tr>
+        <tr><td>marginesy zewnętrzne</td><td>margin</td></tr>
+        <tr><td>zaokrąglenie rogów</td><td>border-radius</td></tr>
+        <tr><td>obramowanie linią ciągłą</td><td>border: 1px solid ...</td></tr>
+        <tr><td>obramowanie linią kreskową</td><td>border: 1px dashed ...</td></tr>
+        <tr><td>paski przewijania przy przepełnieniu</td><td>overflow: auto</td></tr>
+        <tr><td>przezroczystość</td><td>opacity</td></tr>
+        <tr><td>tranzycja 1 s</td><td>transition: 1s</td></tr>
+        <tr><td>cień bloku</td><td>box-shadow: 10px 10px 7px DimGray</td></tr>
+        <tr><td>wysokość linii</td><td>line-height</td></tr>
+        <tr><td>wyrównanie tekstu do środka</td><td>text-align: center</td></tr>
+        <tr><td>element za blokami</td><td>position: absolute; z-index: -1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Checklista CSS przed oddaniem</h3>
+  <ul class="checklist">
+    <li>styl.css podłączony przez &lt;link&gt;</li>
+    <li>wszystkie formatowanie tylko w CSS</li>
+    <li>* { font-family: ... } — dokładna kolejność</li>
+    <li>wymiary bloków zgodne z ilustracją</li>
+    <li>bloki nie zachodzą na siebie</li>
+    <li>float ma clear, flex/grid ma poprawne wymiary</li>
+    <li>padding vs margin — dobrze przypisane</li>
+    <li>border-radius tylko tam, gdzie w arkuszu</li>
+    <li>overflow: auto dla sekcji z przewijaniem</li>
+    <li>.miniatury:hover zmienia opacity</li>
+    <li>transition jest na elemencie bazowym</li>
+    <li>selektory znaczników, jeśli arkusz tego wymaga</li>
+    <li>hover nie działa na zbyt szerokim selektorze</li>
+    <li>kolory dokładnie z arkusza (nazwa/hex/rgba)</li>
+    <li>font-family z cudzysłowami dla nazw ze spacją</li>
+    <li>line-height bez jednostki, jeśli tak w arkuszu</li>
+    <li>box-shadow: offset-x offset-y blur color</li>
+    <li>position: relative u rodzica dla absolute</li>
+    <li>z-index nie chowa treści pod tłem</li>
+    <li>strona wygląda jak ilustracja po odświeżeniu</li>
+  </ul>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Najczęstsza strata punktów:</strong> styl jest w CSS, ale selektor nie pasuje do elementu w HTML. Otwórz inspektor (F12), kliknij element i sprawdź, czy reguła jest widoczna i przekreślona przez inną. To szybsze niż zgadywanie.</p></div></div>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>CSS · ściąga tematyczna</span></div>
+</section>
+
+
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">∞</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">na koniec</div>
+      <h2 class="chapter-title">Przydatne linki i informacje</h2>
+      <div class="chapter-sub">Materiał pomocniczy — nie zastępuje oficjalnych źródeł CKE</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">🌐 Gdzie znaleźć arkusze</div>
+      <ul>
+        <li><strong>Arkusze INF.03</strong> — <code>arkusze.pl</code> (oficjalne arkusze CKE z poprzednich sesji)</li>
+        <li><strong>Baza egzaminów</strong> — <code>zawodowe.edu.pl</code> (archiwum arkuszy i zasad oceniania)</li>
+        <li><strong>Informator CKE</strong> — <code>cke.gov.pl</code> → kwalifikacja INF.03 → informator + przykładowe zadania</li>
+        <li><strong>Wymagania egzaminacyjne</strong> — w każdym arkuszu na pierwszej stronie: numer zadania, wersja, kwalifikacja</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📖 Dokumentacja techniczna</div>
+      <ul>
+        <li><strong>HTML / CSS / JS</strong> — <code>developer.mozilla.org</code> (MDN Web Docs, również po polsku)</li>
+        <li><strong>SQL / MariaDB</strong> — <code>mariadb.com/docs</code> (oficjalna dokumentacja)</li>
+        <li><strong>PHP + mysqli</strong> — <code>php.net/docs</code> (dokumentacja PHP, w tym gniazda mysqli)</li>
+        <li><strong>CSS Flexbox / Grid</strong> — <code>css-tricks.com</code> (szybkie wizualne przewodniki)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin: 5px 0 0;">
+    <div class="card-title">ℹ️ O tym materiale</div>
+    <p>Niniejszy PDF został wygenerowany z pomocą sztucznej inteligencji na podstawie oficjalnych arkuszy CKE, zasad oceniania oraz własnego doświadczenia autora. Autor nie rości sobie praw do wyłączności i <strong>zezwala na dowolne udostępnianie, kopiowanie i modyfikowanie</strong> tych materiałów — wystarczy zachować informację o źródle: <strong>kumalala learn</strong>. Wszelkie uwagi i poprawki są mile widziane. Powodzenia na egzaminie! 🍀</p>
+    <p style="text-align:center;margin-top:6px;font-size:9pt;color:var(--plum);"><strong>Rewizja 1</strong> · listopad 2026<br>Zgłoś problem lub pomysł: <a href="https://github.com/lciszewski27/kumulala-learn-inf03" style="color:var(--plum);">github.com/lciszewski27/kumulala-learn-inf03</a></p>
+  </div>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>materiał wygenerowany z pomocą AI · wolne udostępnianie</span></div>
+</section>
+
+
+
+
+<script src="../assets/prism/prism.min.js"></script>
+<script src="../assets/prism/prism-markup.min.js"></script>
+<script src="../assets/prism/prism-css.min.js"></script>
+<script src="../assets/prism/prism-javascript.min.js"></script>
+<script src="../assets/prism/prism-sql.min.js"></script>
+<script src="../assets/prism/prism-markup-templating.min.js"></script>
+<script src="../assets/prism/prism-php.min.js"></script>
+</body>
+</html>

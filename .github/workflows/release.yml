@@ -1,0 +1,56 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install chromium --with-deps
+
+      - name: Build PDFs
+        run: node scripts/build.mjs
+
+      - name: Build Master
+        run: node scripts/merge-master.mjs
+
+      - name: Compute tag
+        id: meta
+        run: |
+          echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Rewizja ${{ steps.meta.outputs.version }} · ${{ steps.meta.outputs.date }}
+          body: |
+            ## Kumalala Learn · INF.03 — Rewizja ${{ steps.meta.outputs.version }}
+
+            ### Pliki
+            - `Kumalala-Learn-INF03-MASTER.pdf` — wszystkie 6 działów w jednym pliku
+            - `Kumalala-Learn-INF03-00-START.pdf` — plan egzaminu, 5 rezultatów, oddanie
+            - `Kumalala-Learn-INF03-01-HTML.pdf` — szkielet, bloki, listy, tabele, formularze
+            - `Kumalala-Learn-INF03-02-CSS.pdf` — selektory, layout, kolory, hover
+            - `Kumalala-Learn-INF03-03-JavaScript.pdf` — DOM, zdarzenia, pętle, skrypty
+            - `Kumalala-Learn-INF03-04-SQL.pdf` — SELECT, JOIN, GROUP BY, DELETE, VIEW
+            - `Kumalala-Learn-INF03-05-PHP.pdf` — połączenie, pętla, galeria, formularz
+
+            Zgłoś błąd lub pomysł: https://github.com/lciszewski27/kumulala-learn-inf03/issues
+          files: |
+            output/Kumalala-Learn-INF03-*.pdf
+          fail_on_unmatched_files: true

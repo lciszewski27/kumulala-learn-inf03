@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>kumalala learn · INF.03 · JavaScript</title>
+<link rel="stylesheet" href="../assets/print.css">
+<style>body{--accent:#b45309;--accent-soft:#fef3c7;--accent-deep:#78350f;}</style>
+</head>
+<body>
+
+<!-- ================= 1. START ================= -->
+<section class="chapter first">
+  <div class="doc-intro">
+    <span class="kicker">✦ ściąga tematyczna · JavaScript</span>
+    <h1>JavaScript bez paniki</h1>
+    <p class="sub">od kliknięcia przycisku do wyniku, który widzi komisja</p>
+    <p class="desc">Skrypt to osobny rezultat oceniania (R.5). Nie chodzi o całą znajomość języka — chodzi o kilka powtarzalnych kroków: pobierz dane, policz, sprawdź warunek, wyświetl wynik. Ta ściąga układa je w tej właśnie kolejności.</p>
+  </div>
+  <div class="intro-strip">
+    <div class="mini"><span>01</span>DOM i kontrolki</div>
+    <div class="mini"><span>02</span>zdarzenia</div>
+    <div class="mini"><span>03</span>logika i pętle</div>
+    <div class="mini"><span>04</span>gotowe skrypty</div>
+  </div>
+
+  <h3>Jak czytać tę ściągę</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">✦ różowe ramki</div>
+      <p>Cytat z arkusza. Zwróć uwagę na czasownik: <strong>pobiera, oblicza, wyświetla, sprawdza</strong>. Każdy z nich ma niżej swój kod.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">✦ ciemne bloki</div>
+      <p>Gotowy skrypt. Dopasuj <code class="inline">id</code>, nazwy pól i komunikaty. Nie zmieniaj kolejności: pobranie → obliczenie → wyświetlenie.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">✓ okiem komisji</div>
+      <p>Kryteria R.5 (skrypt). Sprawdzają kod źródłowy i działanie strony — nie estetykę skryptu.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">! pułapki</div>
+      <p>Najczęstsze miejsca, w których skrypt „prawie działa”. Przeczytaj przed oddaniem płyty.</p>
+    </div>
+  </div>
+
+  <div class="exam">
+    <span class="exam-label">tak pisze arkusz · 2025 styczeń</span>
+    <p>Skrypt wykonywany po stronie klienta, na stronie raty.html po kliknięciu przycisku „Oblicz”. Pobiera dane z kontrolek. Ustala całkowitą kwotę za wybrane kursy. Oblicza koszt jednej raty. Wyświetla pod przyciskiem w paragrafie treść: „Kurs odbędzie się w &lt;miasto&gt;. Koszt całkowity: &lt;kwota&gt; zł. Płacisz &lt;liczba&gt; rat po &lt;rata&gt; zł”.</p>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Polecenie z arkusza</th><th>Kod JavaScript</th></tr></thead>
+    <tbody>
+      <tr><td>po kliknięciu przycisku uruchamia się skrypt</td><td><strong>onclick="oblicz()"</strong> + <strong>function oblicz() { ... }</strong></td></tr>
+      <tr><td>pobiera dane z kontrolek</td><td><strong>document.getElementById("id").value</strong></td></tr>
+      <tr><td>sprawdza, czy pole wyboru jest zaznaczone</td><td><strong>document.getElementById("id").checked</strong></td></tr>
+      <tr><td>oblicza koszt jednej raty</td><td><strong>const rata = kwota / liczbaRat;</strong></td></tr>
+      <tr><td>zaokrągla w górę do liczby naturalnej</td><td><strong>Math.ceil(liczba)</strong></td></tr>
+      <tr><td>wyświetla pod przyciskiem w paragrafie</td><td><strong>document.getElementById("wynik").innerHTML = "...";</strong></td></tr>
+      <tr><td>komunikat w kolorze czerwonym</td><td><strong>wynik.style.color = "red";</strong></td></tr>
+      <tr><td>imię i nazwisko wielkimi literami</td><td><strong>.value.toUpperCase()</strong></td></tr>
+      <tr><td>po nazwisku łamanie linii</td><td><strong>"&lt;br&gt;"</strong> w innerHTML</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji (R.5):</strong> skrypt musi być w JavaScript, pobierać dane z co najmniej jednej kontrolki, zawierać poprawną instrukcję wynikającą z zadania i wyświetlać efekt pod przyciskiem. Nazwy zmiennych i funkcji mają być znaczące — w języku polskim lub angielskim.</p></div></div>
+</section>
+
+<!-- ================= 2. GDZIE WSTAWIĆ SKRYPT ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">01</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 01</div>
+      <h2 class="chapter-title">Gdzie wstawić skrypt</h2>
+      <div class="chapter-sub">Trzy miejsca, jedna zasada: element musi istnieć, zanim go pobierzesz</div>
+    </div>
+  </div>
+
+  <p class="lead">Najczęstszy błąd na starcie to skrypt w <code class="inline">&lt;head&gt;</code>, który próbuje pobrać pole, którego jeszcze nie ma w dokumencie. Rozwiązanie: wstaw <code class="inline">&lt;script&gt;</code> przed <code class="inline">&lt;/body&gt;</code> albo użyj <code class="inline">defer</code>.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Wariant A — na końcu body</div>
+      <pre style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.1pt;line-height:1.45;margin:4px 0 0;">&lt;body&gt;
+  &lt;!-- cała strona --&gt;
+  &lt;script src="skrypt.js"&gt;&lt;/script&gt;
+&lt;/body&gt;</pre>
+      <p class="small" style="margin-top:5px;">Najprostszy i najbezpieczniejszy. Elementy są już wczytane.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Wariant B — w head z defer</div>
+      <pre style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.1pt;line-height:1.45;margin:4px 0 0;">&lt;head&gt;
+  &lt;script src="skrypt.js" defer&gt;&lt;/script&gt;
+&lt;/head&gt;</pre>
+      <p class="small" style="margin-top:5px;"><code class="inline">defer</code> czeka na wczytanie HTML. Bez tego <code class="inline">getElementById</code> zwróci <code class="inline">null</code>.</p>
+    </div>
+  </div>
+
+  <h3>Skrypt w pliku czy w HTML?</h3>
+  <table class="map compact">
+    <thead><tr><th>Sytuacja</th><th>Rozwiązanie</th></tr></thead>
+    <tbody>
+      <tr><td>arkusz wymaga pliku skrypt.js</td><td><code class="inline">&lt;script src="skrypt.js"&gt;&lt;/script&gt;</code> przed <code class="inline">&lt;/body&gt;</code></td></tr>
+      <tr><td>mały skrypt tylko na jednej stronie</td><td><code class="inline">&lt;script&gt; ... &lt;/script&gt;</code> przed <code class="inline">&lt;/body&gt;</code></td></tr>
+      <tr><td>skrypt ma działać po wczytaniu strony</td><td><code class="inline">window.onload = function() { ... }</code> lub <code class="inline">defer</code></td></tr>
+      <tr><td>przycisk ma uruchomić funkcję</td><td><code class="inline">onclick="nazwaFunkcji()"</code> w HTML</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Dwa sposoby podpięcia zdarzenia</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> onclick w HTML — najczęstszy zapis egzaminacyjny <span class="file">raty.html</span></div>
+    <pre><code class="language-html">&lt;button type="button" onclick="oblicz()"&gt;Oblicz&lt;/button&gt;
+&lt;p id="wynik"&gt;&lt;/p&gt;
+
+&lt;script&gt;
+function oblicz() {
+  // 1. pobierz dane
+  // 2. oblicz
+  // 3. wyświetl wynik
+}
+&lt;/script&gt;</code></pre>
+  </div>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> addEventListener — równoważny, akceptowany przez komisję <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">const przycisk = document.getElementById("oblicz");
+
+przycisk.addEventListener("click", function () {
+  const powierzchnia = parseFloat(
+    document.getElementById("powierzchnia").value
+  );
+  const puszki = Math.ceil(powierzchnia / 4);
+  document.getElementById("wynik").innerHTML =
+    "Liczba potrzebnych puszek: " + puszki;
+});</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Nie używaj <code class="inline">&lt;form action="..."&gt;</code> bez potrzeby.</strong> Przycisk <code class="inline">type="submit"</code> przeładuje stronę i wynik zniknie. W zadaniach z JS użyj <code class="inline">type="button"</code> albo zatrzymaj formularz przez <code class="inline">event.preventDefault()</code>.</p></div></div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji (R.3):</strong> dla przycisku musi być zdefiniowane zdarzenie, które uruchamia funkcję skryptu — w HTML przez <code class="inline">onclick</code> lub w JS przez <code class="inline">addEventListener</code>. Sam przycisk bez zdarzenia nie daje punktu.</p></div></div>
+</section>
+
+<!-- ================= 3. POBIERANIE DANYCH ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">02</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 02</div>
+      <h2 class="chapter-title">Pobieranie danych i wyświetlanie</h2>
+      <div class="chapter-sub">value, checked, innerHTML — trzy właściwości, które robią 80% pracy</div>
+    </div>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Co chcesz zrobić</th><th>Kod</th></tr></thead>
+    <tbody>
+      <tr><td>znaleźć element po id</td><td><code class="inline">document.getElementById("wynik")</code></td></tr>
+      <tr><td>znaleźć pierwszy element po selektorze CSS</td><td><code class="inline">document.querySelector("#wynik")</code></td></tr>
+      <tr><td>znaleźć wszystkie elementy po selektorze</td><td><code class="inline">document.querySelectorAll(".kontrolki")</code></td></tr>
+      <tr><td>pobrać tekst wpisany w pole</td><td><code class="inline">pole.value</code></td></tr>
+      <tr><td>sprawdzić, czy checkbox jest zaznaczony</td><td><code class="inline">pole.checked</code> → <code class="inline">true</code> / <code class="inline">false</code></td></tr>
+      <tr><td>pobrać wybraną opcję listy</td><td><code class="inline">select.value</code></td></tr>
+      <tr><td>wpisać tekst do paragrafu</td><td><code class="inline">element.innerHTML = "tekst";</code></td></tr>
+      <tr><td>wpisać tekst bez interpretowania HTML</td><td><code class="inline">element.textContent = "tekst";</code></td></tr>
+      <tr><td>zmienić kolor tekstu</td><td><code class="inline">element.style.color = "red";</code></td></tr>
+      <tr><td>zmienić kolor tła</td><td><code class="inline">element.style.backgroundColor = "#EAEAEA";</code></td></tr>
+      <tr><td>dodać / zmienić atrybut</td><td><code class="inline">element.setAttribute("src", "obraz.jpg");</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Wszystkie typy kontrolek w jednym miejscu</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> odczyt pola, checkboxa, listy i liczby <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">// pole tekstowe
+const imie = document.getElementById("imie").value;
+
+// pole numeryczne — wartość jest tekstem, więc konwertujemy
+const liczbaRat = parseInt(document.getElementById("liczbaRat").value);
+
+// checkbox — true albo false
+const regulamin = document.getElementById("regulamin").checked;
+
+// lista rozwijana — wartość wybranej opcji
+const miasto = document.getElementById("miasto").value;
+
+// pole wielowierszowe
+const zgloszenie = document.getElementById("zgloszenie").value;
+
+// wyświetlenie wyniku w paragrafie
+const wynik = document.getElementById("wynik");
+wynik.innerHTML = "Wybrano: " + miasto;</code></pre>
+  </div>
+
+  <h3>Konwersja: tekst → liczba</h3>
+  <table class="map compact">
+    <thead><tr><th>Funkcja</th><th>Kiedy użyć</th><th>Przykład</th></tr></thead>
+    <tbody>
+      <tr><td><strong>parseInt()</strong></td><td>liczba całkowita, np. liczba rat, sztuk</td><td><code class="inline">parseInt("12")</code> → 12</td></tr>
+      <tr><td><strong>parseFloat()</strong></td><td>liczba z przecinkiem, np. powierzchnia 6.5</td><td><code class="inline">parseFloat("6.5")</code> → 6.5</td></tr>
+      <tr><td><strong>Number()</strong></td><td>szybka konwersja całej wartości</td><td><code class="inline">Number("6.5")</code> → 6.5</td></tr>
+      <tr><td><strong>isNaN()</strong></td><td>sprawdzenie, czy użytkownik wpisał liczbę</td><td><code class="inline">isNaN(liczba)</code> → true/false</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Zasada:</strong> <code class="inline">.value</code> zawsze zwraca tekst. Jeśli robisz <code class="inline">"5" + 1</code>, dostaniesz <code class="inline">"51"</code>, a nie 6. Dlatego każdą wartość liczbową przepuść przez <code class="inline">parseInt</code> lub <code class="inline">parseFloat</code>. Gdy konsola pokazuje <code class="inline">Cannot read properties of null</code>, <code class="inline">getElementById</code> nie znalazł elementu — sprawdź <code class="inline">id</code> i miejsce skryptu.</p></div></div>
+</section>
+
+<!-- ================= 4. LOGIKA ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">03</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 03</div>
+      <h2 class="chapter-title">Warunki, obliczenia, pętle</h2>
+      <div class="chapter-sub">if/else, Math, toFixed — matematyka z arkusza bez błędów</div>
+    </div>
+  </div>
+
+  <h3>Warunki</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">if / else if / else</div>
+      <pre style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.1pt;line-height:1.5;margin:4px 0 0;">if (regulamin) {
+  wynik.innerHTML = "Dziękujemy";
+} else {
+  wynik.innerHTML = "Zaznacz regulamin";
+  wynik.style.color = "red";
+}</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Najważniejsze operatory</div>
+      <table class="map compact" style="margin-top:4px;">
+        <tbody>
+          <tr><td><code class="inline">===</code></td><td>równe (typ i wartość)</td></tr>
+          <tr><td><code class="inline">!==</code></td><td>różne</td></tr>
+          <tr><td><code class="inline">&gt;</code>, <code class="inline">&lt;</code></td><td>większe, mniejsze</td></tr>
+          <tr><td><code class="inline">&amp;&amp;</code></td><td>i — oba warunki prawdziwe</td></tr>
+          <tr><td><code class="inline">||</code></td><td>lub — wystarczy jeden</td></tr>
+          <tr><td><code class="inline">!</code></td><td>zaprzeczenie</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong><code class="inline">=</code> to przypisanie, <code class="inline">===</code> to porównanie.</strong> <code class="inline">if (x = 5)</code> przypisze 5 i zawsze będzie prawdziwe. Do porównania używaj <code class="inline">===</code> lub <code class="inline">==</code> — najlepiej <code class="inline">===</code>.</p></div></div>
+
+  <h3>Zaokrąglanie i formatowanie</h3>
+  <table class="map compact">
+    <thead><tr><th>Polecenie</th><th>Kod</th><th>Wynik dla 6.1</th></tr></thead>
+    <tbody>
+      <tr><td>w górę, do liczby naturalnej</td><td><code class="inline">Math.ceil(6.1)</code></td><td>7</td></tr>
+      <tr><td>w dół</td><td><code class="inline">Math.floor(6.9)</code></td><td>6</td></tr>
+      <tr><td>do najbliższej całkowitej</td><td><code class="inline">Math.round(6.5)</code></td><td>7</td></tr>
+      <tr><td>dwa miejsca po przecinku</td><td><code class="inline">liczba.toFixed(2)</code></td><td>"6.10"</td></tr>
+      <tr><td>minimalna liczba puszek</td><td><code class="inline">Math.ceil(powierzchnia / 4)</code></td><td>zależnie od pola</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> obliczenie z zaokrągleniem w górę — wzorzec 2023 <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">function policz() {
+  // 1. pobierz wartość i zamień na liczbę
+  const powierzchnia = parseFloat(
+    document.getElementById("powierzchnia").value
+  );
+
+  // 2. jedna puszka = 1 litr, 1 litr = 4 m2
+  const liczbaPuszek = Math.ceil(powierzchnia / 4);
+
+  // 3. wyświetl dokładnie tak, jak chce arkusz
+  document.getElementById("wynik").innerHTML =
+    "Liczba potrzebnych puszek: " + liczbaPuszek;
+}</code></pre>
+  </div>
+
+  <h3>Pętla po polach wyboru — suma zaznaczonych kursów</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> forEach + checked + suma <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">const pola = document.querySelectorAll('input[type="checkbox"]');
+let suma = 0;
+
+pola.forEach(function (pole) {
+  if (pole.checked) {
+    suma += Number(pole.value);   // value musi być liczbą
+  }
+});
+
+document.getElementById("wynik").innerHTML =
+  "Koszt całkowity: " + suma + " zł";</code></pre>
+  </div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Kiedy pętla, a kiedy dwa ify?</strong> Jeśli kursów są dwa i znasz ich ceny, dwa <code class="inline">if</code> są szybsze. Jeśli pól jest więcej albo ceny są w <code class="inline">value</code>, użyj pętli — kod nie zależy wtedy od liczby checkboxów.</p></div></div>
+
+  <h3>Zamiana liczby na system binarny</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> toString(2) + padStart + indeks dolny <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">const liczba = parseInt(document.getElementById("liczba").value);
+const binarna = liczba.toString(2);              // 26 → "11010"
+
+// dopełnij zerami do pełnych bloków 4-bitowych
+const dlugosc = Math.ceil(binarna.length / 4) * 4;
+const padded = binarna.padStart(dlugosc, "0");   // "00011010"
+
+// podziel na bloki po 4 znaki od lewej
+const bloki = [];
+for (let i = 0; i < padded.length; i += 4) {
+  bloki.push(padded.slice(i, i + 4));
+}
+const wynik = bloki.join(" ");                   // "0001 1010"
+
+document.getElementById("wynik").innerHTML =
+  "&lt;p&gt;Postać binarna: " + wynik + "&lt;sub&gt;(2)&lt;/sub&gt;&lt;/p&gt;";</code></pre>
+  </div>
+</section>
+
+<!-- ================= 5. STRINGI I LISTY ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">04</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 04</div>
+      <h2 class="chapter-title">Tekst, stringi i dynamiczne listy</h2>
+      <div class="chapter-sub">Wielkie litery, sklejanie komunikatów i budowanie HTML w pętli</div>
+    </div>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Polecenie z arkusza</th><th>Metoda</th><th>Przykład</th></tr></thead>
+    <tbody>
+      <tr><td>wielkimi literami</td><td><code class="inline">toUpperCase()</code></td><td><code class="inline">imie.toUpperCase()</code></td></tr>
+      <tr><td>małymi literami</td><td><code class="inline">toLowerCase()</code></td><td><code class="inline">email.toLowerCase()</code></td></tr>
+      <tr><td>usuń spacje z początku i końca</td><td><code class="inline">trim()</code></td><td><code class="inline">imie.trim()</code></td></tr>
+      <tr><td>długość tekstu</td><td><code class="inline">length</code></td><td><code class="inline">nazwa.length</code></td></tr>
+      <tr><td>znajdź fragment</td><td><code class="inline">indexOf()</code></td><td><code class="inline">tekst.indexOf("kot")</code></td></tr>
+      <tr><td>zamień fragment</td><td><code class="inline">replace()</code></td><td><code class="inline">tekst.replace("a", "b")</code></td></tr>
+      <tr><td>wytnij fragment</td><td><code class="inline">slice(start, end)</code></td><td><code class="inline">tekst.slice(0, 3)</code></td></tr>
+      <tr><td>uzupełnij do długości</td><td><code class="inline">padStart(4, "0")</code></td><td><code class="inline">"5".padStart(4, "0")</code> → "0005"</td></tr>
+      <tr><td>podziel na tablicę</td><td><code class="inline">split()</code></td><td><code class="inline">"a,b,c".split(",")</code></td></tr>
+      <tr><td>sklej tablicę w tekst</td><td><code class="inline">join()</code></td><td><code class="inline">["a","b"].join(" ")</code> → "a b"</td></tr>
+      <tr><td>sklej tekst i zmienne</td><td>konkatenacja lub template string</td><td><code class="inline">`Witaj ${imie}`</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Sklejanie komunikatu — dwa równoważne zapisy</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> ten sam wynik, inny zapis <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">// wersja 1: konkatenacja — najbezpieczniejsza na egzaminie
+wynik.innerHTML =
+  "Kurs odbędzie się w " + miasto +
+  ". Koszt całkowity: " + kwota +
+  " zł. Płacisz " + liczbaRat +
+  " rat po " + rata.toFixed(2) + " zł";
+
+// wersja 2: template string — czytelniejsza, wymaga backticków
+wynik.innerHTML =
+  `Kurs odbędzie się w ${miasto}. Koszt całkowity: ${kwota} zł. ` +
+  `Płacisz ${liczbaRat} rat po ${rata.toFixed(2)} zł`;</code></pre>
+  </div>
+
+  <h3>Budowanie listy w pętli</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> lista numerowana z tablicy danych <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">const wodospady = ["Gullfoss", "Skógafoss", "Dettifoss"];
+const lista = document.getElementById("lista");
+
+let html = "&lt;ol&gt;";
+wodospady.forEach(function (nazwa) {
+  html += "&lt;li&gt;" + nazwa + "&lt;/li&gt;";
+});
+html += "&lt;/ol&gt;";
+
+lista.innerHTML = html;</code></pre>
+  </div>
+
+  <h3>Obsługa pliku z dysku — input type="file"</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> pobranie nazwy pliku i podgląd obrazu <span class="file">index.html</span></div>
+    <pre><code class="language-html">&lt;input type="file" id="plik" accept="image/*"&gt;
+&lt;p id="nazwa"&gt;&lt;/p&gt;
+&lt;div id="podglad"&gt;&lt;/div&gt;
+
+&lt;button type="button" onclick="pokazPlik()"&gt;Pokaż&lt;/button&gt;</code></pre>
+  </div>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> .files, File.name i createObjectURL <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">function pokazPlik() {
+  const input = document.getElementById("plik");
+  const plik = input.files[0];            // pierwszy wybrany plik
+
+  if (plik) {
+    // wyświetl nazwę pliku
+    document.getElementById("nazwa").textContent = plik.name;
+
+    // stwórz podgląd obrazu
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(plik);  // blob URL do pliku
+    img.alt = plik.name;
+    img.style.maxWidth = "200px";
+
+    const podglad = document.getElementById("podglad");
+    podglad.appendChild(img);             // dodaj do strony
+  }
+}</code></pre>
+  </div>
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>createElement + appendChild</strong> pozwalają tworzyć znaczniki w JavaScript bez składania stringów. <code class="inline">createElement("img")</code> tworzy obraz, <code class="inline">appendChild(img)</code> wstawia go w wybranym miejscu. <code class="inline">URL.createObjectURL(plik)</code> tworzy tymczasowy adres dla pliku z dysku.</p></div></div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Nie nadpisuj <code class="inline">innerHTML</code> w każdej iteracji.</strong> <code class="inline">lista.innerHTML = ...</code> wewnątrz pętli usuwa poprzednie elementy. Zbierz cały HTML do zmiennej (jak wyżej) i przypisz go raz po pętli.</p></div></div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji:</strong> nazwy zmiennych i funkcji muszą być znaczące. <code class="inline">let a = 1; let b = 2;</code> może przejść składniowo, ale traci punkt za czytelność. Używaj <code class="inline">powierzchnia</code>, <code class="inline">liczbaPuszek</code>, <code class="inline">obliczRate</code>.</p></div></div>
+</section>
+
+<!-- ================= 6. PEŁNE SKRYPTY ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">05</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 05</div>
+      <h2 class="chapter-title">Trzy gotowe skrypty egzaminacyjne</h2>
+      <div class="chapter-sub">2023, 2024, 2025 — całe zadania w jednym miejscu</div>
+    </div>
+  </div>
+
+  <h3>2023 styczeń — farba i puszki</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> HTML — pole, przycisk, pusty paragraf <span class="file">cena.html</span></div>
+    <pre><code class="language-html">&lt;h2&gt;Zapotrzebowanie na farbę&lt;/h2&gt;
+&lt;label for="powierzchnia"&gt;Powierzchnia malowania (m&lt;sup&gt;2&lt;/sup&gt;):&lt;/label&gt;
+&lt;input type="number" id="powierzchnia" name="powierzchnia"&gt;
+&lt;button type="button" onclick="policz()"&gt;Policz&lt;/button&gt;
+&lt;p id="wynik"&gt;&lt;/p&gt;</code></pre>
+  </div>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> JavaScript — 1 puszka na 4 m², zaokrąglenie w górę <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">function policz() {
+  const powierzchnia = parseFloat(
+    document.getElementById("powierzchnia").value
+  );
+  const liczbaPuszek = Math.ceil(powierzchnia / 4);
+
+  document.getElementById("wynik").innerHTML =
+    "Liczba potrzebnych puszek: " + liczbaPuszek;
+}</code></pre>
+  </div>
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Co sprawdza komisja:</strong> pobranie powierzchni, przeliczenie 4 m² na puszkę, <code class="inline">Math.ceil</code> zamiast zwykłego dzielenia oraz dokładny napis „Liczba potrzebnych puszek: ”.</p></div></div>
+</section>
+
+<section class="chapter">
+  <h3>2024 styczeń — formularz kontaktowy i walidacja</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> HTML — kontrolki i miejsce na komunikat <span class="file">kontakt.html</span></div>
+    <pre><code class="language-html">&lt;label for="imie"&gt;Imię:&lt;/label&gt;
+&lt;input type="text" id="imie" name="imie"&gt;
+
+&lt;label for="nazwisko"&gt;Nazwisko:&lt;/label&gt;
+&lt;input type="text" id="nazwisko" name="nazwisko"&gt;
+
+&lt;label for="zgloszenie"&gt;Treść sprawy:&lt;/label&gt;
+&lt;textarea id="zgloszenie" name="zgloszenie" rows="10" cols="40"&gt;&lt;/textarea&gt;
+
+&lt;input type="checkbox" id="regulamin" name="regulamin"&gt;
+&lt;label for="regulamin"&gt;Zapoznałam/em się z regulaminem&lt;/label&gt;
+
+&lt;input type="reset" value="Resetuj"&gt;
+&lt;button type="button" onclick="przeslij()"&gt;Prześlij&lt;/button&gt;
+&lt;hr&gt;
+&lt;p id="wynik"&gt;&lt;/p&gt;</code></pre>
+  </div>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> JavaScript — warunek, wielkie litery, kolor komunikatu <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">function przeslij() {
+  const imie = document.getElementById("imie").value.toUpperCase();
+  const nazwisko = document.getElementById("nazwisko").value.toUpperCase();
+  const zgloszenie = document.getElementById("zgloszenie").value;
+  const regulamin = document.getElementById("regulamin").checked;
+
+  const wynik = document.getElementById("wynik");
+
+  if (!regulamin) {
+    wynik.innerHTML = "Musisz zapoznać się z regulaminem";
+    wynik.style.color = "red";
+  } else {
+    wynik.innerHTML = imie + " " + nazwisko +
+      "&lt;br&gt;Treść Twojej sprawy: " + zgloszenie;
+    wynik.style.color = "Navy";
+  }
+}</code></pre>
+  </div>
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Co sprawdza komisja:</strong> dwa komunikaty zależne od <code class="inline">checked</code>, kolor czerwony i Navy, imię i nazwisko wielkimi literami, łamanie linii po nazwisku oraz pobranie treści zgłoszenia.</p></div></div>
+</section>
+
+<section class="chapter">
+  <h3>2025 styczeń — rata za kursy</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> HTML — checkboxy, liczba rat, miasto, przycisk <span class="file">raty.html</span></div>
+    <pre><code class="language-html">&lt;h3&gt;Oblicz miesięczną ratę&lt;/h3&gt;
+
+&lt;input type="checkbox" id="kursReact" class="kontrolki"&gt;
+&lt;label for="kursReact"&gt;Kurs React.js&lt;/label&gt;
+
+&lt;input type="checkbox" id="kursJavaScript" class="kontrolki"&gt;
+&lt;label for="kursJavaScript"&gt;Kurs JavaScript&lt;/label&gt;
+
+&lt;label for="liczbaRat"&gt;Liczba rat:&lt;/label&gt;
+&lt;input type="number" id="liczbaRat" class="kontrolki" min="1"&gt;
+
+&lt;select id="miasto" class="kontrolki"&gt;
+  &lt;option&gt;Warszawa&lt;/option&gt;
+  &lt;option&gt;Katowice&lt;/option&gt;
+  &lt;option&gt;Gdańsk&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;button type="button" class="kontrolki" onclick="oblicz()"&gt;Oblicz&lt;/button&gt;
+&lt;p id="wynik"&gt;&lt;/p&gt;</code></pre>
+  </div>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> JavaScript — suma kursów, rata, pełny komunikat <span class="file">skrypt.js</span></div>
+    <pre><code class="language-javascript">function oblicz() {
+  const react = document.getElementById("kursReact").checked;
+  const javascript = document.getElementById("kursJavaScript").checked;
+  const liczbaRat = parseInt(
+    document.getElementById("liczbaRat").value
+  );
+  const miasto = document.getElementById("miasto").value;
+
+  let kwota = 0;
+  if (react) kwota += 5000;
+  if (javascript) kwota += 3000;
+
+  const rata = kwota / liczbaRat;
+
+  document.getElementById("wynik").innerHTML =
+    "Kurs odbędzie się w " + miasto +
+    ". Koszt całkowity: " + kwota +
+    " zł. Płacisz " + liczbaRat +
+    " rat po " + rata.toFixed(2) + " zł";
+}</code></pre>
+  </div>
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Co sprawdza komisja:</strong> ceny React.js 5000 i JavaScript 3000, suma tylko zaznaczonych kursów, podział przez liczbę rat, miasto z listy oraz komunikat pod przyciskiem. Wystarczy sprawdzić dwa różne miasta i dwie różne liczby rat.</p></div></div>
+</section>
+
+<!-- ================= 7. SŁOWNIK + CHECKLISTA ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">06</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 06</div>
+      <h2 class="chapter-title">Słownik i checklista</h2>
+      <div class="chapter-sub">Zanim klikniesz „Prześlij” — sprawdź każdy punkt</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <table class="map compact">
+      <thead><tr><th>Szukaj w arkuszu</th><th>Wpisz</th></tr></thead>
+      <tbody>
+        <tr><td>po kliknięciu przycisku</td><td>onclick="funkcja()"</td></tr>
+        <tr><td>pobiera dane z kontrolek</td><td>getElementById("id").value</td></tr>
+        <tr><td>pole wyboru zaznaczone</td><td>.checked === true</td></tr>
+        <tr><td>wyświetla w paragrafie</td><td>element.innerHTML = "..."</td></tr>
+        <tr><td>zmienia kolor czcionki</td><td>element.style.color = "red"</td></tr>
+        <tr><td>wielkimi literami</td><td>.toUpperCase()</td></tr>
+        <tr><td>małymi literami</td><td>.toLowerCase()</td></tr>
+        <tr><td>zaokrąglenie w górę</td><td>Math.ceil()</td></tr>
+        <tr><td>zaokrąglenie w dół</td><td>Math.floor()</td></tr>
+        <tr><td>dwa miejsca po przecinku</td><td>.toFixed(2)</td></tr>
+        <tr><td>liczba całkowita</td><td>parseInt()</td></tr>
+        <tr><td>liczba zmiennoprzecinkowa</td><td>parseFloat()</td></tr>
+        <tr><td>dla każdego elementu</td><td>forEach(function(el) { ... })</td></tr>
+        <tr><td>dodaj do listy</td><td>innerHTML += "&lt;li&gt;...&lt;/li&gt;"</td></tr>
+        <tr><td>po wczytaniu strony</td><td>window.onload = function() { ... }</td></tr>
+      </tbody>
+    </table>
+    <div>
+      <div class="card">
+        <div class="card-title">! Najczęstsze pułapki</div>
+        <ul>
+          <li><strong>value to tekst.</strong> Bez <code class="inline">parseInt</code> / <code class="inline">parseFloat</code> dodawanie skleja stringi.</li>
+          <li><strong>Zły <code class="inline">id</code>.</strong> HTML ma <code class="inline">id="wynik"</code>, JS szuka <code class="inline">"Wynik"</code> — wielkość liter ma znaczenie.</li>
+          <li><strong>Skrypt przed elementem.</strong> <code class="inline">getElementById</code> zwraca <code class="inline">null</code>.</li>
+          <li><strong>Przycisk submit.</strong> Strona się przeładowuje, wynik znika.</li>
+          <li><strong>Brak <code class="inline">checked</code>.</strong> Sama obecność checkboxa nie znaczy, że jest zaznaczony.</li>
+          <li><strong>Dzielenie przez 0 i NaN.</strong> Puste pole liczbowe → <code class="inline">parseInt("")</code> → <code class="inline">NaN</code>. Jeśli liczba rat to 0, wynik to <code class="inline">Infinity</code>. Zawsze sprawdź: <code class="inline">if (liczbaRat &gt; 0) { ... }</code>.</li>
+          <li><strong>Nadpisywanie <code class="inline">innerHTML</code> w pętli.</strong> Zostaje tylko ostatni element.</li>
+        </ul>
+      </div>
+      <div class="callout warn"><span class="ico">!</span><div><p><strong>innerHTML vs textContent.</strong> <code class="inline">innerHTML</code> interpretuje HTML. Jeśli dane od użytkownika zawierają znaczniki, mogą zostać wykonane. Gdy wyświetlasz tylko tekst (np. imię użytkownika), użyj <code class="inline">textContent</code>: <code class="inline">wynik.textContent = imie + " " + nazwisko;</code>. <code class="inline">innerHTML</code> zachowaj do sytuacji, gdy świadomie generujesz HTML (np. lista z <code class="inline">&lt;li&gt;</code>).</p></div></div>
+
+  <div class="callout judge" style="margin-top:6px;"><span class="ico">✓</span><div><p><strong>Minimum punktowe:</strong> zdarzenie na przycisku + pobranie choć jednej kontrolki + poprawna instrukcja + wynik pod przyciskiem. To już kilka punktów z rezultatu R.5.</p></div></div>
+    </div>
+  </div>
+
+  <h3>Checklista JavaScript przed oddaniem</h3>
+  <ul class="checklist">
+    <li>skrypt jest w JavaScript, nie w PHP</li>
+    <li>przycisk ma onclick lub addEventListener</li>
+    <li>każde <code class="inline">getElementById</code> ma istniejący id</li>
+    <li>wartości liczbowe są konwertowane</li>
+    <li>checkbox sprawdzany przez <code class="inline">.checked</code></li>
+    <li>lista rozwijana przez <code class="inline">.value</code></li>
+    <li>wynik trafia do paragrafu pod przyciskiem</li>
+    <li>komunikat ma dokładne słowa z arkusza</li>
+    <li>kolor komunikatu zmieniony, jeśli wymagany</li>
+    <li>wielkie litery przez <code class="inline">toUpperCase()</code></li>
+    <li>zaokrąglenie w górę przez <code class="inline">Math.ceil()</code></li>
+    <li>rata przez <code class="inline">toFixed(2)</code>, jeśli trzeba</li>
+    <li>brak błędów w konsoli (F12)</li>
+    <li>skrypt działa po odświeżeniu strony</li>
+    <li>nazwy zmiennych są znaczące</li>
+    <li>skrypt nie przeładowuje strony</li>
+    <li>sprawdzone dwa miasta i dwie liczby rat</li>
+    <li>sprawdzone zaznaczenie obu kursów i żadnego</li>
+    <li>wynik widać także po resecie formularza</li>
+    <li>plik zapisany w folderze z numerem zdającego</li>
+  </ul>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>JavaScript · ściąga tematyczna</span></div>
+</section>
+
+
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">∞</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">na koniec</div>
+      <h2 class="chapter-title">Przydatne linki i informacje</h2>
+      <div class="chapter-sub">Materiał pomocniczy — nie zastępuje oficjalnych źródeł CKE</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">🌐 Gdzie znaleźć arkusze</div>
+      <ul>
+        <li><strong>Arkusze INF.03</strong> — <code>arkusze.pl</code> (oficjalne arkusze CKE z poprzednich sesji)</li>
+        <li><strong>Baza egzaminów</strong> — <code>zawodowe.edu.pl</code> (archiwum arkuszy i zasad oceniania)</li>
+        <li><strong>Informator CKE</strong> — <code>cke.gov.pl</code> → kwalifikacja INF.03 → informator + przykładowe zadania</li>
+        <li><strong>Wymagania egzaminacyjne</strong> — w każdym arkuszu na pierwszej stronie: numer zadania, wersja, kwalifikacja</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📖 Dokumentacja techniczna</div>
+      <ul>
+        <li><strong>HTML / CSS / JS</strong> — <code>developer.mozilla.org</code> (MDN Web Docs, również po polsku)</li>
+        <li><strong>SQL / MariaDB</strong> — <code>mariadb.com/docs</code> (oficjalna dokumentacja)</li>
+        <li><strong>PHP + mysqli</strong> — <code>php.net/docs</code> (dokumentacja PHP, w tym gniazda mysqli)</li>
+        <li><strong>CSS Flexbox / Grid</strong> — <code>css-tricks.com</code> (szybkie wizualne przewodniki)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin: 5px 0 0;">
+    <div class="card-title">ℹ️ O tym materiale</div>
+    <p>Niniejszy PDF został wygenerowany z pomocą sztucznej inteligencji na podstawie oficjalnych arkuszy CKE, zasad oceniania oraz własnego doświadczenia autora. Autor nie rości sobie praw do wyłączności i <strong>zezwala na dowolne udostępnianie, kopiowanie i modyfikowanie</strong> tych materiałów — wystarczy zachować informację o źródle: <strong>kumalala learn</strong>. Wszelkie uwagi i poprawki są mile widziane. Powodzenia na egzaminie! 🍀</p>
+    <p style="text-align:center;margin-top:6px;font-size:9pt;color:var(--plum);"><strong>Rewizja 1</strong> · listopad 2026<br>Zgłoś problem lub pomysł: <a href="https://github.com/lciszewski27/kumulala-learn-inf03" style="color:var(--plum);">github.com/lciszewski27/kumulala-learn-inf03</a></p>
+  </div>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>materiał wygenerowany z pomocą AI · wolne udostępnianie</span></div>
+</section>
+
+
+
+
+<script src="../assets/prism/prism.min.js"></script>
+<script src="../assets/prism/prism-markup.min.js"></script>
+<script src="../assets/prism/prism-css.min.js"></script>
+<script src="../assets/prism/prism-javascript.min.js"></script>
+<script src="../assets/prism/prism-sql.min.js"></script>
+<script src="../assets/prism/prism-markup-templating.min.js"></script>
+<script src="../assets/prism/prism-php.min.js"></script>
+</body>
+</html>

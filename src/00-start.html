@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>kumalala learn · INF.03 · START</title>
+<link rel="stylesheet" href="../assets/print.css">
+<style>body{--accent:#6c3baa;--accent-soft:#f3e8ff;--accent-deep:#4c2882;}</style>
+</head>
+<body>
+
+<!-- ================= 1. START ================= -->
+<section class="chapter first">
+  <div class="doc-intro">
+    <span class="kicker">✦ przewodnik · egzamin INF.03</span>
+    <h1>Mapa egzaminu</h1>
+    <p class="sub">od pierwszej minuty do oddania plików</p>
+    <p class="desc">Ten PDF nie uczy konkretnego działu. Porządkuje całą praktykę: ile masz czasu, co jest oceniane, w jakiej kolejności pracować i czego nie zapomnieć oddać. Od tego zacznij, a potem otwórz ściągę tematyczną — HTML, CSS, JavaScript, SQL albo PHP.</p>
+  </div>
+  <div class="intro-strip">
+    <div class="mini"><span>01</span>anatomia arkusza</div>
+    <div class="mini"><span>02</span>plan 150 min</div>
+    <div class="mini"><span>03</span>5 rezultatów</div>
+    <div class="mini"><span>04</span>oddanie pracy</div>
+  </div>
+
+  <h3>Jak czytać ten przewodnik</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">✦ najpierw plan</div>
+      <p>Nie zaczynaj od klikania. Przeczytaj cały arkusz, zaznacz polecenia i dopiero wtedy otwórz odpowiednią ściągę. Jedna decyzja na starcie oszczędza dziesięć minut później.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">✓ potem wynik</div>
+      <p>Punkty dostajesz za rezultaty, nie za wrażenie estetyczne. Każdy rozdział pokazuje, który rezultat (R.1–R.5) realizujesz i co komisja sprawdza najpierw.</p>
+    </div>
+  </div>
+
+  <div class="exam">
+    <span class="exam-label">tak wygląda praktyka</span>
+    <p>Najpierw masz <strong>10 minut na zapoznanie się z arkuszem</strong> (nie wliczane do czasu egzaminu). Potem <strong>150 minut na wykonanie zadania</strong>. Ocenie podlega 5 rezultatów: operacje na bazie danych, zawartość witryny internetowej, działanie witryny internetowej, styl CSS witryny internetowej oraz skrypt / skrypt połączenia z bazą.</p>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Element</th><th>Co to znaczy w praktyce</th></tr></thead>
+    <tbody>
+      <tr><td>10 + 150 minut</td><td>10 min na przeczytanie arkusza, potem 150 min pracy</td></tr>
+      <tr><td>5 rezultatów</td><td>R.1 baza, R.2 treść, R.3 działanie, R.4 CSS, R.5 skrypt</td></tr>
+      <tr><td>próg zaliczenia</td><td>75% punktów — nie trzeba mieć wszystkiego idealnie</td></tr>
+      <tr><td>warianty arkuszy</td><td>mogą być JS lub PHP — przygotuj się na obie opcje</td></tr>
+      <tr><td>grafika</td><td>skalowanie, przezroczystość, animacja GIF, przycinanie – ćwicz w GIMP/Photoshop</td></tr>
+      <tr><td>oddanie</td><td>folder z numerem zdającego, zrzuty, pliki strony, płyta CD/DVD</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Najważniejsza zasada:</strong> najpierw zrób to, co daje najwięcej punktów za najmniejszy wysiłek. Poprawne połączenie z bazą, tytuł strony, kodowanie i jeden działający skrypt są warte więcej niż idealny wygląd jednego bloku.</p></div></div>
+</section>
+
+<!-- ================= 2. PLAN ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">01</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 01</div>
+      <h2 class="chapter-title">Plan 150 minut</h2>
+      <div class="chapter-sub">Siedem bloków, które prowadzą do oddania pracy bez paniki</div>
+    </div>
+  </div>
+
+  <p class="lead">Najpierw masz <strong>10 minut</strong> na przeczytanie arkusza — to osobny czas, nieliczony do 150 minut. Poniższy plan dotyczy już <strong>właściwej części egzaminu</strong>.</p>
+
+  <div class="steps">
+    <div class="step"><span class="step-num">0–15</span><div><strong>Otwórz arkusz ponownie i stwórz folder.</strong> Sprawdź, czego wymaga zadanie: PHP czy JavaScript? SQL? Grafika? <strong>Rozpakuj archiwum 7z</strong> z pulpitu (hasło w arkuszu) do folderu z numerem zdającego.</div></div>
+    <div class="step"><span class="step-num">15–30</span><div><strong>Baza danych.</strong> Utwórz bazę (przez phpMyAdmin lub SQL), zaimportuj tabele, zrób zrzut importu. Jeśli zadanie nie wymaga bazy — przygotuj szkielet HTML i podłącz CSS.</div></div>
+    <div class="step"><span class="step-num">30–50</span><div><strong>SQL.</strong> Wykonaj cztery kwerendy, zapisz je w <code class="inline">kwerendy.txt</code>, zrób zrzuty <code class="inline">kw1</code>–<code class="inline">kw4</code>. Nie czekaj z tym na koniec — baza jest podstawą PHP.</div></div>
+    <div class="step"><span class="step-num">50–90</span><div><strong>Witryna i PHP/JS.</strong> Zbuduj bloki HTML, podłącz style, napisz skrypty: połączenie, pętle, wyświetlanie listy, galerii, szczegółów lub formularza.</div></div>
+    <div class="step"><span class="step-num">90–115</span><div><strong>CSS.</strong> Dopracuj selektory, wymiary, kolory, hover i układ bloków. Sprawdź w inspektorze, czy reguły działają na właściwych elementach.</div></div>
+    <div class="step"><span class="step-num">115–135</span><div><strong>Testy i poprawki.</strong> Kliknij każdy odnośnik, sprawdź formularz, odśwież stronę, sprawdź konsolę i błędy PHP/JS. Popraw to, co nie działa.</div></div>
+    <div class="step"><span class="step-num">135–150</span><div><strong>Oddanie.</strong> Zrzuty, <code class="inline">przeglądarka.txt</code>, <code class="inline">kwerendy.txt</code>, nagranie płyty, sprawdzenie odczytu i opis płyty numerem zdającego.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Jeśli utkniesz</div>
+      <ul>
+        <li>zapisz, co już działa, i przejdź do kolejnego rezultatu</li>
+        <li>wróć do najprostszej wersji: bez animacji, bez ozdobników</li>
+        <li>sprawdź, czy błąd jest w PHP, SQL, HTML czy CSS — nie zgaduj</li>
+        <li>po 10 minutach bez postępu zmień zadanie, wróć później</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Czego nie robić</div>
+      <ul>
+        <li>nie zaczynaj od grafiki, jeśli nie jest oceniana</li>
+        <li>nie zostawiaj zrzutów na ostatnie 5 minut</li>
+        <li>nie zmieniaj nazw plików „na ładniejsze”</li>
+        <li>nie oddawaj pracy bez sprawdzenia płyty</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Zasada 10 minut:</strong> jeśli jeden element blokuje całą stronę, zostaw go na chwilę i zrób pozostałe. Punkty są osobne za bazę, treść, działanie, CSS i skrypt — jedna zablokowana rzecz nie powinna zabrać całego czasu.</p></div></div>
+</section>
+
+<!-- ================= 3. 5 REZULTATÓW ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">02</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 02</div>
+      <h2 class="chapter-title">5 rezultatów oceniania</h2>
+      <div class="chapter-sub">Co komisja sprawdza i gdzie szukać punktów</div>
+    </div>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Rezultat</th><th>Co obejmuje</th><th>Gdzie go zdobywasz</th></tr></thead>
+    <tbody>
+      <tr><td><strong>R.1</strong> operacje na bazie</td><td>import, cztery kwerendy, zrzuty, konto i uprawnienia</td><td>SQL — rozdziały 01–05</td></tr>
+      <tr><td><strong>R.2</strong> zawartość witryny</td><td>HTML5, język, kodowanie, tytuł, bloki, lista, tabela, formularz, obraz</td><td>HTML — rozdziały 01–04</td></tr>
+      <tr><td><strong>R.3</strong> działanie witryny</td><td>układ, odnośniki, mailto, zdarzenie przycisku, połączenie z CSS</td><td>HTML + CSS + JavaScript</td></tr>
+      <tr><td><strong>R.4</strong> styl CSS</td><td>selektory, wymiary, kolory, hover, tło, position</td><td>CSS — rozdziały 01–06</td></tr>
+      <tr><td><strong>R.5</strong> skrypt</td><td>JS: pobranie danych, obliczenia, wyświetlenie; PHP: połączenie, zapytanie, pętla, zamknięcie</td><td>JavaScript lub PHP</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>W każdej sesji jest około 12 wariantów.</strong> W styczniu 2026 dominowały arkusze PHP (9 z 12), ale były też JS (3). W czerwcu 2026 przeważały JS (8 z 12) przy mniejszej liczbie PHP (4). Dlatego przygotuj się <strong>zarówno na PHP, jak i JavaScript</strong> — SQL i grafika mogą pojawić się w każdej sesji.</p></div></div>
+
+  <h3>Co daje punkt najszybciej</h3>
+  <table class="map compact">
+    <thead><tr><th>Rezultat</th><th>Najszybszy punkt</th></tr></thead>
+    <tbody>
+      <tr><td>R.1</td><td>import bazy + zapisanie czterech zapytań w <code class="inline">kwerendy.txt</code></td></tr>
+      <tr><td>R.2</td><td><code class="inline">&lt;!DOCTYPE html&gt;</code>, <code class="inline">lang="pl"</code>, <code class="inline">charset="utf-8"</code>, tytuł, semantyczne bloki</td></tr>
+      <tr><td>R.3</td><td>działające odnośniki, <code class="inline">mailto:</code>, <code class="inline">onclick</code> na przycisku</td></tr>
+      <tr><td>R.4</td><td>poprawne selektory i wymiary bloków z ilustracji</td></tr>
+      <tr><td>R.5</td><td>pobranie jednej kontrolki i wyświetlenie wyniku (JS) albo połączenie i jedno zapytanie (PHP)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Nie myl „działa” z „spełnia kryterium”.</strong> Strona może wyglądać dobrze, ale jeśli styl jest w pliku HTML, a nie w <code class="inline">styl.css</code>, R.4 może nie zostać zaliczone. Czytaj kryteria, nie tylko ilustrację.</p></div></div>
+</section>
+
+<!-- ================= 4. PLIKI ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">03</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 03</div>
+      <h2 class="chapter-title">Pliki, zrzuty i oddanie pracy</h2>
+      <div class="chapter-sub">Ostatnie 15 minut decyduje, czy punkty w ogóle dotrą do komisji</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Folder z numerem zdającego</div>
+      <ul>
+        <li>wszystkie pliki strony: <code class="inline">.html</code>, <code class="inline">.php</code>, <code class="inline">.css</code></li>
+        <li>grafiki wymienione w arkuszu</li>
+        <li><code class="inline">kwerendy.txt</code> — jeśli jest SQL</li>
+        <li><code class="inline">import</code> + <code class="inline">kw1</code>–<code class="inline">kw4</code> — jeśli są zrzuty</li>
+        <li><code class="inline">przeglądarka.txt</code> — jeśli arkusz wymaga</li>
+        <li>żadnych plików tymczasowych i kopii</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Zrzuty ekranu</div>
+      <ul>
+        <li>cały ekran monitora, bez kadrowania</li>
+        <li>widoczny pasek zadań</li>
+        <li>widoczny wynik zapytania lub lista tabel</li>
+        <li>nazwy dokładnie: <code class="inline">import</code>, <code class="inline">kw1</code>…<code class="inline">kw4</code></li>
+        <li>format zgodny z arkuszem: JPEG lub PNG</li>
+        <li>sprawdź, czy plik się otwiera</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Checklista oddania</h3>
+  <ul class="checklist">
+    <li>folder nazwany numerem zdającego</li>
+    <li>wszystkie pliki z arkusza są w folderze</li>
+    <li>nazwy plików dokładnie jak w arkuszu</li>
+    <li>strona otwiera się bez błędów</li>
+    <li>PHP łączy się z właściwą bazą</li>
+    <li>SQL: cztery zapytania w <code class="inline">kwerendy.txt</code></li>
+    <li>SQL: cztery zrzuty <code class="inline">kw1</code>–<code class="inline">kw4</code></li>
+    <li>import udokumentowany zrzutem</li>
+    <li>zrzuty mają cały ekran i pasek zadań</li>
+    <li><code class="inline">przeglądarka.txt</code> utworzony, jeśli wymagany</li>
+    <li>płyta nagrana i sprawdzona</li>
+    <li>płyta opisana numerem zdającego</li>
+    <li>arkusz i płyta pozostawione na stanowisku</li>
+  </ul>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Test „obcej osoby”:</strong> wyobraź sobie, że kolega otwiera folder i ma znaleźć każdy plik w 10 sekund. Jeśli nie potrafi, nazwy lub struktura są zbyt skomplikowane. Prosto = bezpiecznie.</p></div></div>
+</section>
+
+<!-- ================= 5. SPIS ================= -->
+<section class="chapter newpage">
+  <div class="chapter-head">
+    <div class="chapter-num">04</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 04</div>
+      <h2 class="chapter-title">Spis ściąg tematycznych</h2>
+      <div class="chapter-sub">Który PDF otworzyć, gdy w arkuszu pojawia się dany czasownik</div>
+    </div>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>PDF</th><th>Otwórz, gdy arkusz mówi…</th></tr></thead>
+    <tbody>
+      <tr><td><strong>01 HTML</strong></td><td>utwórz blok, nagłówek, listę, tabelę, formularz, obraz, odnośnik</td></tr>
+      <tr><td><strong>02 CSS</strong></td><td>dla bloku, dla selektora, kolor tła, marginesy, hover, układ bloków</td></tr>
+      <tr><td><strong>03 JavaScript</strong></td><td>po kliknięciu przycisku, pobierz dane, oblicz, wyświetl pod przyciskiem</td></tr>
+      <tr><td><strong>04 SQL</strong></td><td>wybierz, połącz, zlicz, posortuj, dodaj kolumnę, utwórz konto, nadaj prawa</td></tr>
+      <tr><td><strong>05 PHP</strong></td><td>połącz z bazą, wyślij zapytanie, wyświetl listę, galerię, szczegóły, formularz</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Kolejność czytania przed egzaminem</div>
+      <ol>
+        <li>START — plan i oddanie pracy</li>
+        <li>HTML — szkielet i treść</li>
+        <li>CSS — wygląd i układ</li>
+        <li>JavaScript — skrypt (interfejs)</li>
+        <li>SQL — kwerendy</li>
+        <li>PHP — połączenie i dane</li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="card-title">Czego szukać w każdej ściądze</div>
+      <ul>
+        <li>tabela „polecenie z arkusza → kod”</li>
+        <li>ciemne bloki do wklejenia</li>
+        <li>ramki „okiem komisji”</li>
+        <li>pułapki i checklista</li>
+        <li>pełny przykład z prawdziwego arkusza</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Nie ucz się wszystkich PDF-ów na pamięć.</strong> Naucz się schematu: znajdź czasownik w poleceniu, wybierz tabelę, wklej kod, dopasuj nazwy. Ściąga ma być mapą, nie dyktandem.</p></div></div>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>START · przewodnik</span></div>
+</section>
+
+
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">∞</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">na koniec</div>
+      <h2 class="chapter-title">Przydatne linki i informacje</h2>
+      <div class="chapter-sub">Materiał pomocniczy — nie zastępuje oficjalnych źródeł CKE</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">🌐 Gdzie znaleźć arkusze</div>
+      <ul>
+        <li><strong>Arkusze INF.03</strong> — <code>arkusze.pl</code> (oficjalne arkusze CKE z poprzednich sesji)</li>
+        <li><strong>Baza egzaminów</strong> — <code>zawodowe.edu.pl</code> (archiwum arkuszy i zasad oceniania)</li>
+        <li><strong>Informator CKE</strong> — <code>cke.gov.pl</code> → kwalifikacja INF.03 → informator + przykładowe zadania</li>
+        <li><strong>Wymagania egzaminacyjne</strong> — w każdym arkuszu na pierwszej stronie: numer zadania, wersja, kwalifikacja</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📖 Dokumentacja techniczna</div>
+      <ul>
+        <li><strong>HTML / CSS / JS</strong> — <code>developer.mozilla.org</code> (MDN Web Docs, również po polsku)</li>
+        <li><strong>SQL / MariaDB</strong> — <code>mariadb.com/docs</code> (oficjalna dokumentacja)</li>
+        <li><strong>PHP + mysqli</strong> — <code>php.net/docs</code> (dokumentacja PHP, w tym gniazda mysqli)</li>
+        <li><strong>CSS Flexbox / Grid</strong> — <code>css-tricks.com</code> (szybkie wizualne przewodniki)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin: 5px 0 0;">
+    <div class="card-title">ℹ️ O tym materiale</div>
+    <p>Niniejszy PDF został wygenerowany z pomocą sztucznej inteligencji na podstawie oficjalnych arkuszy CKE, zasad oceniania oraz własnego doświadczenia autora. Autor nie rości sobie praw do wyłączności i <strong>zezwala na dowolne udostępnianie, kopiowanie i modyfikowanie</strong> tych materiałów — wystarczy zachować informację o źródle: <strong>kumalala learn</strong>. Wszelkie uwagi i poprawki są mile widziane. Powodzenia na egzaminie! 🍀</p>
+    <p style="text-align:center;margin-top:6px;font-size:9pt;color:var(--plum);"><strong>Rewizja 1</strong> · listopad 2026<br>Zgłoś problem lub pomysł: <a href="https://github.com/lciszewski27/kumulala-learn-inf03" style="color:var(--plum);">github.com/lciszewski27/kumulala-learn-inf03</a></p>
+  </div>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>materiał wygenerowany z pomocą AI · wolne udostępnianie</span></div>
+</section>
+
+
+
+
+<script src="../assets/prism/prism.min.js"></script>
+<script src="../assets/prism/prism-markup.min.js"></script>
+<script src="../assets/prism/prism-css.min.js"></script>
+<script src="../assets/prism/prism-javascript.min.js"></script>
+<script src="../assets/prism/prism-sql.min.js"></script>
+<script src="../assets/prism/prism-markup-templating.min.js"></script>
+<script src="../assets/prism/prism-php.min.js"></script>
+</body>
+</html>

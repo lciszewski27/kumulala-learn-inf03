@@ -1,0 +1,46 @@
+name: 🐞 Zgłoś błąd
+description: Coś nie działa lub jest niepoprawne w materiale
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Dzięki za pomoc w ulepszaniu materiału! Opisz krótko, co jest nie tak.
+
+  - type: input
+    id: pdf
+    attributes:
+      label: Który PDF dotyczy?
+      description: Np. START, HTML, CSS, JavaScript, SQL, PHP, MASTER
+      placeholder: "HTML"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Opis problemu
+      description: Co jest niepoprawne? Jaki kod / polecenie? Co powinno być zamiast?
+      placeholder: |
+        W rozdziale X na stronie Y jest napisane "…" a powinno być "…".
+        Albo: brakuje tematu / zagadnienia / polecenia SQL / JS.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Jak poważne?
+      options:
+        - Błąd merytoryczny (kod nie zadziała)
+        - Brakująca treść (przydałoby się dodać)
+        - Literówka / styl
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Dodatkowy kontekst
+      description: Link do arkusza, zrzut ekranu, uwagi
+      placeholder: "Np. arkusz z czerwca 2026, polecenie 3 …"

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>kumalala learn · INF.03 · HTML</title>
+<link rel="stylesheet" href="../assets/print.css">
+<style>body{--accent:#6c3baa;--accent-soft:#f3e8ff;--accent-deep:#4c2882;}</style>
+</head>
+<body>
+
+<!-- ================= 1. START ================= -->
+<section class="chapter first">
+  <div class="doc-intro">
+    <span class="kicker">✦ ściąga tematyczna · HTML</span>
+    <h1>HTML bez paniki</h1>
+    <p class="sub">od polecenia z arkusza do gotowego kodu</p>
+    <p class="desc">Ta ściąga nie jest skrótem dokumentacji. To mapa: po lewej masz sformułowanie z arkusza, po prawej gotowy kod i miejsce, w którym komisja szuka punktu. Czytaj ją od góry, ale w arkuszu szukaj najpierw czasownika: <strong>utwórz, umieść, ustaw, połącz</strong>.</p>
+  </div>
+  <div class="intro-strip">
+    <div class="mini"><span>01</span>mapa poleceń</div>
+    <div class="mini"><span>02</span>gotowe bloki</div>
+    <div class="mini"><span>03</span>okiem komisji</div>
+    <div class="mini"><span>04</span>checklista</div>
+  </div>
+
+  <h3>Jak czytać tę ściągę</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">✦ różowe ramki</div>
+      <p>To cytat albo parafraza polecenia z arkusza. Szukaj w nich słów, które widzisz na egzaminie — nie nazw znaczników.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">✦ ciemne bloki</div>
+      <p>Gotowy kod do wklejenia. Dopasuj nazwy plików, teksty i identyfikatory, ale nie zmieniaj struktury, jeśli nie musisz.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">✓ okiem komisji</div>
+      <p>Kryteria z „Zasad oceniania”. To nie teoria — to lista rzeczy, za które faktycznie przyznawane są punkty.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">! pułapki</div>
+      <p>Miejsca, w których najłatwiej stracić punkt mimo dobrego kodu. Przeczytaj je przed oddaniem plików.</p>
+    </div>
+  </div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Ważne:</strong> w kryteriach R.2 wystarczy, że bloki i elementy są poprawne <strong>na jednej stronie</strong>. Nie musisz powtarzać idealnie całego layoutu na każdej podstronie, ale cechy wspólne i tak muszą być.</p></div></div>
+
+  <div class="exam">
+    <span class="exam-label">tak pisze arkusz</span>
+    <p>Witryna składa się z podstron: islandia.php i obiekty.php. Cechy wspólne obu stron: zapisane w języku HTML5, zadeklarowany polski język zawartości, jawnie zastosowany właściwy standard kodowania polskich znaków, tytuł strony „Islandia”, arkusz stylów w pliku styl.css prawidłowo połączony z kodem strony.</p>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Polecenie z arkusza</th><th>Co wpisać</th></tr></thead>
+    <tbody>
+      <tr><td>język HTML5</td><td><strong>&lt;!DOCTYPE html&gt;</strong> na początku pliku</td></tr>
+      <tr><td>polski język zawartości</td><td><strong>&lt;html lang="pl"&gt;</strong></td></tr>
+      <tr><td>standard kodowania polskich znaków</td><td><strong>&lt;meta charset="utf-8"&gt;</strong> w &lt;head&gt;</td></tr>
+      <tr><td>tytuł strony na karcie przeglądarki</td><td><strong>&lt;title&gt;Islandia&lt;/title&gt;</strong></td></tr>
+      <tr><td>arkusz stylów prawidłowo połączony</td><td><strong>&lt;link rel="stylesheet" href="styl.css"&gt;</strong></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= 2. SZKIELET ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">01</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 01</div>
+      <h2 class="chapter-title">Szkielet i semantyczne bloki</h2>
+      <div class="chapter-sub">Z ilustracji układu zrób strukturę, którą widzi komisja</div>
+    </div>
+  </div>
+
+  <p class="lead">Każdy arkusz zaczyna się od tego samego: masz zbudować stronę z bloków. Nazwy bloków w poleceniu są tłumaczeniem znaczników HTML5. Naucz się tej tabeli na pamięć — to najszybsze punkty na egzaminie.</p>
+
+  <table class="map">
+    <thead><tr><th>Blok w arkuszu</th><th>Znacznik</th></tr></thead>
+    <tbody>
+      <tr><td>blok nagłówkowy / baner</td><td><strong>&lt;header&gt;</strong></td></tr>
+      <tr><td>menu / nawigacja</td><td><strong>&lt;nav&gt;</strong></td></tr>
+      <tr><td>blok główny</td><td><strong>&lt;main&gt;</strong></td></tr>
+      <tr><td>blok boczny / lewy / prawy</td><td><strong>&lt;aside&gt;</strong></td></tr>
+      <tr><td>blok sekcji / sekcja</td><td><strong>&lt;section&gt;</strong></td></tr>
+      <tr><td>stopka</td><td><strong>&lt;footer&gt;</strong></td></tr>
+      <tr><td>samodzielny artykuł</td><td><strong>&lt;article&gt;</strong></td></tr>
+      <tr><td>obraz z podpisem</td><td><strong>&lt;figure&gt;</strong> + &lt;figcaption&gt;</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Gotowy szkielet — wklej i uzupełnij</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> szkielet strony egzaminacyjnej <span class="file">index.html</span></div>
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="pl"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Islandia&lt;/title&gt;
+  &lt;link rel="stylesheet" href="styl.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;&lt;a href="islandia.php"&gt;Zwiedzaj Islandię&lt;/a&gt;&lt;/h1&gt;
+  &lt;/header&gt;
+
+  &lt;aside&gt;
+    &lt;h3&gt;Do zwiedzania&lt;/h3&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Wodospady:&lt;ol&gt;&lt;!-- skrypt 1 --&gt;&lt;/ol&gt;&lt;/li&gt;
+      &lt;li&gt;Siedliska zwierząt:&lt;ol&gt;&lt;!-- skrypt 2 --&gt;&lt;/ol&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/aside&gt;
+
+  &lt;main&gt;
+    &lt;section&gt;
+      &lt;h2&gt;Galeria&lt;/h2&gt;
+      &lt;!-- skrypt 3 --&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;hr&gt;
+    &lt;p&gt;Autor: 12345&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Nie zamykaj &lt;main&gt; przed &lt;aside&gt;.</strong> Jeśli blok boczny ma stać obok głównego, oba muszą być osobnymi elementami w &lt;body&gt; (albo w tym samym kontenerze). Kolejność w kodzie ma znaczenie dla układu.</p></div></div>
+
+  <h3>Trzy układy, które pojawiają się najczęściej</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">header + aside + main + footer</div>
+      <div class="layout-diagram">
+        <div class="row"><div class="box dark grow">header</div></div>
+        <div class="row"><div class="box w25 h">aside</div><div class="box w75 h">main → section</div></div>
+        <div class="row"><div class="box dark grow">footer</div></div>
+      </div>
+      <p class="small">Najczęstszy układ z jednym blokiem bocznym. W CSS: aside 25%, main 70%, float lub flex.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">header + 3 kolumny + footer</div>
+      <div class="layout-diagram">
+        <div class="row"><div class="box dark grow">header / baner</div></div>
+        <div class="row"><div class="box w25 h">lewy</div><div class="box w50 h">środkowy</div><div class="box w25 h">prawy</div></div>
+        <div class="row"><div class="box dark grow">footer</div></div>
+      </div>
+      <p class="small">Trzy bloki obok siebie: 25% / 50% / 25% albo 25% / 25% / 50%.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">header + logo/menu obok siebie + baner + main + footer</div>
+    <div class="layout-diagram">
+      <div class="row"><div class="box w50 h">logo</div><div class="box w50 h">menu</div></div>
+      <div class="row"><div class="box dark grow">baner</div></div>
+      <div class="row"><div class="box grow h">main</div></div>
+      <div class="row"><div class="box dark grow">footer</div></div>
+    </div>
+    <p class="small">Logo i menu to często dwa &lt;div&gt; albo &lt;header&gt; + &lt;nav&gt; w jednym kontenerze. Ważne, żeby były obok siebie.</p>
+  </div>
+</section>
+
+<!-- ================= 3. TEKST, LINKI, OBRAZY, LISTY ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">02</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 02</div>
+      <h2 class="chapter-title">Tekst, odnośniki, obrazy, listy</h2>
+      <div class="chapter-sub">Najdrobniejsze punkty, które łatwo pominąć</div>
+    </div>
+  </div>
+
+  <h3>Nagłówki i tekst</h3>
+  <table class="map compact">
+    <thead><tr><th>Polecenie</th><th>Kod</th></tr></thead>
+    <tbody>
+      <tr><td>nagłówek pierwszego stopnia</td><td><strong>&lt;h1&gt;</strong>tekst<strong>&lt;/h1&gt;</strong></td></tr>
+      <tr><td>nagłówek drugiego stopnia</td><td><strong>&lt;h2&gt;</strong>tekst<strong>&lt;/h2&gt;</strong></td></tr>
+      <tr><td>nagłówek trzeciego stopnia</td><td><strong>&lt;h3&gt;</strong>tekst<strong>&lt;/h3&gt;</strong></td></tr>
+      <tr><td>paragraf / akapit</td><td><strong>&lt;p&gt;</strong>tekst<strong>&lt;/p&gt;</strong></td></tr>
+      <tr><td>tekst ważny / pogrubiony semantycznie</td><td><strong>&lt;strong&gt;</strong>tekst<strong>&lt;/strong&gt;</strong></td></tr>
+      <tr><td>wyróżnienie / kursywa semantyczna</td><td><strong>&lt;em&gt;</strong>tekst<strong>&lt;/em&gt;</strong></td></tr>
+      <tr><td>linia pozioma</td><td><strong>&lt;hr&gt;</strong></td></tr>
+      <tr><td>łamanie linii</td><td><strong>&lt;br&gt;</strong></td></tr>
+      <tr><td>indeks górny, np. m²</td><td>m<strong>&lt;sup&gt;</strong>2<strong>&lt;/sup&gt;</strong></td></tr>
+      <tr><td>indeks dolny</td><td>H<strong>&lt;sub&gt;</strong>2<strong>&lt;/sub&gt;</strong>O</td></tr>
+      <tr><td>tekst zaznaczony / wyróżniony</td><td><strong>&lt;mark&gt;</strong>tekst<strong>&lt;/mark&gt;</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Odnośniki — wszystkie warianty z arkuszy</h3>
+  <table class="map">
+    <thead><tr><th>Polecenie</th><th>Kod</th></tr></thead>
+    <tbody>
+      <tr><td>odnośnik do podstrony</td><td><strong>&lt;a href="raty.html"&gt;</strong>Koszt rat<strong>&lt;/a&gt;</strong></td></tr>
+      <tr><td>odnośnik do strony zewnętrznej</td><td><strong>&lt;a href="https://moje-szkolenia.pl/"&gt;</strong>Nasz partner<strong>&lt;/a&gt;</strong></td></tr>
+      <tr><td>odnośnik pocztowy</td><td><strong>&lt;a href="mailto:kursy@komputerowe.pl"&gt;</strong>skontaktuj się<strong>&lt;/a&gt;</strong></td></tr>
+      <tr><td>odnośnik z obrazem</td><td><strong>&lt;a href="obiekty.php?id=46"&gt;&lt;img src="foto.jpg" alt="Strokkur"&gt;&lt;/a&gt;</strong></td></tr>
+      <tr><td>odnośnik z parametrem GET</td><td><strong>&lt;a href="obiekty.php?id=&lt;?php echo $id; ?&gt;"&gt;</strong>zobacz<strong>&lt;/a&gt;</strong></td></tr>
+      <tr><td>otwarcie w nowej karcie</td><td><strong>&lt;a href="..." target="_blank" rel="noopener"&gt;</strong></td></tr>
+      <tr><td>dymek po najechaniu na odnośnik</td><td><strong>&lt;a href="..." title="opis"&gt;</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Skrót:</strong> „odnośnik prowadzący do strony X” = <code class="inline">href="X"</code>. „przekazujący parametr” = dopisz <code class="inline">?nazwa=wartość</code>. W PHP odbierzesz to przez <code class="inline">$_GET['nazwa']</code>.</p></div></div>
+
+  <h3>Obrazy — alt, title i klasa</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> obraz z tekstem alternatywnym i dymkiem <span class="file">index.html</span></div>
+    <pre><code class="language-html">&lt;img src="obraz.png" alt="Próbki farb" title="Próbki farb" class="miniatury"&gt;
+
+&lt;!-- obraz w odnośniku --&gt;
+&lt;a href="obiekty.php?id=46"&gt;
+  &lt;img src="foto.jpg" alt="Strokkur" title="Strokkur" class="miniatury"&gt;
+&lt;/a&gt;
+
+&lt;!-- obraz z podpisem --&gt;
+&lt;figure&gt;
+  &lt;img src="foto.jpg" alt="Wodospad"&gt;
+  &lt;figcaption&gt;Skógafoss&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+  </div>
+
+  <table class="map compact">
+    <thead><tr><th>Polecenie</th><th>Atrybut</th></tr></thead>
+    <tbody>
+      <tr><td>tekst alternatywny</td><td><strong>alt="..."</strong> — obowiązkowy, opisuje obraz</td></tr>
+      <tr><td>dymek po najechaniu</td><td><strong>title="..."</strong> — dodatkowa podpowiedź</td></tr>
+      <tr><td>klasa miniatury</td><td><strong>class="miniatury"</strong> — dokładnie taka nazwa, jeśli w arkuszu</td></tr>
+      <tr><td>szerokość / wysokość</td><td><strong>width="200" height="100"</strong> lub w CSS</td></tr>
+      <tr><td>favicon</td><td><strong>&lt;link rel="icon" href="logo.png"&gt;</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Listy — punktowana, numerowana, definicji</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">lista punktowana</div>
+      <pre class="code-inline" style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.4pt;line-height:1.5;margin:4px 0 0;">&lt;ul&gt;
+  &lt;li&gt;Adres: Katowice&lt;/li&gt;
+  &lt;li&gt;Telefon: 32 888 88 88&lt;/li&gt;
+&lt;/ul&gt;</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">lista numerowana</div>
+      <pre class="code-inline" style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.4pt;line-height:1.5;margin:4px 0 0;">&lt;ol&gt;
+  &lt;li&gt;Honda CBR125R&lt;/li&gt;
+  &lt;li&gt;Yamaha YBR125&lt;/li&gt;
+&lt;/ol&gt;</pre>
+    </div>
+  </div>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> lista definicji — często w skryptach PHP <span class="file">motor.php</span></div>
+    <pre><code class="language-html">&lt;dl&gt;
+  &lt;dt&gt;Muszyna, rozpoczyna się w Muszynie, &lt;a href="droga1.jpg"&gt;zobacz zdjęcie&lt;/a&gt;&lt;/dt&gt;
+  &lt;dd&gt;Opis wycieczki z bazy danych&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Lista rozwijana to nie lista HTML.</strong> „Lista rozwijana” w formularzu = <code class="inline">&lt;select&gt;</code> z <code class="inline">&lt;option&gt;</code>. „Lista punktowana” = <code class="inline">&lt;ul&gt;</code>, „lista numerowana” = <code class="inline">&lt;ol&gt;</code>.</p></div></div>
+</section>
+
+<!-- ================= 4. TABELE ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">03</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 03</div>
+      <h2 class="chapter-title">Tabele i scalanie komórek</h2>
+      <div class="chapter-sub">3 kolumny, 3 wiersze, th w pierwszym wierszu — bez błędu</div>
+    </div>
+  </div>
+
+  <p class="lead">Tabela w arkuszu jest opisywana liczbą kolumn i wierszy oraz wyglądem. Zawsze sprawdź, czy pierwszy wiersz ma <code class="inline">&lt;th&gt;</code>, a nie <code class="inline">&lt;td&gt;</code>, i czy scalenia są w dobrych komórkach.</p>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> tabela 3 × 3 z nagłówkami <span class="file">index.html</span></div>
+    <pre><code class="language-html">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Kurs&lt;/th&gt;
+    &lt;th&gt;Cena&lt;/th&gt;
+    &lt;th&gt;Rata&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;React.js&lt;/td&gt;
+    &lt;td&gt;5000 zł&lt;/td&gt;
+    &lt;td&gt;500 zł&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;JavaScript&lt;/td&gt;
+    &lt;td&gt;3000 zł&lt;/td&gt;
+    &lt;td&gt;300 zł&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+  </div>
+
+  <h3>Scalanie komórek</h3>
+  <table class="map">
+    <thead><tr><th>Polecenie</th><th>Atrybut</th></tr></thead>
+    <tbody>
+      <tr><td>komórka łącząca 2 kolumny</td><td><strong>colspan="2"</strong> w &lt;td&gt; lub &lt;th&gt;</td></tr>
+      <tr><td>komórka łącząca 2 wiersze</td><td><strong>rowspan="2"</strong> w &lt;td&gt; lub &lt;th&gt;</td></tr>
+      <tr><td>komórki nagłówkowe w pierwszym wierszu</td><td><strong>&lt;th&gt;</strong> zamiast &lt;td&gt;</td></tr>
+      <tr><td>podpis tabeli</td><td><strong>&lt;caption&gt;</strong>tekst&lt;/caption&gt;</td></tr>
+      <tr><td>obramowanie połączone w CSS</td><td><strong>border-collapse: collapse;</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> scalenia z arkusza — przykład <span class="file">index.php</span></div>
+    <pre><code class="language-html">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th colspan="2"&gt;Konfiguracja&lt;/th&gt;
+    &lt;th&gt;Cena&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td rowspan="2"&gt;&lt;img src="a1.jpg" alt="Konfiguracja 1"&gt;&lt;/td&gt;
+    &lt;td&gt;Kolor: czarny&lt;/td&gt;
+    &lt;td rowspan="2"&gt;95 000 zł&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Felgi: 18"&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td colspan="3"&gt;Samochód dostępny w salonie&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+  </div>
+
+  <div class="callout note"><span class="ico">!</span><div><p><strong>Licz wiersze po scaleniach.</strong> Jeśli komórka ma <code class="inline">rowspan="2"</code>, to w kolejnym wierszu <strong>nie dodawaj</strong> już komórki w tej kolumnie. Najczęstszy błąd to o jeden &lt;td&gt; za dużo.</p></div></div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji (R.2):</strong> sprawdzane są znaczniki <code class="inline">&lt;table&gt;</code>, <code class="inline">&lt;tr&gt;</code>, <code class="inline">&lt;td&gt;</code>, <code class="inline">&lt;th&gt;</code>, liczba kolumn, scalenia <code class="inline">colspan</code>/<code class="inline">rowspan</code> oraz to, czy pierwszy wiersz ma komórki nagłówkowe.</p></div></div>
+</section>
+
+<!-- ================= 5. FORMULARZE ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">04</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 04</div>
+      <h2 class="chapter-title">Formularze i kontrolki</h2>
+      <div class="chapter-sub">Pole edycyjne, pole wyboru, lista rozwijana — nazwy mają znaczenie</div>
+    </div>
+  </div>
+
+  <p class="lead">Formularz to najczęstsze miejsce, w którym „prawie dobrze” nie wystarcza. Arkusz używa konkretnych nazw kontrolek — poniżej dokładne tłumaczenie na HTML.</p>
+
+  <table class="map">
+    <thead><tr><th>Polecenie z arkusza</th><th>Kontrolka HTML</th></tr></thead>
+    <tbody>
+      <tr><td>pole edycyjne</td><td><strong>&lt;input type="text"&gt;</strong></td></tr>
+      <tr><td>pole edycyjne typu numerycznego</td><td><strong>&lt;input type="number"&gt;</strong></td></tr>
+      <tr><td>pole edycyjne adresu e-mail</td><td><strong>&lt;input type="email"&gt;</strong></td></tr>
+      <tr><td>pole hasła</td><td><strong>&lt;input type="password"&gt;</strong></td></tr>
+      <tr><td>pole wyboru (zaznaczenie)</td><td><strong>&lt;input type="checkbox"&gt;</strong></td></tr>
+      <tr><td>pole jednokrotnego wyboru</td><td><strong>&lt;input type="radio"&gt;</strong></td></tr>
+      <tr><td>lista rozwijana</td><td><strong>&lt;select&gt;</strong> + &lt;option&gt;</td></tr>
+      <tr><td>pole wielowierszowe</td><td><strong>&lt;textarea rows="10" cols="40"&gt;</strong></td></tr>
+      <tr><td>przycisk</td><td><strong>&lt;button&gt;</strong> lub &lt;input type="submit"&gt;</td></tr>
+      <tr><td>przycisk Resetuj</td><td><strong>&lt;input type="reset" value="Resetuj"&gt;</strong></td></tr>
+      <tr><td>przycisk Prześlij</td><td><strong>&lt;input type="submit" value="Prześlij"&gt;</strong></td></tr>
+      <tr><td>suwak</td><td><strong>&lt;input type="range"&gt;</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Etykiety i dostępność</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> label powiązany z kontrolką przez for/id <span class="file">raty.html</span></div>
+    <pre><code class="language-html">&lt;label for="kursReact"&gt;Kurs React.js&lt;/label&gt;
+&lt;input type="checkbox" id="kursReact" name="kursReact" value="5000"&gt;
+
+&lt;label for="liczbaRat"&gt;Liczba rat:&lt;/label&gt;
+&lt;input type="number" id="liczbaRat" name="liczbaRat" min="1"&gt;
+
+&lt;label for="miasto"&gt;Miasto:&lt;/label&gt;
+&lt;select id="miasto" name="miasto"&gt;
+  &lt;option&gt;Warszawa&lt;/option&gt;
+  &lt;option&gt;Katowice&lt;/option&gt;
+  &lt;option&gt;Gdańsk&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;button type="button" onclick="oblicz()"&gt;Oblicz&lt;/button&gt;
+&lt;p id="wynik"&gt;&lt;/p&gt;</code></pre>
+  </div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Zasada:</strong> <code class="inline">id</code> jest dla etykiety i JavaScriptu, <code class="inline">name</code> dla formularza/PHP. Jeśli arkusz mówi „pole powiązane z etykietą”, użyj <code class="inline">for="id"</code> i <code class="inline">id="..."</code>.</p></div></div>
+
+  <h3>Formularz w tabeli — typ zadania z arkusza</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> tabela 2 × 6 z kontrolkami <span class="file">kontakt.html</span></div>
+    <pre><code class="language-html">&lt;form&gt;
+  &lt;table&gt;
+    &lt;tr&gt;&lt;td&gt;Imię:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="imie"&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Nazwisko:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="nazwisko"&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;E-mail:&lt;/td&gt;&lt;td&gt;&lt;input type="email" name="email"&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Zgłoszenie&lt;/td&gt;&lt;td&gt;&lt;textarea rows="10" cols="40" name="zgloszenie"&gt;&lt;/textarea&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;input type="checkbox" id="regulamin"&gt;&lt;label for="regulamin"&gt;Zapoznałam/em się z regulaminem&lt;/label&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;input type="reset" value="Resetuj"&gt;&lt;input type="submit" value="Prześlij"&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/form&gt;</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>„Pole wyboru” vs „pole jednokrotnego wyboru”:</strong> pierwsze to <code class="inline">checkbox</code> (można zaznaczyć kilka), drugie to <code class="inline">radio</code> (jedna opcja z grupy). Grupa radio musi mieć wspólne <code class="inline">name</code>.</p></div></div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji (R.2):</strong> dwa pola wyboru, pole edycyjne, przycisk, przynajmniej jedno <code class="inline">&lt;label&gt;</code> oraz lista rozwijana z trzema <code class="inline">&lt;option&gt;</code>. Wystarczy, że są w bloku głównym.</p></div></div>
+</section>
+
+<!-- ================= 6. SŁOWNIK + CHECKLISTA ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">05</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 05</div>
+      <h2 class="chapter-title">Słownik poleceń i checklista</h2>
+      <div class="chapter-sub">Zanim oddasz pliki — przejdź tę listę</div>
+    </div>
+  </div>
+
+  <h3>Słownik poleceń HTML</h3>
+  <div class="grid2">
+    <table class="map compact">
+      <thead><tr><th>Szukaj w arkuszu</th><th>Wpisz</th></tr></thead>
+      <tbody>
+        <tr><td>zapisane w języku HTML5</td><td>&lt;!DOCTYPE html&gt;</td></tr>
+        <tr><td>język zawartości: polski</td><td>&lt;html lang="pl"&gt;</td></tr>
+        <tr><td>standard kodowania</td><td>&lt;meta charset="utf-8"&gt;</td></tr>
+        <tr><td>tytuł strony</td><td>&lt;title&gt;...&lt;/title&gt;</td></tr>
+        <tr><td>arkusz stylów</td><td>&lt;link rel="stylesheet" href="styl.css"&gt;</td></tr>
+        <tr><td>blok nagłówkowy / baner</td><td>&lt;header&gt;</td></tr>
+        <tr><td>menu</td><td>&lt;nav&gt;</td></tr>
+        <tr><td>blok główny</td><td>&lt;main&gt;</td></tr>
+        <tr><td>blok boczny</td><td>&lt;aside&gt;</td></tr>
+        <tr><td>sekcja</td><td>&lt;section&gt;</td></tr>
+        <tr><td>stopka</td><td>&lt;footer&gt;</td></tr>
+        <tr><td>lista punktowana</td><td>&lt;ul&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</td></tr>
+        <tr><td>lista numerowana</td><td>&lt;ol&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ol&gt;</td></tr>
+        <tr><td>lista definicji</td><td>&lt;dl&gt;&lt;dt&gt;...&lt;/dt&gt;&lt;dd&gt;...&lt;/dd&gt;&lt;/dl&gt;</td></tr>
+        <tr><td>lista rozwijana</td><td>&lt;select&gt;&lt;option&gt;...&lt;/option&gt;&lt;/select&gt;</td></tr>
+        <tr><td>tabela</td><td>&lt;table&gt;&lt;tr&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</td></tr>
+      </tbody>
+    </table>
+    <table class="map compact">
+      <thead><tr><th>Szukaj w arkuszu</th><th>Wpisz</th></tr></thead>
+      <tbody>
+        <tr><td>komórka nagłówkowa</td><td>&lt;th&gt;</td></tr>
+        <tr><td>scalenie kolumn</td><td>colspan="2"</td></tr>
+        <tr><td>scalenie wierszy</td><td>rowspan="2"</td></tr>
+        <tr><td>obraz</td><td>&lt;img src="..." alt="..."&gt;</td></tr>
+        <tr><td>tekst alternatywny</td><td>alt="..."</td></tr>
+        <tr><td>dymek</td><td>title="..."</td></tr>
+        <tr><td>odnośnik</td><td>&lt;a href="..."&gt;...&lt;/a&gt;</td></tr>
+        <tr><td>odnośnik pocztowy</td><td>mailto:adres@domena.pl</td></tr>
+        <tr><td>linia pozioma</td><td>&lt;hr&gt;</td></tr>
+        <tr><td>indeks górny</td><td>&lt;sup&gt;2&lt;/sup&gt;</td></tr>
+        <tr><td>pole edycyjne</td><td>&lt;input type="text"&gt;</td></tr>
+        <tr><td>pole numeryczne</td><td>&lt;input type="number"&gt;</td></tr>
+        <tr><td>tekst podpowiedzi w polu</td><td>&lt;input type="text" placeholder="..."&gt;</td></tr>
+        <tr><td>pole wyboru</td><td>&lt;input type="checkbox"&gt;</td></tr>
+        <tr><td>pole jednokrotnego wyboru</td><td>&lt;input type="radio"&gt;</td></tr>
+        <tr><td>pole wielowierszowe</td><td>&lt;textarea&gt;</td></tr>
+        <tr><td>przycisk</td><td>&lt;button&gt;...&lt;/button&gt;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Checklista HTML przed oddaniem</h3>
+  <ul class="checklist">
+    <li>&lt;!DOCTYPE html&gt; w pierwszej linii</li>
+    <li>&lt;html lang="pl"&gt;</li>
+    <li>&lt;meta charset="utf-8"&gt; w &lt;head&gt;</li>
+    <li>&lt;title&gt; dokładnie z arkusza</li>
+    <li>&lt;link rel="stylesheet" href="styl.css"&gt;</li>
+    <li>header, aside, main, footer — semantycznie</li>
+    <li>h1 w nagłówku, h2/h3 w blokach</li>
+    <li>lista punktowana to &lt;ul&gt;, numerowana &lt;ol&gt;</li>
+    <li>tabela ma &lt;th&gt; w pierwszym wierszu</li>
+    <li>colspan/rowspan w dobrych komórkach</li>
+    <li>każdy &lt;img&gt; ma alt</li>
+    <li>dymek to title, nie alt</li>
+    <li>odnośniki mają poprawne href</li>
+    <li>mailto: bez spacji</li>
+    <li>formularz ma label for/id</li>
+    <li>checkbox vs radio — właściwy typ</li>
+    <li>select ma trzy option, jeśli tak w arkuszu</li>
+    <li>textarea ma rows i cols</li>
+    <li>przycisk ma type="button" lub submit</li>
+    <li>wszystkie polskie znaki działają</li>
+    <li>pliki nazwane dokładnie jak w arkuszu</li>
+    <li>strona otwiera się bez błędów w konsoli</li>
+  </ul>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Największy zysk za najmniejszy wysiłek:</strong> popraw <code class="inline">&lt;html lang="pl"&gt;</code>, <code class="inline">charset</code>, <code class="inline">title</code>, <code class="inline">link</code> do CSS i semantyczne bloki. To punkty z R.2, które zdobywa się w pierwsze 5 minut.</p></div></div>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>HTML · ściąga tematyczna</span></div>
+</section>
+
+
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">∞</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">na koniec</div>
+      <h2 class="chapter-title">Przydatne linki i informacje</h2>
+      <div class="chapter-sub">Materiał pomocniczy — nie zastępuje oficjalnych źródeł CKE</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">🌐 Gdzie znaleźć arkusze</div>
+      <ul>
+        <li><strong>Arkusze INF.03</strong> — <code>arkusze.pl</code> (oficjalne arkusze CKE z poprzednich sesji)</li>
+        <li><strong>Baza egzaminów</strong> — <code>zawodowe.edu.pl</code> (archiwum arkuszy i zasad oceniania)</li>
+        <li><strong>Informator CKE</strong> — <code>cke.gov.pl</code> → kwalifikacja INF.03 → informator + przykładowe zadania</li>
+        <li><strong>Wymagania egzaminacyjne</strong> — w każdym arkuszu na pierwszej stronie: numer zadania, wersja, kwalifikacja</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📖 Dokumentacja techniczna</div>
+      <ul>
+        <li><strong>HTML / CSS / JS</strong> — <code>developer.mozilla.org</code> (MDN Web Docs, również po polsku)</li>
+        <li><strong>SQL / MariaDB</strong> — <code>mariadb.com/docs</code> (oficjalna dokumentacja)</li>
+        <li><strong>PHP + mysqli</strong> — <code>php.net/docs</code> (dokumentacja PHP, w tym gniazda mysqli)</li>
+        <li><strong>CSS Flexbox / Grid</strong> — <code>css-tricks.com</code> (szybkie wizualne przewodniki)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin: 5px 0 0;">
+    <div class="card-title">ℹ️ O tym materiale</div>
+    <p>Niniejszy PDF został wygenerowany z pomocą sztucznej inteligencji na podstawie oficjalnych arkuszy CKE, zasad oceniania oraz własnego doświadczenia autora. Autor nie rości sobie praw do wyłączności i <strong>zezwala na dowolne udostępnianie, kopiowanie i modyfikowanie</strong> tych materiałów — wystarczy zachować informację o źródle: <strong>kumalala learn</strong>. Wszelkie uwagi i poprawki są mile widziane. Powodzenia na egzaminie! 🍀</p>
+    <p style="text-align:center;margin-top:6px;font-size:9pt;color:var(--plum);"><strong>Rewizja 1</strong> · listopad 2026<br>Zgłoś problem lub pomysł: <a href="https://github.com/lciszewski27/kumulala-learn-inf03" style="color:var(--plum);">github.com/lciszewski27/kumulala-learn-inf03</a></p>
+  </div>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>materiał wygenerowany z pomocą AI · wolne udostępnianie</span></div>
+</section>
+
+
+
+
+<script src="../assets/prism/prism.min.js"></script>
+<script src="../assets/prism/prism-markup.min.js"></script>
+<script src="../assets/prism/prism-css.min.js"></script>
+<script src="../assets/prism/prism-javascript.min.js"></script>
+<script src="../assets/prism/prism-sql.min.js"></script>
+<script src="../assets/prism/prism-markup-templating.min.js"></script>
+<script src="../assets/prism/prism-php.min.js"></script>
+</body>
+</html>

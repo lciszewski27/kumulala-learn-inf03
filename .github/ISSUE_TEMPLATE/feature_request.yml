@@ -1,0 +1,39 @@
+name: 💡 Pomysł / sugestia
+description: Propozycja nowej treści, rozdziału, ulepszenia
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Świetnie! Każda sugestia pomaga. Opisz krótko, co byś dodał/chciał.
+
+  - type: input
+    id: pdf
+    attributes:
+      label: Który PDF dotyczy?
+      description: Np. START, HTML, CSS, JavaScript, SQL, PHP, MASTER, nowy
+      placeholder: "Nowy — grafika"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Opis pomysłu
+      description: Co dodać / zmienić? Dlaczego jest przydatne na egzaminie?
+      placeholder: |
+        Brakuje rozdziału o edycji grafiki w GIMP-ie – w arkuszach pojawia się skalowanie,
+        przezroczystość i animacja GIF. Warto dodać …
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priorytet
+      options:
+        - Wysoki — bez tego materiał jest niekompletny
+        - Średni — przydałoby się, ale da się bez
+        - Niski — miło mieć, niepilne
+    validations:
+      required: true

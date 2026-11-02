@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>kumalala learn · INF.03 · PHP</title>
+<link rel="stylesheet" href="../assets/print.css">
+<style>body{--accent:#7c3aed;--accent-soft:#ede9fe;--accent-deep:#4c1d95;}</style>
+</head>
+<body>
+
+<!-- ================= 1. START ================= -->
+<section class="chapter first">
+  <div class="doc-intro">
+    <span class="kicker">✦ ściąga tematyczna · PHP</span>
+    <h1>PHP bez paniki</h1>
+    <p class="sub">połączenie, pętla i dane, które trafiają na stronę</p>
+    <p class="desc">PHP łączy bazę z witryną. Nie musisz znać całego języka — musisz powtórzyć ten sam rytm: połącz się, wyślij zapytanie, pobierz wiersze w pętli, wyświetl je w HTML, zamknij połączenie. Ta ściąga pokazuje ten rytm na zadaniach z arkuszy.</p>
+  </div>
+  <div class="intro-strip">
+    <div class="mini"><span>01</span>połączenie</div>
+    <div class="mini"><span>02</span>pętla i lista</div>
+    <div class="mini"><span>03</span>galeria i formularz</div>
+    <div class="mini"><span>04</span>gotowe strony</div>
+  </div>
+
+  <div class="exam">
+    <span class="exam-label">tak pisze arkusz · 2026 czerwiec</span>
+    <p>Skrypty napisane w języku PHP. Łączą się z serwerem bazodanowym na localhost, użytkownik root bez hasła, baza danych o nazwie islandia. Skrypt 1 wysyła zapytanie 3 — każda zwrócona nazwa jest wyświetlana jako element listy. Skrypt 3 dla każdego wiersza wypisuje odnośnik do strony obiekty.php, przekazujący metodą GET parametr równy polu idObiekt. Na końcu należy zamknąć połączenie z bazą.</p>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Polecenie z arkusza</th><th>Kod PHP</th></tr></thead>
+    <tbody>
+      <tr><td>połącz się z serwerem bazodanowym</td><td><strong>mysqli_connect("localhost", "root", "", "islandia")</strong></td></tr>
+      <tr><td>wyślij zapytanie do bazy</td><td><strong>mysqli_query($polaczenie, $sql)</strong></td></tr>
+      <tr><td>dla każdego zwróconego wiersza</td><td><strong>while ($wiersz = mysqli_fetch_assoc($wynik)) { ... }</strong></td></tr>
+      <tr><td>wyświetl jako element listy</td><td><strong>echo "&lt;li&gt;" . $wiersz["nazwa"] . "&lt;/li&gt;";</strong></td></tr>
+      <tr><td>przekaż parametr metodą GET</td><td><strong>obiekty.php?id=&lt;?php echo $wiersz["idObiekt"]; ?&gt;</strong></td></tr>
+      <tr><td>odbierz parametr GET</td><td><strong>$id = $_GET["id"];</strong></td></tr>
+      <tr><td>pobierz wartość z formularza</td><td><strong>$_POST["nazwa"]</strong> lub <strong>$_GET["nazwa"]</strong></td></tr>
+      <tr><td>sprawdź, czy pole istnieje</td><td><strong>isset($_GET["id"])</strong></td></tr>
+      <tr><td>oblicz cenę niższą o 30%</td><td><strong>$cena * 0.7</strong></td></tr>
+      <tr><td>zamknij połączenie</td><td><strong>mysqli_close($polaczenie);</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji:</strong> skrypt ma być w PHP, łączyć się z właściwą bazą, wysyłać zapytanie wynikające z zadania, wyświetlać dane w wymaganej strukturze HTML i zamykać połączenie. Nazwy zmiennych i funkcji mają być znaczące — w języku polskim lub angielskim.</p></div></div>
+</section>
+
+<!-- ================= 2. POŁĄCZENIE ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">01</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 01</div>
+      <h2 class="chapter-title">PHP i połączenie z bazą</h2>
+      <div class="chapter-sub">Pięć linii, które muszą być identyczne w każdym zadaniu</div>
+    </div>
+  </div>
+
+  <h3>Podstawy, które musisz mieć w palcach</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Znaczniki i echo</div>
+      <pre style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.1pt;line-height:1.5;margin:4px 0 0;">&lt;?php
+  echo "Witaj";
+  $imie = "Ania";
+  echo "Cześć, " . $imie;
+?&gt;</pre>
+      <p class="small" style="margin-top:5px;">Każda instrukcja kończy się średnikiem. Plik zapisuj jako <code class="inline">.php</code>.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Pętla i warunek</div>
+      <pre style="white-space:pre-wrap;font-family:'JetBrains Mono';font-size:7.1pt;line-height:1.5;margin:4px 0 0;">&lt;?php
+  foreach ($tablica as $element) {
+    echo $element;
+  }
+
+  if (isset($_GET["id"])) {
+    echo "jest id";
+  }
+?&gt;</pre>
+    </div>
+  </div>
+
+  <h3>Połączenie z bazą — wzorzec z arkuszy</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> localhost, root, bez hasła, baza islandia <span class="file">islandia.php</span></div>
+    <pre><code class="language-php">&lt;?php
+$polaczenie = mysqli_connect("localhost", "root", "", "islandia");
+
+if (!$polaczenie) {
+  echo "Błąd połączenia: " . mysqli_connect_error();
+  exit();
+}
+
+mysqli_set_charset($polaczenie, "utf8");
+?&gt;</code></pre>
+  </div>
+
+  <table class="map compact">
+    <thead><tr><th>Element</th><th>Znaczenie</th></tr></thead>
+    <tbody>
+      <tr><td><code class="inline">localhost</code></td><td>serwer lokalny — tak jest w każdym arkuszu</td></tr>
+      <tr><td><code class="inline">root</code></td><td>użytkownik bazy; w arkuszu bez hasła</td></tr>
+      <tr><td><code class="inline">""</code></td><td>puste hasło — dwa cudzysłowy, nie spacja</td></tr>
+      <tr><td><code class="inline">"islandia"</code></td><td>nazwa bazy dokładnie jak w arkuszu</td></tr>
+      <tr><td><code class="inline">mysqli_set_charset</code></td><td>polskie znaki bez krzaków</td></tr>
+      <tr><td><code class="inline">mysqli_close</code></td><td>zamknięcie połączenia na końcu skryptu</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Nie mieszaj <code class="inline">mysqli</code> z <code class="inline">mysql</code>.</strong> Funkcje <code class="inline">mysql_connect</code> są przestarzałe i nie działają w nowym PHP. Arkusze wymagają <code class="inline">mysqli_connect</code>, <code class="inline">mysqli_query</code> i <code class="inline">mysqli_close</code>.</p></div></div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji:</strong> połączenie musi wskazywać bazę z polecenia (nie inną), a na końcu skryptu ma być <code class="inline">mysqli_close</code>. Samo połączenie bez zapytania nie realizuje zadania.</p></div></div>
+</section>
+
+<!-- ================= 3. PĘTLA ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">02</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 02</div>
+      <h2 class="chapter-title">Zapytanie, pętla, lista i tabela</h2>
+      <div class="chapter-sub">fetch_assoc + while = dane z bazy na stronie</div>
+    </div>
+  </div>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> pełny rytm: połączenie → zapytanie → pętla → HTML <span class="file">islandia.php</span></div>
+    <pre><code class="language-php">&lt;?php
+$polaczenie = mysqli_connect("localhost", "root", "", "islandia");
+mysqli_set_charset($polaczenie, "utf8");
+
+$sql = "SELECT nazwa FROM obiekty
+        WHERE idRodzaj = 10 AND panstwo = 'Islandia'";
+$wynik = mysqli_query($polaczenie, $sql);
+
+echo "&lt;ol&gt;";
+while ($wiersz = mysqli_fetch_assoc($wynik)) {
+  echo "&lt;li&gt;" . $wiersz["nazwa"] . "&lt;/li&gt;";
+}
+echo "&lt;/ol&gt;";
+
+mysqli_close($polaczenie);
+?&gt;</code></pre>
+  </div>
+
+  <h3>Funkcje pobierania wierszy</h3>
+  <table class="map compact">
+    <thead><tr><th>Funkcja</th><th>Co zwraca</th><th>Kiedy</th></tr></thead>
+    <tbody>
+      <tr><td><code class="inline">mysqli_fetch_assoc($wynik)</code></td><td>wiersz jako tablica asocjacyjna</td><td>najczęściej — nazwy kolumn</td></tr>
+      <tr><td><code class="inline">mysqli_fetch_array($wynik)</code></td><td>tablica asocjacyjna i numeryczna</td><td>gdy potrzebujesz obu</td></tr>
+      <tr><td><code class="inline">mysqli_fetch_row($wynik)</code></td><td>tablica numeryczna</td><td>gdy liczysz kolumny</td></tr>
+      <tr><td><code class="inline">mysqli_num_rows($wynik)</code></td><td>liczba wierszy</td><td>zliczanie bez pętli</td></tr>
+      <tr><td><code class="inline">mysqli_num_fields($wynik)</code></td><td>liczba kolumn</td><td>gdy budujesz tabelę dynamicznie</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Lista numerowana — 2026 czerwiec, skrypt 1</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> każda nazwa jako element listy <span class="file">islandia.php</span></div>
+    <pre><code class="language-php">&lt;?php
+$sql = "SELECT nazwa FROM obiekty
+        WHERE idRodzaj = 10 AND panstwo = 'Islandia'";
+$wynik = mysqli_query($polaczenie, $sql);
+
+echo "&lt;ol&gt;";
+while ($wiersz = mysqli_fetch_assoc($wynik)) {
+  echo "&lt;li&gt;" . $wiersz["nazwa"] . "&lt;/li&gt;";
+}
+echo "&lt;/ol&gt;";
+?&gt;</code></pre>
+  </div>
+
+  <h3>Tabela z obliczoną kolumną — 2026 styczeń, skrypt 1</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> cena całkowita = cena + dopłata <span class="file">index.php</span></div>
+    <pre><code class="language-php">&lt;?php
+$sql = "SELECT marka, model, cena, nazwa, doplata
+        FROM pojazdy
+        JOIN kolory ON kolor = kolory.id
+        WHERE model = 'alfa'";
+$wynik = mysqli_query($polaczenie, $sql);
+
+echo "&lt;table&gt;";
+echo "&lt;tr&gt;&lt;th&gt;Marka&lt;/th&gt;&lt;th&gt;Model&lt;/th&gt;&lt;th&gt;Cena&lt;/th&gt;&lt;th&gt;Cena całkowita&lt;/th&gt;&lt;/tr&gt;";
+while ($wiersz = mysqli_fetch_assoc($wynik)) {
+  $cenaCalkowita = $wiersz["cena"] + $wiersz["doplata"];
+  echo "&lt;tr&gt;";
+  echo "&lt;td&gt;" . $wiersz["marka"] . "&lt;/td&gt;";
+  echo "&lt;td&gt;" . $wiersz["model"] . "&lt;/td&gt;";
+  echo "&lt;td&gt;" . $wiersz["cena"] . "&lt;/td&gt;";
+  echo "&lt;td&gt;" . $cenaCalkowita . "&lt;/td&gt;";
+  echo "&lt;/tr&gt;";
+}
+echo "&lt;/table&gt;";
+?&gt;</code></pre>
+  </div>
+
+  <h3>Zliczanie — 2024 czerwiec, skrypt 2</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> COUNT(*) i jeden wiersz wyniku <span class="file">motor.php</span></div>
+    <pre><code class="language-php">&lt;?php
+$sql = "SELECT COUNT(*) AS liczba FROM wycieczki";
+$wynik = mysqli_query($polaczenie, $sql);
+$wiersz = mysqli_fetch_assoc($wynik);
+
+echo "&lt;p&gt;Wpisanych wycieczek: " . $wiersz["liczba"] . "&lt;/p&gt;";
+?&gt;</code></pre>
+  </div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Pętla kończy się sama.</strong> <code class="inline">mysqli_fetch_assoc</code> zwraca <code class="inline">false</code>, gdy nie ma już wierszy — dlatego <code class="inline">while</code> jest naturalnym wyborem. Nie musisz znać liczby rekordów.</p></div></div>
+
+  <div class="card">
+    <div class="card-title">Gdy pętla nic nie wyświetla</div>
+    <ul>
+      <li>zapytanie zwróciło 0 wierszy — sprawdź warunek w phpMyAdmin</li>
+      <li>zła nazwa kolumny w <code class="inline">$wiersz["..."]</code> — wypisz klucze przez <code class="inline">var_dump($wiersz)</code></li>
+      <li>brak <code class="inline">mysqli_query</code> — <code class="inline">$wynik</code> nie jest wynikiem zapytania</li>
+      <li>zapytanie ma błąd — sprawdź <code class="inline">mysqli_error($polaczenie)</code></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 4. GALERIA, SZCZEGÓŁY, FORMULARZ ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">03</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 03</div>
+      <h2 class="chapter-title">Galeria, szczegóły, formularz</h2>
+      <div class="chapter-sub">Trzy wzorce, które często pojawiają się w arkuszach</div>
+    </div>
+  </div>
+
+  <h3>Galeria z odnośnikiem — 2026 czerwiec, skrypt 3</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> obraz w odnośniku, parametr GET, klasa miniatury <span class="file">islandia.php</span></div>
+    <pre><code class="language-php">&lt;?php
+$sql = "SELECT idObiekt, plik, nazwa FROM obiekty
+        WHERE panstwo = 'Islandia'";
+$wynik = mysqli_query($polaczenie, $sql);
+
+while ($wiersz = mysqli_fetch_assoc($wynik)) {
+  echo "&lt;a href='obiekty.php?id=" . $wiersz["idObiekt"] . "'&gt;";
+  echo "&lt;img src='" . $wiersz["plik"] . "'";
+  echo " alt='" . $wiersz["nazwa"] . "'";
+  echo " title='" . $wiersz["nazwa"] . "'";
+  echo " class='miniatury'&gt;";
+  echo "&lt;/a&gt;";
+}
+?&gt;</code></pre>
+  </div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Trzy atrybuty obrazu:</strong> <code class="inline">src</code> = pole <code class="inline">plik</code>, <code class="inline">alt</code> = pole <code class="inline">nazwa</code>, <code class="inline">title</code> = pole <code class="inline">nazwa</code> (dymek). Klasa <code class="inline">miniatury</code> tylko wtedy, gdy arkusz jej wymaga.</p></div></div>
+
+  <h3>Szczegóły rekordu — 2026 czerwiec, skrypt 4</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> odbiór id z GET i wyświetlenie pól <span class="file">obiekty.php</span></div>
+    <pre><code class="language-php">&lt;?php
+$id = intval($_GET["id"]);
+
+$sql = "SELECT plik, nazwa, nazwaCechy, wartoscCechy, opis, rodzaj
+        FROM obiekty
+        JOIN rodzaje USING(idRodzaj)
+        WHERE idObiekt = $id";
+$wynik = mysqli_query($polaczenie, $sql);
+$wiersz = mysqli_fetch_assoc($wynik);
+
+if ($wiersz) {
+  echo "&lt;img src='" . $wiersz["plik"] . "' alt='" . $wiersz["nazwa"] . "'&gt;";
+  echo "&lt;h2&gt;" . $wiersz["nazwa"] . "&lt;/h2&gt;";
+  echo "&lt;h3&gt;" . $wiersz["rodzaj"] . "&lt;/h3&gt;";
+  echo "&lt;p&gt;" . $wiersz["nazwaCechy"] . ": " . $wiersz["wartoscCechy"] . "&lt;/p&gt;";
+  echo "&lt;p&gt;" . $wiersz["opis"] . "&lt;/p&gt;";
+}
+?&gt;</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Nie wstawiaj <code class="inline">$_GET["id"]</code> bezpośrednio do SQL bez sprawdzenia.</strong> W egzaminie wystarczy <code class="inline">intval()</code> dla liczby. Jeśli parametr jest tekstem, użyj <code class="inline">mysqli_real_escape_string($polaczenie, $_GET["id"])</code>.</p></div></div>
+
+  <div class="callout tip"><span class="ico">✦</span><div><p><strong>Prepared statements (zapytania przygotowane) — alternatywa.</strong> Zamiast sklejać SQL z danymi: <code class="inline">$stmt = mysqli_prepare($polaczenie, "SELECT nazwa FROM gry WHERE id = ?");</code> + <code class="inline">mysqli_stmt_bind_param($stmt, "i", $id);</code>. Są bezpieczniejsze przy danych z formularza. Na egzaminie wystarczy <code class="inline">intval()</code> i <code class="inline">mysqli_real_escape_string()</code>, ale warto znać obie metody.</p></div></div>
+
+  <h3>Formularz z odczytem — 2025 czerwiec, skrypt 3</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> pole id, warunek isset i wynik pod formularzem <span class="file">gry.php</span></div>
+    <pre><code class="language-php">&lt;form method="get"&gt;
+  &lt;label for="id"&gt;Podaj id gry:&lt;/label&gt;
+  &lt;input type="number" id="id" name="id"&gt;
+  &lt;button type="submit"&gt;Pokaż&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;?php
+if (isset($_GET["id"])) {
+  $id = intval($_GET["id"]);
+  $sql = "SELECT nazwa, opis, punkty, cena FROM gry WHERE id = $id";
+  $wynik = mysqli_query($polaczenie, $sql);
+  $wiersz = mysqli_fetch_assoc($wynik);
+
+  if ($wiersz) {
+    echo "&lt;h2&gt;" . $wiersz["nazwa"] . ", " . $wiersz["punkty"] . " punktów, " . $wiersz["cena"] . " zł&lt;/h2&gt;";
+    echo "&lt;p&gt;" . $wiersz["opis"] . "&lt;/p&gt;";
+  }
+}
+?&gt;</code></pre>
+  </div>
+
+  <h3>Formularz zapisujący — 2025 czerwiec, skrypt 4</h3>
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> INSERT z wartości pobranych z formularza <span class="file">gry.php</span></div>
+    <pre><code class="language-php">&lt;?php
+if (isset($_POST["nazwa"]) &amp;&amp; $_POST["nazwa"] != "") {
+  $nazwa = mysqli_real_escape_string($polaczenie, $_POST["nazwa"]);
+  $opis = mysqli_real_escape_string($polaczenie, $_POST["opis"]);
+
+  $sql = "INSERT INTO gry (nazwa, opis, punkty)
+          VALUES ('$nazwa', '$opis', 0)";
+  mysqli_query($polaczenie, $sql);
+}
+?&gt;
+
+&lt;form method="post"&gt;
+  &lt;label for="nazwa"&gt;Nazwa gry:&lt;/label&gt;
+  &lt;input type="text" id="nazwa" name="nazwa"&gt;
+  &lt;label for="opis"&gt;Opis:&lt;/label&gt;
+  &lt;textarea id="opis" name="opis"&gt;&lt;/textarea&gt;
+  &lt;button type="submit"&gt;Dodaj&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  </div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Okiem komisji:</strong> galeria ma mieć odnośnik z parametrem GET, obraz z właściwym <code class="inline">src</code> i <code class="inline">alt</code> oraz dymek <code class="inline">title</code>. Formularz ma pobierać wartość z pola, a nie wpisaną na stałe. Szczegóły mają wyświetlać dane dokładnie w strukturze z ilustracji.</p></div></div>
+</section>
+
+<!-- ================= 5. PEŁNE STRONY ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">04</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 04</div>
+      <h2 class="chapter-title">Pełna strona z arkusza</h2>
+      <div class="chapter-sub">2026 czerwiec — islandia.php i obiekty.php w całości</div>
+    </div>
+  </div>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> islandia.php — połączenie, dwie listy, galeria <span class="file">islandia.php</span></div>
+    <pre><code class="language-php">&lt;?php
+$polaczenie = mysqli_connect("localhost", "root", "", "islandia");
+mysqli_set_charset($polaczenie, "utf8");
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="pl"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Islandia&lt;/title&gt;
+  &lt;link rel="stylesheet" href="styl.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;&lt;h1&gt;Zwiedzaj Islandię&lt;/h1&gt;&lt;/header&gt;
+
+  &lt;aside&gt;
+    &lt;h3&gt;Do zwiedzania&lt;/h3&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Wodospady:
+        &lt;ol&gt;
+        &lt;?php
+        $sql = "SELECT nazwa FROM obiekty
+                WHERE idRodzaj = 10 AND panstwo = 'Islandia'";
+        $wynik = mysqli_query($polaczenie, $sql);
+        while ($wiersz = mysqli_fetch_assoc($wynik)) {
+          echo "&lt;li&gt;" . $wiersz["nazwa"] . "&lt;/li&gt;";
+        }
+        ?&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Siedliska zwierząt:
+        &lt;ol&gt;
+        &lt;?php
+        $sql = "SELECT nazwa FROM obiekty
+                WHERE idRodzaj = 14 AND panstwo = 'Islandia'";
+        $wynik = mysqli_query($polaczenie, $sql);
+        while ($wiersz = mysqli_fetch_assoc($wynik)) {
+          echo "&lt;li&gt;" . $wiersz["nazwa"] . "&lt;/li&gt;";
+        }
+        ?&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/aside&gt;
+
+  &lt;main&gt;
+    &lt;section&gt;
+      &lt;h2&gt;Galeria&lt;/h2&gt;
+      &lt;?php
+      $sql = "SELECT idObiekt, plik, nazwa FROM obiekty
+              WHERE panstwo = 'Islandia'";
+      $wynik = mysqli_query($polaczenie, $sql);
+      while ($wiersz = mysqli_fetch_assoc($wynik)) {
+        echo "&lt;a href='obiekty.php?id=" . $wiersz["idObiekt"] . "'&gt;";
+        echo "&lt;img src='" . $wiersz["plik"] . "' alt='" . $wiersz["nazwa"] . "'";
+        echo " title='" . $wiersz["nazwa"] . "' class='miniatury'&gt;";
+        echo "&lt;/a&gt;";
+      }
+      ?&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;&lt;p&gt;Autor: 12345&lt;/p&gt;&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php mysqli_close($polaczenie); ?&gt;</code></pre>
+  </div>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> obiekty.php — szczegóły jednego obiektu z pełną strukturą <span class="file">obiekty.php</span></div>
+    <pre><code class="language-php">&lt;?php
+$polaczenie = mysqli_connect("localhost", "root", "", "islandia");
+mysqli_set_charset($polaczenie, "utf8");
+
+$id = intval($_GET["id"]);
+$sql = "SELECT plik, nazwa, nazwaCechy, wartoscCechy, opis, rodzaj
+        FROM obiekty
+        JOIN rodzaje USING(idRodzaj)
+        WHERE idObiekt = $id";
+$wynik = mysqli_query($polaczenie, $sql);
+$wiersz = mysqli_fetch_assoc($wynik);
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="pl"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Islandia&lt;/title&gt;          &lt;!-- tytuł ten sam na obu stronach --&gt;
+  &lt;link rel="stylesheet" href="styl.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;&lt;a href="islandia.php"&gt;Zwiedzaj Islandię&lt;/a&gt;&lt;/h1&gt;
+  &lt;/header&gt;
+
+  &lt;aside&gt;
+    &lt;h3&gt;Do zwiedzania&lt;/h3&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Wodospady:
+        &lt;ol&gt;
+        &lt;?php
+        $sql = "SELECT nazwa FROM obiekty
+                WHERE idRodzaj = 10 AND panstwo = 'Islandia'";
+        $wynik2 = mysqli_query($polaczenie, $sql);
+        while ($w = mysqli_fetch_assoc($wynik2)) {
+          echo "&lt;li&gt;" . $w["nazwa"] . "&lt;/li&gt;";
+        }
+        ?&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Siedliska zwierząt:
+        &lt;ol&gt;
+        &lt;?php
+        $sql = "SELECT nazwa FROM obiekty
+                WHERE idRodzaj = 14 AND panstwo = 'Islandia'";
+        $wynik3 = mysqli_query($polaczenie, $sql);
+        while ($w = mysqli_fetch_assoc($wynik3)) {
+          echo "&lt;li&gt;" . $w["nazwa"] . "&lt;/li&gt;";
+        }
+        ?&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/aside&gt;
+
+  &lt;main&gt;
+    &lt;section&gt;
+      &lt;h2&gt;Opis miejsca&lt;/h2&gt;
+      &lt;?php if ($wiersz) { ?&gt;
+        &lt;img src="&lt;?php echo $wiersz['plik']; ?&gt;"
+             alt="&lt;?php echo $wiersz['nazwa']; ?&gt;"&gt;
+        &lt;h2&gt;&lt;?php echo $wiersz["nazwa"]; ?&gt;&lt;/h2&gt;
+        &lt;h3&gt;&lt;?php echo $wiersz["rodzaj"]; ?&gt;&lt;/h3&gt;
+        &lt;p&gt;&lt;?php echo $wiersz["nazwaCechy"] . ": "
+                    . $wiersz["wartoscCechy"]; ?&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;?php echo $wiersz["opis"]; ?&gt;&lt;/p&gt;
+      &lt;?php } else {
+        echo "&lt;p&gt;Nie znaleziono obiektu.&lt;/p&gt;";
+      } ?&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;hr&gt;
+    &lt;p&gt;Autor: 12345&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php mysqli_close($polaczenie); ?&gt;</code></pre>
+  </div>
+
+  <div class="callout judge"><span class="ico">✓</span><div><p><strong>Co sprawdza komisja:</strong> dwie listy z różnych zapytań (rodzaj 10 i 14), galeria z odnośnikiem <code class="inline">?id=</code>, obraz z <code class="inline">alt</code> i <code class="inline">title</code>, klasa <code class="inline">miniatury</code>, a na stronie szczegółów obraz, <code class="inline">h2</code>, <code class="inline">h3</code>, cecha i opis. Połączenie zamknięte na końcu.</p></div></div>
+</section>
+
+<!-- ================= 6. DEBUG + CHECKLISTA ================= -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">05</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">rozdział 05</div>
+      <h2 class="chapter-title">Debugowanie i checklista</h2>
+      <div class="chapter-sub">Biała strona to nie koniec świata — to konkretny błąd</div>
+    </div>
+  </div>
+
+  <table class="map">
+    <thead><tr><th>Objaw</th><th>Najczęstsza przyczyna</th><th>Naprawa</th></tr></thead>
+    <tbody>
+      <tr><td>biała strona, brak HTML</td><td>błąd PHP przed wyświetleniem</td><td>włącz <code class="inline">display_errors</code>, sprawdź średniki i cudzysłowy</td></tr>
+      <tr><td>Access denied for user</td><td>złe hasło lub użytkownik</td><td>root, puste hasło, localhost</td></tr>
+      <tr><td>Unknown database</td><td>zła nazwa bazy</td><td>nazwa dokładnie jak w arkuszu</td></tr>
+      <tr><td>Table doesn't exist</td><td>zła nazwa tabeli</td><td>sprawdź w phpMyAdmin, wielkość liter</td></tr>
+      <tr><td>fetch_assoc expects mysqli_result</td><td>zapytanie się nie wykonało</td><td>sprawdź <code class="inline">mysqli_error($polaczenie)</code></td></tr>
+      <tr><td>fetch_assoc zwraca null</td><td>brak wierszy lub wynik FALSE</td><td>sprawdź warunek SQL w phpMyAdmin</td></tr>
+      <tr><td>Undefined index / Undefined array key</td><td>brak parametru GET/POST</td><td>sprawdź <code class="inline">isset()</code> i nazwę pola</td></tr>
+      <tr><td>krzaki zamiast polskich znaków</td><td>złe kodowanie</td><td><code class="inline">mysqli_set_charset($polaczenie, "utf8")</code> + meta charset</td></tr>
+      <tr><td>pętla nic nie wyświetla</td><td>zapytanie zwraca 0 wierszy</td><td>sprawdź warunek i dane w phpMyAdmin</td></tr>
+    </tbody>
+  </table>
+
+  <p class="lead">Uwaga: od PHP 8.1 mysqli domyślnie rzuca wyjątki (<code class="inline">mysqli_sql_exception</code>). Wtedy <code class="inline">if (!$polaczenie)</code> nie zadziała, bo funkcja rzuci wyjątkiem zamiast zwrócić false. Jeśli arkusz używa XAMPP 8.1+, sprawdź połączenie przez try-catch: <code class="inline">try { $p = mysqli_connect(...); } catch (Exception \$e) { echo \$e; exit(); }</code>. Na starszych XAMPP (7.x, 8.0) działa normalne <code class="inline">if</code>.</p>
+
+  <div class="code-card">
+    <div class="code-head"><span class="dots"><i></i><i></i><i></i></span> tryb debugowania — tylko na czas pracy <span class="file">index.php</span></div>
+    <pre><code class="language-php">&lt;?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+$polaczenie = mysqli_connect("localhost", "root", "", "islandia");
+
+if (!$polaczenie) {
+  echo "Błąd: " . mysqli_connect_error();
+  exit();
+}
+
+$wynik = mysqli_query($polaczenie, "SELECT * FROM obiekty");
+if (!$wynik) {
+  echo "Błąd zapytania: " . mysqli_error($polaczenie);
+}
+?&gt;</code></pre>
+  </div>
+
+  <div class="callout warn"><span class="ico">!</span><div><p><strong>Nie zostawiaj debugowania na oddanej płycie.</strong> Komunikaty błędów i <code class="inline">var_dump</code> mogą zasłonić wymaganą treść strony. Po naprawie usuń <code class="inline">display_errors</code> i zostaw czysty kod.</p></div></div>
+
+  <h3>Checklista PHP przed oddaniem</h3>
+  <ul class="checklist tight">
+    <li>każdy plik PHP ma <code class="inline">&lt;?php</code> i <code class="inline">?&gt;</code></li>
+    <li>połączenie z localhost, root, bez hasła</li>
+    <li>nazwa bazy dokładnie jak w arkuszu</li>
+    <li><code class="inline">mysqli_set_charset</code> ustawione</li>
+    <li>zapytanie wysłane przez <code class="inline">mysqli_query</code></li>
+    <li>pętla <code class="inline">while</code> + <code class="inline">fetch_assoc</code></li>
+    <li>każdy wiersz wyświetlony jako list / tabela / div</li>
+    <li>parametr GET odebrany przez <code class="inline">$_GET</code></li>
+    <li>formularz ma <code class="inline">method</code> i <code class="inline">name</code></li>
+    <li>warunek <code class="inline">isset()</code> przed użyciem pola</li>
+    <li>galeria ma <code class="inline">src</code>, <code class="inline">alt</code>, <code class="inline">title</code></li>
+    <li>szczegóły mają <code class="inline">h2</code>, <code class="inline">h3</code> i opis</li>
+    <li>polskie znaki działają</li>
+    <li>połączenie zamknięte przez <code class="inline">mysqli_close</code></li>
+    <li>brak błędów PHP na stronie</li>
+    <li>nazwy zmiennych są znaczące</li>
+    <li>strona działa po odświeżeniu</li>
+    <li>formularz nie przeładowuje wyniku bez potrzeby</li>
+    <li>pliki nazwane jak w arkuszu</li>
+    <li>folder z numerem zdającego gotowy do nagrania</li>
+  </ul>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>PHP · ściąga tematyczna</span></div>
+</section>
+
+
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="chapter-num">∞</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">na koniec</div>
+      <h2 class="chapter-title">Przydatne linki i informacje</h2>
+      <div class="chapter-sub">Materiał pomocniczy — nie zastępuje oficjalnych źródeł CKE</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">🌐 Gdzie znaleźć arkusze</div>
+      <ul>
+        <li><strong>Arkusze INF.03</strong> — <code>arkusze.pl</code> (oficjalne arkusze CKE z poprzednich sesji)</li>
+        <li><strong>Baza egzaminów</strong> — <code>zawodowe.edu.pl</code> (archiwum arkuszy i zasad oceniania)</li>
+        <li><strong>Informator CKE</strong> — <code>cke.gov.pl</code> → kwalifikacja INF.03 → informator + przykładowe zadania</li>
+        <li><strong>Wymagania egzaminacyjne</strong> — w każdym arkuszu na pierwszej stronie: numer zadania, wersja, kwalifikacja</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📖 Dokumentacja techniczna</div>
+      <ul>
+        <li><strong>HTML / CSS / JS</strong> — <code>developer.mozilla.org</code> (MDN Web Docs, również po polsku)</li>
+        <li><strong>SQL / MariaDB</strong> — <code>mariadb.com/docs</code> (oficjalna dokumentacja)</li>
+        <li><strong>PHP + mysqli</strong> — <code>php.net/docs</code> (dokumentacja PHP, w tym gniazda mysqli)</li>
+        <li><strong>CSS Flexbox / Grid</strong> — <code>css-tricks.com</code> (szybkie wizualne przewodniki)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin: 5px 0 0;">
+    <div class="card-title">ℹ️ O tym materiale</div>
+    <p>Niniejszy PDF został wygenerowany z pomocą sztucznej inteligencji na podstawie oficjalnych arkuszy CKE, zasad oceniania oraz własnego doświadczenia autora. Autor nie rości sobie praw do wyłączności i <strong>zezwala na dowolne udostępnianie, kopiowanie i modyfikowanie</strong> tych materiałów — wystarczy zachować informację o źródle: <strong>kumalala learn</strong>. Wszelkie uwagi i poprawki są mile widziane. Powodzenia na egzaminie! 🍀</p>
+    <p style="text-align:center;margin-top:6px;font-size:9pt;color:var(--plum);"><strong>Rewizja 1</strong> · listopad 2026<br>Zgłoś problem lub pomysł: <a href="https://github.com/lciszewski27/kumulala-learn-inf03" style="color:var(--plum);">github.com/lciszewski27/kumulala-learn-inf03</a></p>
+  </div>
+
+  <div class="doc-footer"><span><b>kumalala learn ♡</b> · egzamin inf.03</span><span>materiał wygenerowany z pomocą AI · wolne udostępnianie</span></div>
+</section>
+
+
+
+
+<script src="../assets/prism/prism.min.js"></script>
+<script src="../assets/prism/prism-markup.min.js"></script>
+<script src="../assets/prism/prism-css.min.js"></script>
+<script src="../assets/prism/prism-javascript.min.js"></script>
+<script src="../assets/prism/prism-sql.min.js"></script>
+<script src="../assets/prism/prism-markup-templating.min.js"></script>
+<script src="../assets/prism/prism-php.min.js"></script>
+</body>
+</html>
