@@ -23,23 +23,22 @@ jobs:
       - name: Install Playwright
         run: npx playwright install chromium --with-deps
 
-      - name: Build PDFs
-        run: node scripts/build.mjs
-
-      - name: Build Master
-        run: node scripts/merge-master.mjs
-
       - name: Compute tag
         id: meta
         run: |
           echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
-          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Build PDFs
+        run: node scripts/build.mjs --rev ${{ steps.meta.outputs.version }}
+
+      - name: Build Master
+        run: node scripts/merge-master.mjs
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: Rewizja ${{ steps.meta.outputs.version }} · ${{ steps.meta.outputs.date }}
+          name: Rewizja ${{ steps.meta.outputs.version }}
           body: |
             ## Kumulala Learn · INF.03 — Rewizja ${{ steps.meta.outputs.version }}
 

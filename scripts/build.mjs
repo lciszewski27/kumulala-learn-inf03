@@ -329,17 +329,34 @@ async function mergePdf(coverPath, contentPath, outPath, doc) {
 async function main() {
   await ensureDirs();
   const browser = await chromium.launch({ headless: true });
-  const only = process.argv[2];
+
+  // --rev <nr>: dynamiczna rewizja z release taga, domyślnie "1"
+  const revIdx = process.argv.indexOf("--rev");
+  const revision = revIdx >= 0 ? process.argv[revIdx + 1] : "1";
+
+  // --only <id>: konkretny PDF (albo pierwszy arg pozycyjny bez --)
+  const only = process.argv[2] && !process.argv[2].startsWith("--")
+    ? process.argv[2] : undefined;
   const selected = only ? docs.filter((d) => d.id === only || d.file === only) : docs;
+
   for (const doc of selected) {
     const coverPath = path.join(TMP, `${doc.id}-cover.pdf`);
     const contentPath = path.join(TMP, `${doc.id}-content.pdf`);
     const coverFile = path.join(TMP, `${doc.id}-cover.html`);
+    const contentFile = path.join(TMP, `${doc.id}-content.html`);
+
+    // cover
     await fs.writeFile(coverFile, coverHtml(doc), "utf8");
     console.log(`→ cover ${doc.id}`);
     await renderHtml(browser, `file://${coverFile}`, coverPath, { cover: true });
+
+    // content z podstawioną rewizją
+    let html = await fs.readFile(path.join(SRC, doc.file), "utf8");
+    html = html.replace("Rewizja PREVIEW_REVISION", `Rewizja ${revision}`);
+    await fs.writeFile(contentFile, html, "utf8");
     console.log(`→ content ${doc.id}`);
-    await renderHtml(browser, `file://${path.join(SRC, doc.file)}`, contentPath);
+    await renderHtml(browser, `file://${contentFile}`, contentPath);
+
     console.log(`→ merge ${doc.out}`);
     await mergePdf(coverPath, contentPath, path.join(OUT, doc.out), doc);
   }
