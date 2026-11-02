@@ -17,7 +17,9 @@
 
 ---
 
-Sześć tematycznych ściąg PDF do **części praktycznej egzaminu INF.03** (Technik Informatyk). Każda ściąga tłumaczy polecenia z oficjalnych arkuszy CKE na gotowy kod — HTML, CSS, JavaScript, SQL i PHP. Wszystko w pastelowej stylistyce, gotowe do wydruku i zabrania na egzamin.
+Sześć tematycznych ściąg PDF do **części praktycznej egzaminu INF.03** (Technik Informatyk). Każda ściąga tłumaczy polecenia z oficjalnych arkuszy CKE na gotowy kod — HTML, CSS, JavaScript, SQL i PHP. W pastelowej stylistyce, w formacie A4.
+
+To nie jest podręcznik, który czytasz od deski do deski — to **zbiór wiedzy i przykładów do podglądania podczas nauki**. Gdy ćwiczysz na arkuszach i nie pamiętasz, jak napisać konkretne zapytanie, selektor czy skrypt — zamiast bezmyślnie wklejać do AI, otwierasz odpowiednią ściągę i sprawdzasz. Szybciej, bardziej celowo i uczysz się przy okazji.
 
 ## 📦 PDF-y
 
